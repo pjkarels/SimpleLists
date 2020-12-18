@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/introFragment"
-        android:name="com.playground.navigationwithtabs.IntroFragment"
+        android:name="com.playground.navigationwithtabs.ui.IntroFragment"
         android:label="IntroFragment" >
         <action
             android:id="@+id/action_introFragment_to_viewPagerFragment"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.playground.navigationwithtabs.ViewPagerFragment"
+        android:name="com.playground.navigationwithtabs.ui.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager" />
 

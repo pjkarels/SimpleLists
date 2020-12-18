@@ -1,10 +1,11 @@
-package com.playground.navigationwithtabs
+package com.playground.navigationwithtabs.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.playground.navigationwithtabs.R
 
 class ViewPagerFragment : Fragment() {
 
