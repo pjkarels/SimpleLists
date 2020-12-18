@@ -35,7 +35,12 @@ class ViewPagerFragment : Fragment() {
             tabs?.let {
                 adapter.setTabs(tabs)
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                    tab.text = tabs[position]
+                    tab.text =
+                        if (position == tabs.size) {
+                            "Add Tab"
+                        } else {
+                            tabs[position]
+                        }
                 }.attach()
             }
         })
