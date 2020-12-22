@@ -15,6 +15,11 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
             }
         }
 
+    suspend fun getTasksForType(type: TaskType) =
+        taskDao.getTasks().filter { task ->
+            task.type == type.name
+        }
+
     suspend fun upsertTaskType(name: String) {
         taskTypeDao.insertTaskTypes(TaskType(name))
     }
