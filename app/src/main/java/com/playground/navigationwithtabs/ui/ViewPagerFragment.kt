@@ -3,16 +3,21 @@ package com.playground.navigationwithtabs.ui
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.playground.navigationwithtabs.R
 
-class ViewPagerFragment : Fragment() {
+class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy {
+
+    private var tabTitles: List<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +29,10 @@ class ViewPagerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.inflateMenu(R.menu.app_menu)
+
         val vm = ViewModelProvider(this).get(PagerViewModel::class.java)
         val adapter = PagerAdapter(this)
 
@@ -33,16 +42,20 @@ class ViewPagerFragment : Fragment() {
 
         vm.tabs.observe(viewLifecycleOwner, { tabs ->
             tabs?.let {
+                tabTitles = tabs
                 adapter.setTabs(tabs)
-                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                    tab.text =
-                        if (position == tabs.size) {
-                            "Add Tab"
-                        } else {
-                            tabs[position]
-                        }
-                }.attach()
+
+                val tabMediator = TabLayoutMediator(tabLayout, viewPager, this)
+                tabMediator.detach()
+                tabMediator.attach()
             }
         })
+    }
+
+    override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+        if (tabTitles == null) {
+            return
+        }
+        tab.text = tabTitles?.get(position)
     }
 }

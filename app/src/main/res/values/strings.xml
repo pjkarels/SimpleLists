@@ -5,4 +5,8 @@
     <string name="intro_button_next_text">Navigate to next screen</string>
 
     <string name="tasks_title">Task Categories</string>
+    <string name="menu_title_add">+Add Tab</string>
+
+    <string name="addTab_add">Add</string>
+    <string name="addTab_cancel">Cancel</string>
 </resources>

@@ -24,4 +24,10 @@
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager" />
 
+    <dialog
+        android:id="@+id/addTabFragment"
+        android:name="com.playground.navigationwithtabs.ui.AddTabFragment"
+        android:label="fragment_add_tab"
+        tools:layout="@layout/fragment_add_tab" />
+
 </navigation>

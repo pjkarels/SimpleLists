@@ -13,7 +13,7 @@ interface TaskTypeDao {
     val taskTypes: LiveData<List<TaskType>>
 
     @Insert(onConflict = REPLACE)
-    fun insertTaskTypes(vararg types: TaskType)
+    suspend fun insertTaskTypes(vararg types: TaskType)
 
     @Query("DELETE FROM task_type_table WHERE :type LIKE name")
     fun deleteTaskType(type: String)

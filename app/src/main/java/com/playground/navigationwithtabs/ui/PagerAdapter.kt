@@ -7,14 +7,10 @@ class PagerAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragme
 
     private var tabs = emptyList<String>()
 
-    override fun getItemCount() = tabs.size + 1 // append the "add new tab" tab
+    override fun getItemCount() = tabs.size
 
     override fun createFragment(position: Int): Fragment {
-        return if (position == tabs.size) {
-            AddTabFragment.newInstance()
-        } else {
-            TabContentFragment.newInstance()
-        }
+        return TabContentFragment.newInstance()
     }
 
     internal fun setTabs(tabs: List<String>) {
