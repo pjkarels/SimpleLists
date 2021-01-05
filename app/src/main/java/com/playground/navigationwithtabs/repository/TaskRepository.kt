@@ -24,6 +24,8 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
 
     suspend fun getTasksForType(type: String) = taskDao.getTasks(type)
 
+    suspend fun getTask(taskId: Int) = taskDao.getTask(taskId).firstOrNull()
+
     suspend fun upsertTask(task: Task) {
         taskDao.upsertTasks(task)
     }

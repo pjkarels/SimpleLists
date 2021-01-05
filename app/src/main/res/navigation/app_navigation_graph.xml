@@ -33,6 +33,13 @@
                 android:name="type"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_tabContentFragment_to_editTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="task"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -49,6 +56,9 @@
         <argument
             android:name="type"
             app:argType="string" />
+        <argument
+            android:name="task"
+            app:argType="integer" />
     </fragment>
 
     <fragment
@@ -62,6 +72,13 @@
             <argument
                 android:name="type"
                 app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_tabContentFragment_to_editTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="task"
+                app:argType="integer" />
         </action>
     </fragment>
 

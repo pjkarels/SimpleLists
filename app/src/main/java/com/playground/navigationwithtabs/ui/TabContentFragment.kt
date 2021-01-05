@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.playground.navigationwithtabs.R
+import com.playground.navigationwithtabs.db.Task
 
 class TabContentFragment : Fragment(), View.OnClickListener {
 
@@ -52,7 +53,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { v ->
-            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(type)
+            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(type, 0)
             v.findNavController().navigate(action)
         }
 
@@ -63,7 +64,9 @@ class TabContentFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View?) {
-
+    override fun onClick(v: View) {
+        val task = v.tag as Task
+        val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.type)
+        v.findNavController().navigate(action)
     }
 }

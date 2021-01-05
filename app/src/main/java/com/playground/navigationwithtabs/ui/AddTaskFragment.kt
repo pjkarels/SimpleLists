@@ -32,9 +32,23 @@ class AddTaskFragment: Fragment() {
         val addButton = view.findViewById<Button>(R.id.addTask_button_add)
 
         addButton.setOnClickListener { v ->
-            val name = nameEntry.text.toString()
-            viewModel.addTask(args.type, name)
+            viewModel.task?.name = nameEntry.text.toString()
+            viewModel.upsertTask()
             v.findNavController().popBackStack()
         }
+
+        viewModel.taskLiveData.observe(viewLifecycleOwner) { task ->
+            task?.let {
+                nameEntry.setText(task.name)
+                if (task.id < 1) {
+                    addButton.text = getString(R.string.common_add)
+                } else {
+                    addButton.text = getString(R.string.common_rename)
+                }
+            }
+        }
+        viewModel.getTask(args.task, args.type)
+
+        nameEntry.requestFocus()
     }
 }

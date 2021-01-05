@@ -13,16 +13,31 @@ import kotlinx.coroutines.launch
 class AddTaskViewModel(application: Application): AndroidViewModel(application) {
     private val repository: TaskRepository
 
+    var task: Task? = null
+    private val _taskLiveData = MutableLiveData<Task>()
+    val taskLiveData: LiveData<Task> get() = _taskLiveData
+
     init {
         val db = AppDatabase.getDatabase(application)
         repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    fun addTask(taskTypeName: String, taskName: String) {
+    fun upsertTask() {
         viewModelScope.launch {
-            val task = Task(taskName, taskTypeName, false)
-            repository.upsertTask(task)
+            task?.let {
+                repository.upsertTask(it)
+            }
         }
     }
 
+    fun getTask(taskId: Int, taskType: String) {
+        viewModelScope.launch {
+            task = repository.getTask(taskId)
+            if (task == null) {
+                // doesn't exist yet so create new
+                task = Task(0, "", taskType, false)
+            }
+            _taskLiveData.value = task
+        }
+    }
 }

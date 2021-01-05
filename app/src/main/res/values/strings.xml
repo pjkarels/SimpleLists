@@ -9,4 +9,5 @@
 
     <string name="common_add">Add</string>
     <string name="common_cancel">Cancel</string>
+    <string name="common_rename">Rename</string>
 </resources>
