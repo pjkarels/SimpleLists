@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -42,10 +43,13 @@ class TaskListAdapter internal constructor (
 
     inner class TaskViewHolder(itemView: View) : ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById(R.id.item_name)
+        val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
 
         fun bind(task: Task, onItemClickListener: View.OnClickListener) {
             itemView.tag = task
             itemView.setOnClickListener(onItemClickListener)
+            deleteView.tag = task
+            deleteView.setOnClickListener(onItemClickListener)
         }
     }
 }

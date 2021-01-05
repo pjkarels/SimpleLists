@@ -4,15 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.playground.navigationwithtabs.db.AppDatabase
 import com.playground.navigationwithtabs.db.Task
 import com.playground.navigationwithtabs.repository.TaskRepository
+import kotlinx.coroutines.launch
 
 class TabContentViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: TaskRepository
-
-    private val _tasks = MutableLiveData<List<Task>>()
-    val tasks: LiveData<List<Task>> get() = _tasks
 
     init {
         val db = AppDatabase.getDatabase(application)
@@ -20,4 +19,10 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun getTasks(taskType: String) = repository.tasksForType(taskType)
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            repository.deleteTask(task)
+        }
+    }
 }

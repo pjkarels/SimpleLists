@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.playground.navigationwithtabs.R
@@ -66,7 +68,12 @@ class TabContentFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val task = v.tag as Task
-        val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.type)
-        v.findNavController().navigate(action)
+        if (v is ImageView) {
+            val vm = ViewModelProvider(this).get(TabContentViewModel::class.java)
+            vm.deleteTask(task)
+        } else {
+            val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.type)
+            v.findNavController().navigate(action)
+        }
     }
 }
