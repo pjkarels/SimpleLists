@@ -26,9 +26,9 @@ class TaskListAdapter internal constructor (
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val current = tasks[position]
-        holder.nameView.text = current.title
 
-        holder.bind(current.id, onItemClickListener)
+        holder.nameView.text = current.name
+        holder.bind(current, onItemClickListener)
     }
 
     override fun getItemCount() = tasks.size
@@ -41,8 +41,8 @@ class TaskListAdapter internal constructor (
     inner class TaskViewHolder(itemView: View) : ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById(R.id.item_name)
 
-        fun bind(id: Int, onItemClickListener: View.OnClickListener) {
-            itemView.tag = id
+        fun bind(task: Task, onItemClickListener: View.OnClickListener) {
+            itemView.tag = task
             itemView.setOnClickListener(onItemClickListener)
         }
     }

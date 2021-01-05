@@ -22,12 +22,47 @@
         android:id="@+id/viewPagerFragment"
         android:name="com.playground.navigationwithtabs.ui.ViewPagerFragment"
         android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" />
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_tabContentFragment"
+            app:destination="@id/tabContentFragment" />
+        <action
+            android:id="@+id/action_tabContentFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="type"
+                app:argType="string" />
+        </action>
+    </fragment>
 
-    <dialog
+    <fragment
         android:id="@+id/addTabFragment"
         android:name="com.playground.navigationwithtabs.ui.AddTabFragment"
         android:label="fragment_add_tab"
         tools:layout="@layout/fragment_add_tab" />
+
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.playground.navigationwithtabs.ui.AddTaskFragment"
+        android:label="add_task_dialog_fragment"
+        tools:layout="@layout/fragment_add_task">
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tabContentFragment"
+        android:name="com.playground.navigationwithtabs.ui.TabContentFragment"
+        android:label="fragment_tab_content"
+        tools:layout="@layout/fragment_tab_content" >
+        <action
+            android:id="@+id/action_tabContentFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="type"
+                app:argType="string" />
+        </action>
+    </fragment>
 
 </navigation>

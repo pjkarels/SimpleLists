@@ -8,9 +8,9 @@ import androidx.room.Query
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM task_table")
-    suspend fun getTasks(): List<Task>
+    @Query("SELECT * FROM task_table WHERE type LIKE :type")
+    suspend fun getTasks(type: String): List<Task>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUsers(vararg tasks: Task)
+    suspend fun upsertTasks(task: Task)
 }
