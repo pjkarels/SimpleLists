@@ -50,10 +50,10 @@ class AddTaskFragment: Fragment() {
                     addButton.text = getString(R.string.common_rename)
                     toolbarTitleView.text = getString(R.string.tasks_title_rename, task.name)
                 }
+
+                nameEntry.requestFocus()
             }
         }
         viewModel.getTask(args.task, args.type)
-
-        nameEntry.requestFocus()
     }
 }
