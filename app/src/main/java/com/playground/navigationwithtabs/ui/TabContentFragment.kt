@@ -26,8 +26,6 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var listAdapter: TaskListAdapter
-
-    private lateinit var viewModel: TabContentViewModel
     private var type = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +38,6 @@ class TabContentFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        viewModel = ViewModelProvider(this).get(TabContentViewModel::class.java)
-
         val rootView = inflater.inflate(R.layout.fragment_tab_content, container, false)
 
         val recyclerView: RecyclerView = rootView.findViewById(R.id.task_list_view)
@@ -53,18 +48,19 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val vm = ViewModelProvider(this).get(TabContentViewModel::class.java)
+
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { v ->
             val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(type)
             v.findNavController().navigate(action)
         }
 
-        viewModel.tasks.observe(viewLifecycleOwner) { value ->
+        vm.getTasks(type).observe(viewLifecycleOwner) { value ->
             value.let {
                 listAdapter.setTasks(value)
             }
         }
-        viewModel.getTasks(type)
     }
 
     override fun onClick(v: View?) {

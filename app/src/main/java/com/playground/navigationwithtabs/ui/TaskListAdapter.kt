@@ -31,7 +31,9 @@ class TaskListAdapter internal constructor (
         holder.bind(current, onItemClickListener)
     }
 
-    override fun getItemCount() = tasks.size
+    override fun getItemCount(): Int {
+        return tasks.size
+    }
 
     internal fun setTasks(tasks: List<Task>) {
         this.tasks = tasks
