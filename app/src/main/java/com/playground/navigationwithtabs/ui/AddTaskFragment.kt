@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -30,6 +32,7 @@ class AddTaskFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val nameEntry = view.findViewById<EditText>(R.id.addTask_entry_name)
         val addButton = view.findViewById<Button>(R.id.addTask_button_add)
+        val toolbarTitleView = view.findViewById<TextView>(R.id.title)
 
         addButton.setOnClickListener { v ->
             viewModel.task?.name = nameEntry.text.toString()
@@ -42,8 +45,10 @@ class AddTaskFragment: Fragment() {
                 nameEntry.setText(task.name)
                 if (task.id < 1) {
                     addButton.text = getString(R.string.common_add)
+                    toolbarTitleView.text = getString(R.string.tasks_title_add)
                 } else {
                     addButton.text = getString(R.string.common_rename)
+                    toolbarTitleView.text = getString(R.string.tasks_title_rename, task.name)
                 }
             }
         }
