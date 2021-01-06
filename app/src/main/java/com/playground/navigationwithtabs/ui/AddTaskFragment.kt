@@ -1,9 +1,11 @@
 package com.playground.navigationwithtabs.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -37,6 +39,7 @@ class AddTaskFragment: Fragment() {
         addButton.setOnClickListener { v ->
             viewModel.task?.name = nameEntry.text.toString()
             viewModel.upsertTask()
+            hideKeyboard(nameEntry)
             v.findNavController().popBackStack()
         }
 
@@ -55,5 +58,10 @@ class AddTaskFragment: Fragment() {
             }
         }
         viewModel.getTask(args.task, args.type)
+    }
+
+    private fun hideKeyboard(v: View) {
+        val imm = v.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
     }
 }
