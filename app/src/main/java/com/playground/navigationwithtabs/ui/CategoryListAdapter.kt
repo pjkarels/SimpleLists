@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.playground.navigationwithtabs.R
 import com.playground.navigationwithtabs.db.TaskType
+import com.playground.navigationwithtabs.model.CategoryModel
 
 class CategoryListAdapter internal constructor (
     context: Context,
@@ -17,7 +18,7 @@ class CategoryListAdapter internal constructor (
 ) : RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var categories = emptyList<TaskType>()
+    private var categories = emptyList<CategoryModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = inflater.inflate(R.layout.item_category, parent, false)
@@ -31,7 +32,7 @@ class CategoryListAdapter internal constructor (
 
     override fun getItemCount() = categories.size
 
-    internal fun setCategories(categories: List<TaskType>) {
+    internal fun setCategories(categories: List<CategoryModel>) {
         this.categories = categories
         notifyDataSetChanged()
     }
@@ -40,8 +41,8 @@ class CategoryListAdapter internal constructor (
         private val nameView: TextView = itemView.findViewById(R.id.category_name)
         private val checkBox: CheckBox = itemView.findViewById(R.id.category_select)
 
-        fun bind(category: TaskType) {
-            itemView.tag = category
+        fun bind(category: CategoryModel) {
+            checkBox.tag = category
             nameView.text = category.name
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }

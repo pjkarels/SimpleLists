@@ -6,6 +6,7 @@ import com.playground.navigationwithtabs.db.Task
 import com.playground.navigationwithtabs.db.TaskDao
 import com.playground.navigationwithtabs.db.TaskType
 import com.playground.navigationwithtabs.db.TaskTypeDao
+import com.playground.navigationwithtabs.model.CategoryModel
 
 class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: TaskTypeDao) {
 
@@ -16,7 +17,12 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
             }
         }
 
-    val taskTypes: LiveData<List<TaskType>> = taskTypeDao.taskTypes
+    val taskTypes: LiveData<List<CategoryModel>> =
+        taskTypeDao.taskTypes.map { taskTypes ->
+            taskTypes.map { taskType ->
+                mapTaskTypeToCategory(taskType)
+            }
+        }
 
     suspend fun upsertTaskType(name: String) {
         taskTypeDao.insertTaskTypes(TaskType(name))
@@ -39,4 +45,6 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
     suspend fun deleteTask(task: Task) {
         taskDao.deleteTask(task)
     }
+
+    private fun mapTaskTypeToCategory(type: TaskType) = CategoryModel(type.name, false)
 }

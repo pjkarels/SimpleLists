@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.playground.navigationwithtabs.db.AppDatabase
 import com.playground.navigationwithtabs.db.TaskType
+import com.playground.navigationwithtabs.model.CategoryModel
 import com.playground.navigationwithtabs.repository.TaskRepository
 import kotlinx.coroutines.launch
 
@@ -17,11 +18,17 @@ class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(app
         repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    val categories = repository.taskTypes
+    val categoriesLiveData = repository.taskTypes
+    val selectedCategoriesToDelete = mutableListOf<CategoryModel>()
 
-    suspend fun deleteCategories(categories: List<TaskType>) {
+    fun deleteSelectedCategories() {
         viewModelScope.launch {
-            repository.deleteCategories(categories)
+            val tasksToDelete = selectedCategoriesToDelete.map { categoryModel ->
+                mapCategoryModelToTaskType(categoryModel)
+            }
+            repository.deleteCategories(tasksToDelete)
         }
     }
+
+    private fun mapCategoryModelToTaskType(category: CategoryModel) = TaskType(category.name)
 }
