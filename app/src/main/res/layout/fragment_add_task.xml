@@ -44,7 +44,10 @@
             android:id="@+id/addTask_entry_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:selectAllOnFocus="true" />
+            android:selectAllOnFocus="true"
+            android:imeActionLabel="Add"
+            android:inputType="text"
+            android:imeOptions="actionDone" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

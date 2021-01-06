@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -19,31 +20,31 @@ import com.playground.navigationwithtabs.R
 class AddTaskFragment: Fragment() {
 
     private val args: AddTaskFragmentArgs by navArgs()
-    private lateinit var viewModel: AddTaskViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(AddTaskViewModel::class.java)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_task, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
         val nameEntry = view.findViewById<EditText>(R.id.addTask_entry_name)
         val addButton = view.findViewById<Button>(R.id.addTask_button_add)
         val toolbarTitleView = view.findViewById<TextView>(R.id.title)
 
+        nameEntry.setOnEditorActionListener { v, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    addAndReturn(v)
+                    true
+                }
+                else -> false
+            }
+        }
         addButton.setOnClickListener { v ->
-            viewModel.task?.name = nameEntry.text.toString()
-            viewModel.upsertTask()
-            hideKeyboard(nameEntry)
-            v.findNavController().popBackStack()
+            addAndReturn(view)
         }
 
-        viewModel.taskLiveData.observe(viewLifecycleOwner) { task ->
+        vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
                 nameEntry.setText(task.name)
                 if (task.id < 1) {
@@ -55,13 +56,29 @@ class AddTaskFragment: Fragment() {
                 }
 
                 nameEntry.requestFocus()
+                showKeyboard(nameEntry)
             }
         }
-        viewModel.getTask(args.task, args.type)
+        vm.getTask(args.task, args.type)
+    }
+
+    private fun addAndReturn(rootView: View) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        val nameEntry = rootView.findViewById<EditText>(R.id.addTask_entry_name)
+
+        vm.task?.name = nameEntry.text.toString()
+        vm.upsertTask()
+        hideKeyboard(nameEntry)
+        rootView.findNavController().popBackStack()
     }
 
     private fun hideKeyboard(v: View) {
         val imm = v.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(v.windowToken, 0)
+    }
+
+    private fun showKeyboard(v: View) {
+        val imm = v.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(v, 0)
     }
 }
