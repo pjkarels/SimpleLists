@@ -41,17 +41,15 @@ class TabContentFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_tab_content, container, false)
-
-        val recyclerView: RecyclerView = rootView.findViewById(R.id.task_list_view)
-        listAdapter = TaskListAdapter(requireContext(), this)
-        recyclerView.adapter = listAdapter
-
-        return rootView
+        return inflater.inflate(R.layout.fragment_tab_content, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val vm = ViewModelProvider(this).get(TabContentViewModel::class.java)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.task_list_view)
+        listAdapter = TaskListAdapter(requireContext(), this)
+        recyclerView.adapter = listAdapter
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { v ->
