@@ -21,11 +21,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        addTab()
+        when (item.itemId) {
+            R.id.menu_item_add -> addTab()
+            R.id.menu_item_delete -> deleteTabs()
+        }
         return true
     }
 
     private fun addTab() {
         findNavController(R.id.nav_host_fragment).navigate(R.id.addTabFragment)
+    }
+
+    private fun deleteTabs() {
+        findNavController(R.id.nav_host_fragment).navigate(R.id.deleteCategoriesFragment)
     }
 }

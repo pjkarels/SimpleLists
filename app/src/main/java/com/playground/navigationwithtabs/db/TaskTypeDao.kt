@@ -2,6 +2,7 @@ package com.playground.navigationwithtabs.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
@@ -17,4 +18,7 @@ interface TaskTypeDao {
 
     @Query("DELETE FROM task_type_table WHERE :type LIKE name")
     fun deleteTaskType(type: String)
+
+    @Delete
+    suspend fun deleteCategories(categories: List<TaskType>)
 }

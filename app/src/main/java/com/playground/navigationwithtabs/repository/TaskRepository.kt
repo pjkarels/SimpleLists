@@ -30,8 +30,8 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         taskDao.upsertTasks(task)
     }
 
-    fun deleteTaskType(name: String) {
-        taskTypeDao.deleteTaskType(name)
+    suspend fun deleteCategories(categories: List<TaskType>) {
+        taskTypeDao.deleteCategories(categories)
     }
 
     suspend fun deleteTask(task: Task) {
