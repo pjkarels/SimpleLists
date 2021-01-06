@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(application) {
 
-    val repository: TaskRepository
+    private val repository: TaskRepository
 
     init {
         val db = AppDatabase.getDatabase(application)

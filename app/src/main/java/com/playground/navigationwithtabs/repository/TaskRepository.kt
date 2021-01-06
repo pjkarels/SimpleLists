@@ -9,12 +9,14 @@ import com.playground.navigationwithtabs.db.TaskTypeDao
 
 class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: TaskTypeDao) {
 
-    val taskTypes: LiveData<List<String>> =
+    val taskTypeNames: LiveData<List<String>> =
         taskTypeDao.taskTypes.map { taskTypes ->
             taskTypes.map { taskType ->
                 taskType.name
             }
         }
+
+    val taskTypes: LiveData<List<TaskType>> = taskTypeDao.taskTypes
 
     suspend fun upsertTaskType(name: String) {
         taskTypeDao.insertTaskTypes(TaskType(name))

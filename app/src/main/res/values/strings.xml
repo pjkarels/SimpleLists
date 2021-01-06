@@ -7,6 +7,8 @@
     <string name="tasks_title">Categories</string>
     <string name="tasks_title_add">Add Task</string>
     <string name="tasks_title_rename">Rename %s</string>
+
+    <string name="categories_button_delete">Delete Selected Categories</string>
     <string name="menu_item_title_add">+Add Cat</string>
     <string name="menu_item_title_delete">Delete Cat</string>
 
