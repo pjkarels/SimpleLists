@@ -8,11 +8,13 @@
     <string name="tasks_title_add">Add Task</string>
     <string name="tasks_title_rename">Rename %s</string>
 
-    <string name="categories_button_delete">Delete Selected Categories</string>
+    <string name="categories_title">Delete Categories</string>
+
     <string name="menu_item_title_add">+Add Cat</string>
     <string name="menu_item_title_delete">Delete Cat</string>
 
     <string name="common_add">Add</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_rename">Rename</string>
+    <string name="common_delete">Delete</string>
 </resources>
