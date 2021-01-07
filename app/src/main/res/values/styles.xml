@@ -6,4 +6,8 @@
     <style name="TextAppearance.MaterialComponents.Subtitle1.ListItem.Completed">
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
+
+    <style name="StandardTabLayoutStyle">
+        <item name="tabIndicatorColor">?attr/colorSecondary</item>
+    </style>
 </resources>

@@ -3,12 +3,15 @@ package com.playground.navigationwithtabs.ui
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -18,6 +21,12 @@ import com.playground.navigationwithtabs.R
 class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy {
 
     private var tabTitles: List<String>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +59,26 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
                 tabMediator.attach()
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.app_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_item_add -> addTab()
+            R.id.menu_item_delete -> deleteTabs()
+        }
+        return true
+    }
+
+    private fun addTab() {
+        requireView().findNavController().navigate(R.id.addTabFragment)
+    }
+
+    private fun deleteTabs() {
+        requireView().findNavController().navigate(R.id.deleteCategoriesFragment)
     }
 
     override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
