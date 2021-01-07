@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.playground.navigationwithtabs.R
 import com.playground.navigationwithtabs.db.Task
 
 class TaskListAdapter internal constructor (
-        context: Context,
+        private val context: Context,
         private val onItemClickListener: View.OnClickListener
 ) :
     RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
@@ -53,7 +54,22 @@ class TaskListAdapter internal constructor (
             itemView.tag = task
             itemView.setOnClickListener(onItemClickListener)
             completeView.tag = task
-            completeView.setImageResource(if (task.completed) R.drawable.ic_uncomplete_24 else R.drawable.ic_check_24)
+            val icon = if (task.completed) {
+                ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_uncomplete_24,
+                    context.theme
+                )
+            }
+            else {
+                ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_check_24,
+                    context.theme
+                )
+            }
+            icon?.setTint(context.getColor(R.color.grey_light))
+            completeView.setImageDrawable(icon)
             completeView.setOnClickListener(onItemClickListener)
             deleteView.tag = task
             deleteView.setOnClickListener(onItemClickListener)
