@@ -25,4 +25,11 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
             repository.deleteTask(task)
         }
     }
+
+    fun updateTaskCompleteness(task: Task) {
+        task.completed = !task.completed
+        viewModelScope.launch {
+            repository.upsertTask(task)
+        }
+    }
 }

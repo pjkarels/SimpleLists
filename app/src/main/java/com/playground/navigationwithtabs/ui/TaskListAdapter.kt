@@ -1,6 +1,7 @@
 package com.playground.navigationwithtabs.ui
 
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,11 +44,17 @@ class TaskListAdapter internal constructor (
 
     inner class TaskViewHolder(itemView: View) : ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById(R.id.item_name)
-        val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
+        private val completeView: ImageView = itemView.findViewById(R.id.item_complete)
+        private val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
 
         fun bind(task: Task, onItemClickListener: View.OnClickListener) {
+            nameView.setTextAppearance(if (task.completed) R.style.TextAppearance_MaterialComponents_Subtitle1_ListItem_Completed else R.style.TextAppearance_MaterialComponents_Subtitle1_ListItem)
+            nameView.paintFlags = if (task.completed) Paint.STRIKE_THRU_TEXT_FLAG else 0
             itemView.tag = task
             itemView.setOnClickListener(onItemClickListener)
+            completeView.tag = task
+            completeView.setImageResource(if (task.completed) R.drawable.ic_uncomplete_24 else R.drawable.ic_check_24)
+            completeView.setOnClickListener(onItemClickListener)
             deleteView.tag = task
             deleteView.setOnClickListener(onItemClickListener)
         }

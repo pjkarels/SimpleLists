@@ -68,7 +68,10 @@ class TabContentFragment : Fragment(), View.OnClickListener {
         val task = v.tag as Task
         if (v is ImageView) {
             val vm = ViewModelProvider(this).get(TabContentViewModel::class.java)
-            vm.deleteTask(task)
+            when (v.id) {
+                R.id.item_delete -> vm.deleteTask(task)
+                R.id.item_complete -> vm.updateTaskCompleteness(task)
+            }
         } else {
             val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.type)
             v.findNavController().navigate(action)
