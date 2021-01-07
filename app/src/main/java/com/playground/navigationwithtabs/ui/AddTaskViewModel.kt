@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class AddTaskViewModel(application: Application): AndroidViewModel(application) {
     private val repository: TaskRepository
 
-    var task: Task? = null
+    lateinit var task: Task
     private val _taskLiveData = MutableLiveData<Task>()
     val taskLiveData: LiveData<Task> get() = _taskLiveData
 
@@ -24,33 +24,33 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
 
     fun upsertTask() {
         viewModelScope.launch {
-            task?.let {
-                repository.upsertTask(it)
-            }
+            repository.upsertTask(task)
         }
     }
 
     fun getTask(taskId: Int, taskType: String) {
         viewModelScope.launch {
-            task = repository.getTask(taskId)
-            if (task == null) {
+            var taskFromRepo = repository.getTask(taskId)
+            if (taskFromRepo == null) {
                 // doesn't exist yet so create new
-                task = Task(0, "", taskType, false)
+                taskFromRepo = Task(0, "", taskType, false)
             }
+            task = taskFromRepo
             _taskLiveData.value = task
         }
     }
 
-    fun deleteTask(task: Task) {
+    fun deleteTask() {
         viewModelScope.launch {
             repository.deleteTask(task)
         }
     }
 
-    fun updateTaskCompleteness(task: Task) {
+    fun updateTaskCompleteness() {
         task.completed = !task.completed
         viewModelScope.launch {
-            repository.upsertTask(task)
+            upsertTask()
+            getTask(task.id, task.type)
         }
     }
 }

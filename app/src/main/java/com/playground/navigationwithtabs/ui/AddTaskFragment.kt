@@ -15,6 +15,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -24,6 +26,8 @@ import com.playground.navigationwithtabs.R
 class AddTaskFragment: Fragment() {
 
     private val args: AddTaskFragmentArgs by navArgs()
+
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,9 +68,28 @@ class AddTaskFragment: Fragment() {
                 if (task.id < 1) {
                     addButton.text = getString(R.string.common_add)
                     toolbarTitleView.text = getString(R.string.tasks_title_add)
-                } else {
+                    hideMenuItems()
+                }
+                else {
                     addButton.text = getString(R.string.common_rename)
                     toolbarTitleView.text = getString(R.string.tasks_title_rename, task.name)
+                    // update Menu check mark
+                    val icon = if (task.completed) {
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.ic_uncomplete_24,
+                            requireContext().theme
+                        )
+                    }
+                    else {
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.ic_check_24,
+                            requireContext().theme
+                        )
+                    }
+                    icon?.setTint(requireContext().getColor(R.color.white))
+                    menu?.findItem(R.id.menu_item_mark_complete)?.icon = icon
                 }
 
                 nameEntry.requestFocus()
@@ -78,21 +101,17 @@ class AddTaskFragment: Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.item_menu, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-
+        this.menu = menu
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
         when (item.itemId) {
             R.id.menu_item_mark_complete -> {
-                vm.task?.let { vm.updateTaskCompleteness(it) }
-                goBack()
+                vm.updateTaskCompleteness()
             }
             R.id.menu_item_delete_item -> {
-                vm.task?.let { vm.deleteTask(it) }
+                vm.deleteTask()
                 goBack()
             }
         }
@@ -104,7 +123,7 @@ class AddTaskFragment: Fragment() {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
         val nameEntry = rootView.findViewById<EditText>(R.id.addTask_entry_name)
 
-        vm.task?.name = nameEntry.text.toString()
+        vm.task.name = nameEntry.text.toString()
         vm.upsertTask()
 
         goBack()
@@ -125,5 +144,11 @@ class AddTaskFragment: Fragment() {
     private fun showKeyboard(v: View) {
         val imm = v.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(v, 0)
+    }
+
+    private fun hideMenuItems() {
+        menu?.forEach { item ->
+            item.isVisible = false
+        }
     }
 }
