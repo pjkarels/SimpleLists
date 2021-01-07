@@ -13,26 +13,4 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.app_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_item_add -> addTab()
-            R.id.menu_item_delete -> deleteTabs()
-        }
-        return true
-    }
-
-    private fun addTab() {
-        findNavController(R.id.nav_host_fragment).navigate(R.id.addTabFragment)
-    }
-
-    private fun deleteTabs() {
-        findNavController(R.id.nav_host_fragment).navigate(R.id.deleteCategoriesFragment)
-    }
 }

@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -34,6 +37,8 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         type = arguments?.getString("type", "") ?: ""
     }
 
@@ -62,6 +67,26 @@ class TabContentFragment : Fragment(), View.OnClickListener {
                 listAdapter.setTasks(value)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.app_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_item_add -> addTab()
+            R.id.menu_item_delete -> deleteTabs()
+        }
+        return true
+    }
+
+    private fun addTab() {
+        requireView().findNavController().navigate(R.id.addTabFragment)
+    }
+
+    private fun deleteTabs() {
+        requireView().findNavController().navigate(R.id.deleteCategoriesFragment)
     }
 
     override fun onClick(v: View) {

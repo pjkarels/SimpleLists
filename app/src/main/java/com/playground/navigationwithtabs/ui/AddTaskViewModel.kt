@@ -40,4 +40,17 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             _taskLiveData.value = task
         }
     }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            repository.deleteTask(task)
+        }
+    }
+
+    fun updateTaskCompleteness(task: Task) {
+        task.completed = !task.completed
+        viewModelScope.launch {
+            repository.upsertTask(task)
+        }
+    }
 }

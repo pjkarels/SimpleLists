@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/introFragment"
         android:name="com.playground.navigationwithtabs.ui.IntroFragment"
-        android:label="IntroFragment" >
+        android:label="IntroFragment">
         <action
             android:id="@+id/action_introFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment"
@@ -22,7 +22,7 @@
         android:id="@+id/viewPagerFragment"
         android:name="com.playground.navigationwithtabs.ui.ViewPagerFragment"
         android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" >
+        tools:layout="@layout/fragment_view_pager">
         <action
             android:id="@+id/action_viewPagerFragment_to_tabContentFragment"
             app:destination="@id/tabContentFragment" />
@@ -65,7 +65,7 @@
         android:id="@+id/tabContentFragment"
         android:name="com.playground.navigationwithtabs.ui.TabContentFragment"
         android:label="fragment_tab_content"
-        tools:layout="@layout/fragment_tab_content" >
+        tools:layout="@layout/fragment_tab_content">
         <action
             android:id="@+id/action_tabContentFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment">
