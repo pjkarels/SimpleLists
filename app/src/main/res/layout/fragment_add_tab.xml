@@ -47,6 +47,8 @@
             android:id="@+id/addTab_entry_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:selectAllOnFocus="true"
+            android:maxLength="100"
             android:imeActionLabel="Add"
             android:inputType="text"
             android:imeOptions="actionDone" />

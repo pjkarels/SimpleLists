@@ -12,6 +12,8 @@
     <string name="category_title_add">Add Category</string>
     <string name="category_title_delete">Delete Categories</string>
 
+    <string name="error_msg_name_required">Name is required</string>
+
     <string name="menu_item_title_add">+Add Cat</string>
     <string name="menu_item_title_delete">Delete Cat</string>
 

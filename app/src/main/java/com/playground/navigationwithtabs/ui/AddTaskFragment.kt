@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.textfield.TextInputLayout
 import com.playground.navigationwithtabs.R
 
 class AddTaskFragment: Fragment() {
@@ -121,12 +122,15 @@ class AddTaskFragment: Fragment() {
     private fun addItemAndGoBack() {
         val rootView = requireView()
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        vm.nameErrorMsg.observe(viewLifecycleOwner) { errorMsg ->
+            rootView.findViewById<TextInputLayout>(R.id.addTask_entry_layout).error = errorMsg
+        }
         val nameEntry = rootView.findViewById<EditText>(R.id.addTask_entry_name)
 
         vm.task.name = nameEntry.text.toString()
-        vm.upsertTask()
-
-        goBack()
+        if (vm.upsertTask()) {
+            goBack()
+        }
     }
 
     private fun goBack() {

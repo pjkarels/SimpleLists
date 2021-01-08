@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.findNavController
+import com.google.android.material.textfield.TextInputLayout
 import com.playground.navigationwithtabs.R
 
 class AddTabFragment : DialogFragment() {
@@ -42,12 +43,16 @@ class AddTabFragment : DialogFragment() {
     }
 
     private fun addAndReturn(rootView: View) {
-        val vm = ViewModelProvider(this).get(AddTabViewModel::class.java)
         val tabNameEntry: EditText = rootView.findViewById(R.id.addTab_entry_name)
 
-        vm.addTab(tabNameEntry.text.toString())
-        hideKeyboard(tabNameEntry)
-        rootView.findNavController().popBackStack()
+        val vm = ViewModelProvider(this).get(AddTabViewModel::class.java)
+        vm.nameErrorMsg.observe(viewLifecycleOwner) { errorMsg ->
+            rootView.findViewById<TextInputLayout>(R.id.addTab_entry_layout)?.error = errorMsg
+        }
+        if (vm.addTab(tabNameEntry.text.toString())) {
+            hideKeyboard(tabNameEntry)
+            rootView.findNavController().popBackStack()
+        }
     }
 
     private fun hideKeyboard(v: View) {
