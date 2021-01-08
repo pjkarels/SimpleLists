@@ -1,11 +1,12 @@
-package com.playground.navigationwithtabs
+package com.playground.navigationwithtabs.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.playground.navigationwithtabs.R
 
 /**
  * A simple [Fragment] subclass.

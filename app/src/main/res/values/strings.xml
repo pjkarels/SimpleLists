@@ -4,5 +4,23 @@
     <string name="intro_description">The purpose of this app is to demonstrate using Navigation Components with a TabLayout with a Toolbar in certain fragments.</string>
     <string name="intro_button_next_text">Navigate to next screen</string>
 
-    <string name="tasks_title">Task Categories</string>
+    <string name="tasks_title">Categories</string>
+    <string name="tasks_title_add">Add Item</string>
+    <string name="tasks_title_rename">Rename %s</string>
+    <string name="tasks_action_complete">Complete Task</string>
+
+    <string name="category_title_add">Add Category</string>
+    <string name="category_title_delete">Delete Categories</string>
+
+    <string name="error_msg_name_required">Name is required</string>
+
+    <string name="menu_item_title_add">+Add Cat</string>
+    <string name="menu_item_title_delete">Delete Cat</string>
+
+    <string name="menu_item_title_complete_item">Mark Complete</string>
+
+    <string name="common_add">Add</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_rename">Rename</string>
+    <string name="common_delete">Delete</string>
 </resources>
