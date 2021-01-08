@@ -18,9 +18,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.playground.navigationwithtabs.R
 
-class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy {
+class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy, TabLayout.OnTabSelectedListener {
 
     private var tabTitles: List<String>? = null
+    private var currentIndex = 0
+    private var isCreatingView = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        isCreatingView = true
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.inflateMenu(R.menu.app_menu)
@@ -57,8 +60,12 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
                 val tabMediator = TabLayoutMediator(tabLayout, viewPager, this)
                 tabMediator.detach()
                 tabMediator.attach()
+                tabLayout.selectTab(tabLayout.getTabAt(currentIndex))
+                viewPager.setCurrentItem(currentIndex, false)
             }
         })
+
+        tabLayout.addOnTabSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,18 +80,32 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         return true
     }
 
+    override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+        if (tabTitles == null) {
+            return
+        }
+        tab.text = tabTitles?.get(position)
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        if (isCreatingView) {
+            isCreatingView = false
+            return
+        }
+
+        val tabLayout: TabLayout? = view?.findViewById(R.id.tab_layout)
+        currentIndex = tabLayout?.selectedTabPosition ?: 0
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {}
+
     private fun addTab() {
         requireView().findNavController().navigate(R.id.addTabFragment)
     }
 
     private fun deleteTabs() {
         requireView().findNavController().navigate(R.id.deleteCategoriesFragment)
-    }
-
-    override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-        if (tabTitles == null) {
-            return
-        }
-        tab.text = tabTitles?.get(position)
     }
 }
