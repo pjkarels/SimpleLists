@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Navigation With Tabs</string>
+    <string name="app_name">Simple Lists</string>
 
     <string name="intro_description">The purpose of this app is to demonstrate using Navigation Components with a TabLayout with a Toolbar in certain fragments.</string>
     <string name="intro_button_next_text">Navigate to next screen</string>

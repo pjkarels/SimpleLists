@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/introFragment"
-        android:name="com.playground.navigationwithtabs.ui.IntroFragment"
+        android:name="com.meadowlandapps.simplelists.ui.IntroFragment"
         android:label="IntroFragment">
         <action
             android:id="@+id/action_introFragment_to_viewPagerFragment"
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.playground.navigationwithtabs.ui.ViewPagerFragment"
+        android:name="com.meadowlandapps.simplelists.ui.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager">
         <action
@@ -44,13 +44,13 @@
 
     <fragment
         android:id="@+id/addTabFragment"
-        android:name="com.playground.navigationwithtabs.ui.AddTabFragment"
+        android:name="com.meadowlandapps.simplelists.ui.AddTabFragment"
         android:label="fragment_add_tab"
         tools:layout="@layout/fragment_add_tab" />
 
     <fragment
         android:id="@+id/addTaskFragment"
-        android:name="com.playground.navigationwithtabs.ui.AddTaskFragment"
+        android:name="com.meadowlandapps.simplelists.ui.AddTaskFragment"
         android:label="add_task_dialog_fragment"
         tools:layout="@layout/fragment_add_task">
         <argument
@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/tabContentFragment"
-        android:name="com.playground.navigationwithtabs.ui.TabContentFragment"
+        android:name="com.meadowlandapps.simplelists.ui.TabContentFragment"
         android:label="fragment_tab_content"
         tools:layout="@layout/fragment_tab_content">
         <action
@@ -87,7 +87,7 @@
 
     <fragment
         android:id="@+id/deleteCategoriesFragment"
-        android:name="com.playground.navigationwithtabs.ui.DeleteCategoriesFragment"
+        android:name="com.meadowlandapps.simplelists.ui.DeleteCategoriesFragment"
         android:label="fragment_delete_categories"
         tools:layout="@layout/fragment_delete_categories" />
 

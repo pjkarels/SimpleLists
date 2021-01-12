@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.playground.navigationwithtabs"
+        applicationId "com.meadowlandapps.simplelists"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
