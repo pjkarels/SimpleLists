@@ -26,6 +26,7 @@
         android:contentDescription="@string/lists_action_complete"
         app:tint="@color/grey_light"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/item_delete" />
 
     <ImageView
@@ -37,6 +38,7 @@
         android:contentDescription="@string/common_delete"
         app:tint="@color/grey_light"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
