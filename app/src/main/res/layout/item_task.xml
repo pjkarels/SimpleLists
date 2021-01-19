@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_item_standard"
         android:src="@drawable/ic_check_24"
-        android:contentDescription="@string/tasks_action_complete"
+        android:contentDescription="@string/lists_action_complete"
         app:tint="@color/grey_light"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/item_delete" />

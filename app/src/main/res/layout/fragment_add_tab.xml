@@ -25,7 +25,7 @@
 
             <TextView
                 android:id="@+id/title"
-                android:text="@string/category_title_add"
+                android:text="@string/list_title_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />

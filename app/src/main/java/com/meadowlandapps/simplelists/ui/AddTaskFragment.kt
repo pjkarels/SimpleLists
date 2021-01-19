@@ -68,12 +68,12 @@ class AddTaskFragment: Fragment() {
                 nameEntry.setText(task.name)
                 if (task.id < 1) {
                     addButton.text = getString(R.string.common_add)
-                    toolbarTitleView.text = getString(R.string.tasks_title_add)
+                    toolbarTitleView.text = getString(R.string.lists_title_add)
                     hideMenuItems()
                 }
                 else {
                     addButton.text = getString(R.string.common_rename)
-                    toolbarTitleView.text = getString(R.string.tasks_title_rename, task.name)
+                    toolbarTitleView.text = getString(R.string.lists_title_rename, task.name)
                     // update Menu check mark
                     val icon = if (task.completed) {
                         ResourcesCompat.getDrawable(

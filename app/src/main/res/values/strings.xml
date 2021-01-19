@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Simple Lists</string>
 
-    <string name="tasks_title">Categories</string>
-    <string name="tasks_title_add">Add Item</string>
-    <string name="tasks_title_rename">Rename %s</string>
-    <string name="tasks_action_complete">Complete Task</string>
+    <string name="lists_title">Lists</string>
+    <string name="lists_title_add">Add Item</string>
+    <string name="lists_title_rename">Rename %s</string>
+    <string name="lists_action_complete">Complete Task</string>
 
-    <string name="category_title_add">Add Category</string>
-    <string name="category_title_delete">Delete Categories</string>
+    <string name="list_title_add">Add List</string>
+    <string name="list_title_delete">Delete Lists</string>
 
     <string name="error_msg_name_required">Name is required</string>
 
