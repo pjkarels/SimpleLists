@@ -52,8 +52,9 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
     }
 
     fun deleteTask() {
+        task.removed = true
         viewModelScope.launch {
-            repository.deleteTask(task)
+            upsertTask()
         }
     }
 

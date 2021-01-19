@@ -19,8 +19,9 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
     fun getTasks(taskType: String) = repository.tasksForType(taskType)
 
     fun deleteTask(task: Task) {
+        task.removed = true
         viewModelScope.launch {
-            repository.deleteTask(task)
+            repository.upsertTask(task)
         }
     }
 

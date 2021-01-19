@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM task_table WHERE type LIKE :type")
+    @Query("SELECT * FROM task_table WHERE type LIKE :type AND removed == 0")
     fun tasksForType(type: String): LiveData<List<Task>>
 
     @Query("SELECT * FROM task_table WHERE type LIKE :type")
