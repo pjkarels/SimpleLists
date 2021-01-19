@@ -9,8 +9,8 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE type LIKE :type AND removed == 0")
     fun tasksForType(type: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type LIKE :type")
-    suspend fun getTasks(type: String): List<Task>
+    @Query("SELECT * FROM task_table WHERE removed == 1")
+    fun removedTasks(): LiveData<List<Task>>
 
     @Query("SELECT * FROM task_table WHERE id LIKE :taskId LIMIT 1")
     suspend fun getTask(taskId: Int): List<Task>
