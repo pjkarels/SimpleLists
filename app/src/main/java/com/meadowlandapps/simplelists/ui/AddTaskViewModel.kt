@@ -43,7 +43,8 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             var taskFromRepo = repository.getTask(taskId)
             if (taskFromRepo == null) {
                 // doesn't exist yet so create new
-                taskFromRepo = Task(0, "", taskType, false)
+                // id of 0 tells Room it's an 'Insert'
+                taskFromRepo = Task(0, "", taskType)
             }
             task = taskFromRepo
             _taskLiveData.value = task
