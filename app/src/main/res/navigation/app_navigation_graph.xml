@@ -4,19 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation"
-    app:startDestination="@id/introFragment">
-
-    <fragment
-        android:id="@+id/introFragment"
-        android:name="com.meadowlandapps.simplelists.ui.IntroFragment"
-        android:label="IntroFragment">
-        <action
-            android:id="@+id/action_introFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/root_navigation"
-            app:popUpToInclusive="true" />
-    </fragment>
+    app:startDestination="@id/viewPagerFragment">
 
     <fragment
         android:id="@+id/viewPagerFragment"
