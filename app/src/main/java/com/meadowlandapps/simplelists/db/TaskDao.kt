@@ -16,8 +16,11 @@ interface TaskDao {
     suspend fun getTask(taskId: Int): List<Task>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertTasks(task: Task)
+    suspend fun upsertTask(task: Task)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertTasks(items: List<Task>)
 
     @Delete
-    suspend fun deleteTask(task: Task)
+    suspend fun deleteItems(tasks: List<Task>)
 }

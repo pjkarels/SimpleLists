@@ -24,6 +24,8 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
             }
         }
 
+    val removedItems: LiveData<List<Task>> = taskDao.removedTasks()
+
     suspend fun upsertTaskType(name: String) {
         taskTypeDao.insertTaskTypes(TaskType(name))
     }
@@ -33,15 +35,19 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
     suspend fun getTask(taskId: Int) = taskDao.getTask(taskId).firstOrNull()
 
     suspend fun upsertTask(task: Task) {
-        taskDao.upsertTasks(task)
+        taskDao.upsertTask(task)
+    }
+
+    suspend fun upsertItems(items: List<Task>) {
+        taskDao.upsertTasks(items)
     }
 
     suspend fun deleteCategories(categories: List<TaskType>) {
         taskTypeDao.deleteCategories(categories)
     }
 
-    suspend fun deleteTask(task: Task) {
-        taskDao.deleteTask(task)
+    suspend fun deleteItems(items: List<Task>) {
+        taskDao.deleteItems(items)
     }
 
     private fun mapTaskTypeToCategory(type: TaskType) = CategoryModel(type.name, false)
