@@ -20,6 +20,9 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
     val removedItems = _repository.removedItems
 
     fun restoreSelectedItems() {
+        for (item in selectedItems) {
+            item.removed = false
+        }
         viewModelScope.launch {
             _repository.upsertItems(selectedItems)
         }

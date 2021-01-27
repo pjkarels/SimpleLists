@@ -42,7 +42,7 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
 
         fun bind(item: Task) {
             checkBox.tag = item
-            nameView.text = item.name
+            nameView.text = "${item.name} (${item.type})"
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }
     }

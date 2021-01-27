@@ -31,6 +31,9 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val restoreButton: Button = view.findViewById(R.id.button_restore_items)
+        val deleteButton: Button = view.findViewById(R.id.button_delete_items)
+
         val listAdapter = ItemRecyclerViewAdapter(this)
         val recyclerView: RecyclerView = view.findViewById(R.id.items_list)
         recyclerView.adapter = listAdapter
@@ -40,9 +43,6 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
                 listAdapter.setItems(items)
             }
         }
-
-        val restoreButton: Button = view.findViewById(R.id.button_restore_items)
-        val deleteButton: Button = view.findViewById(R.id.button_delete_items)
 
         restoreButton.setOnClickListener {
             vm.restoreSelectedItems()

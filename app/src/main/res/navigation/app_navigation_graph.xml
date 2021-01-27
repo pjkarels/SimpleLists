@@ -28,6 +28,11 @@
                 android:name="task"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_viewPagerFragment_to_deletedItemsFragment"
+            app:destination="@id/deletedItemsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -78,5 +83,10 @@
         android:name="com.meadowlandapps.simplelists.ui.DeleteCategoriesFragment"
         android:label="fragment_delete_categories"
         tools:layout="@layout/fragment_delete_categories" />
+
+    <fragment
+        android:id="@+id/deletedItemsFragment"
+        android:name="com.meadowlandapps.simplelists.ui.DeletedItemsFragment"
+        android:label="DeletedItemsFragment" />
 
 </navigation>
