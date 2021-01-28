@@ -4,6 +4,7 @@
     <string name="lists_title">Lists</string>
     <string name="lists_title_add">Add Item</string>
     <string name="lists_title_rename">Rename %s</string>
+    <string name="lists_title_deleted">Deleted Items</string>
     <string name="lists_action_complete">Complete Task</string>
 
     <string name="list_title_add">Add List</string>
