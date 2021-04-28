@@ -9,4 +9,8 @@
         android:title="@string/menu_item_title_delete"
         android:icon="@drawable/ic_delete_24"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_item_share"
+        android:title="@string/menu_item_title_share"
+        android:icon="@drawable/ic_share_24"
+        app:showAsAction="always" />
 </menu>

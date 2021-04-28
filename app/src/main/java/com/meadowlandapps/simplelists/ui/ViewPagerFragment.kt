@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -58,7 +59,8 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
 
         val navView = view.findViewById<NavigationView>(R.id.nav_view)
         navView.setupWithNavController(navController)
-        toolbar.setupWithNavController(navController, drawerLayout)
+        val appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
 
         val vm = ViewModelProvider(this).get(PagerViewModel::class.java)
         val adapter = PagerAdapter(this)
@@ -93,6 +95,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         when (item.itemId) {
             R.id.menu_item_add -> addTab()
             R.id.menu_item_delete -> deleteTabs()
+            R.id.menu_item_share -> share()
         }
         return true
     }
@@ -123,7 +126,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         val drawerLayout: DrawerLayout = requireView().findViewById(R.id.drawer_layout)
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            drawerLayout.closeDrawers()
+            drawerLayout.closeDrawer(GravityCompat.START)
             when (menuItem.itemId) {
                 R.id.menu_drawer_deletedItems -> viewDeletedItems()
             }
@@ -142,5 +145,9 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     private fun viewDeletedItems() {
         val action = ViewPagerFragmentDirections.actionViewPagerFragmentToDeletedItemsFragment()
         requireView().findNavController().navigate(action)
+    }
+
+    private fun share() {
+
     }
 }

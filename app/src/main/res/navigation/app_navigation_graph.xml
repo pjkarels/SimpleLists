@@ -87,6 +87,15 @@
     <fragment
         android:id="@+id/deletedItemsFragment"
         android:name="com.meadowlandapps.simplelists.ui.DeletedItemsFragment"
-        android:label="DeletedItemsFragment" />
+        android:label="DeletedItemsFragment"
+        tools:layout="@layout/fragment_deleted_items_list" />
+
+    <dialog
+        android:id="@+id/my_dialog_fragment"
+        android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
+        <argument
+            android:name="category"
+            android:defaultValue="@null" />
+    </dialog>
 
 </navigation>
