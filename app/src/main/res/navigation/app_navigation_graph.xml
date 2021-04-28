@@ -33,6 +33,11 @@
             app:destination="@id/deletedItemsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_shareDialogFragment"
+            app:destination="@id/share_dialog_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -91,7 +96,7 @@
         tools:layout="@layout/fragment_deleted_items_list" />
 
     <dialog
-        android:id="@+id/my_dialog_fragment"
+        android:id="@+id/share_dialog_fragment"
         android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
         <argument
             android:name="category"

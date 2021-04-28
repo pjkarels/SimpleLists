@@ -29,7 +29,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
 
     /**
      * Used to determine when the user selects the tab,
-     * not when it's autoselected when the Tab Layout is created.
+     * not when it's autoselected as when the Tab Layout is created.
      */
     private var isCreatingView = true
 
@@ -148,6 +148,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     }
 
     private fun share() {
-
+        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToShareDialogFragment(tabTitles?.get(currentIndex))
+        requireView().findNavController().navigate(action)
     }
 }
