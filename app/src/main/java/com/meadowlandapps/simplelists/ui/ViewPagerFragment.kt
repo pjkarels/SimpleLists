@@ -1,7 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -94,7 +94,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_add -> addTab()
-            R.id.menu_item_delete -> deleteTabs()
+            R.id.menu_item_edit -> deleteTabs()
             R.id.menu_item_share -> share()
         }
         return true
