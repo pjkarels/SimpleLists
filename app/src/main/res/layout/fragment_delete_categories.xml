@@ -34,6 +34,28 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
+    <Button
+        android:id="@+id/editListTitleButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:layout_marginEnd="@dimen/padding_item_standard"
+        android:text="@string/common_rename"
+        app:layout_constraintTop_toBottomOf="@id/categoriesRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteCategoriesButton" />
+
+    <Button
+        android:id="@id/deleteCategoriesButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_item_standard"
+        android:layout_marginEnd="@dimen/padding_standard"
+        android:text="@string/common_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editListTitleButton"
+        app:layout_constraintTop_toBottomOf="@id/categoriesRecyclerView" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoriesRecyclerView"
         android:layout_width="0dp"
@@ -47,14 +69,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_category" />
-
-    <Button
-        android:id="@+id/deleteCategoriesButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/common_delete"
-        app:layout_constraintTop_toBottomOf="@id/categoriesRecyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

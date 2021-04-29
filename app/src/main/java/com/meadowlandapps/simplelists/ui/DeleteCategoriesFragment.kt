@@ -1,13 +1,13 @@
 package com.meadowlandapps.simplelists.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
@@ -23,6 +23,7 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val renameButton: Button = view.findViewById(R.id.editListTitleButton)
         val deleteButton: Button = view.findViewById(R.id.deleteCategoriesButton)
         val recyclerView: RecyclerView = view.findViewById(R.id.categoriesRecyclerView)
         val categoriesAdapter = CategoryListAdapter(requireContext(), this)
@@ -35,6 +36,14 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
             }
         }
 
+        vm.isEditButtonEnabled.observe(viewLifecycleOwner) { enabled ->
+            renameButton.isEnabled = enabled
+        }
+
+        vm.isDeleteButtonEnabled.observe(viewLifecycleOwner) { enabled ->
+            deleteButton.isEnabled = enabled
+        }
+
         deleteButton.setOnClickListener {
             vm.deleteSelectedCategories()
             findNavController().popBackStack()
@@ -44,10 +53,11 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         val category = buttonView.tag as CategoryModel
         val vm = ViewModelProvider(this).get(DeleteCategoriesViewModel::class.java)
-        if (isChecked) {
-            vm.selectedCategoriesToDelete.add(category)
-        } else {
-            vm.selectedCategoriesToDelete.remove(category)
-        }
+        vm.checkedChanged(isChecked, category)
+//        if (isChecked) {
+//            vm.selectedCategories.add(category)
+//        } else {
+//            vm.selectedCategories.remove(category)
+//        }
     }
 }
