@@ -10,7 +10,7 @@ import com.meadowlandapps.simplelists.model.CategoryModel
 
 class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: TaskTypeDao) {
 
-    val taskTypeNames: LiveData<List<String>> =
+    val listTitles: LiveData<List<String>> =
         taskTypeDao.taskTypes.map { taskTypes ->
             taskTypes.map { taskType ->
                 taskType.name
@@ -31,6 +31,8 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
     }
 
     fun tasksForType(type: String) = taskDao.tasksForType(type)
+
+    suspend fun getItemsForList(listName: String) = taskDao.getItemsForList(listName)
 
     suspend fun getTask(taskId: Int) = taskDao.getTask(taskId).firstOrNull()
 
