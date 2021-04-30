@@ -3,12 +3,11 @@ package com.meadowlandapps.simplelists.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
-import android.content.Intent.createChooser
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+// the fragment initialization parameters
 private const val ARG_CATEGORY = "category"
 
 class ShareDialogFragment : DialogFragment() {

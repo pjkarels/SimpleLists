@@ -17,7 +17,7 @@ interface TaskTypeDao {
     suspend fun insertTaskTypes(vararg types: TaskType)
 
     @Query("DELETE FROM task_type_table WHERE :type LIKE name")
-    fun deleteTaskType(type: String)
+    fun deleteCategory(type: String)
 
     @Delete
     suspend fun deleteCategories(categories: List<TaskType>)

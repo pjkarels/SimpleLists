@@ -4,12 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.meadowlandapps.simplelists.db.AppDatabase
-import com.meadowlandapps.simplelists.db.TaskType
 import com.meadowlandapps.simplelists.model.CategoryModel
 import com.meadowlandapps.simplelists.repository.TaskRepository
-import kotlinx.coroutines.launch
 
 class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -51,15 +48,4 @@ class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(app
             }
         }
     }
-
-    fun deleteSelectedCategories() {
-        viewModelScope.launch {
-            val tasksToDelete = selectedCategories.map { categoryModel ->
-                mapCategoryModelToTaskType(categoryModel)
-            }
-            repository.deleteCategories(tasksToDelete)
-        }
-    }
-
-    private fun mapCategoryModelToTaskType(category: CategoryModel) = TaskType(category.name)
 }

@@ -37,7 +37,11 @@
             android:id="@+id/action_viewPagerFragment_to_shareDialogFragment"
             app:destination="@id/share_dialog_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <fragment
@@ -87,7 +91,15 @@
         android:id="@+id/deleteCategoriesFragment"
         android:name="com.meadowlandapps.simplelists.ui.DeleteCategoriesFragment"
         android:label="fragment_delete_categories"
-        tools:layout="@layout/fragment_delete_categories" />
+        tools:layout="@layout/fragment_delete_categories">
+        <action
+            android:id="@+id/action_deleteCategoriesFragment_to_deleteConfirmFragment"
+            app:destination="@id/deleteConfirmDialog">
+            <argument
+                android:name="categories"
+                app:argType="string[]" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/deletedItemsFragment"
@@ -100,7 +112,15 @@
         android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
         <argument
             android:name="category"
-            android:defaultValue="@null" />
+            app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/deleteConfirmDialog"
+        android:name="com.meadowlandapps.simplelists.ui.DeleteConfirmFragment">
+        <argument
+            android:name="categories"
+            app:argType="string[]" />
     </dialog>
 
 </navigation>

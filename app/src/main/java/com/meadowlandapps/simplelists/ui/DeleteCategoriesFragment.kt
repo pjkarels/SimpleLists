@@ -33,6 +33,7 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         vm.categoriesLiveData.observe(viewLifecycleOwner) { categories ->
             categories?.let {
                 categoriesAdapter.setCategories(categories)
+
             }
         }
 
@@ -45,8 +46,14 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         }
 
         deleteButton.setOnClickListener {
-            vm.deleteSelectedCategories()
-            findNavController().popBackStack()
+            val listNames = vm.categoriesLiveData.value ?: listOf()
+            val action =
+                DeleteCategoriesFragmentDirections.actionDeleteCategoriesFragmentToDeleteConfirmFragment(
+                    listNames.map { categoryModel ->
+                        categoryModel.name
+                    }.toTypedArray()
+                )
+            findNavController().navigate(action)
         }
     }
 
@@ -54,10 +61,5 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         val category = buttonView.tag as CategoryModel
         val vm = ViewModelProvider(this).get(DeleteCategoriesViewModel::class.java)
         vm.checkedChanged(isChecked, category)
-//        if (isChecked) {
-//            vm.selectedCategories.add(category)
-//        } else {
-//            vm.selectedCategories.remove(category)
-//        }
     }
 }
