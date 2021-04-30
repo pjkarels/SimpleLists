@@ -25,7 +25,7 @@ class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(app
 
     val categoriesLiveData = repository.taskTypes
 
-    private val selectedCategories = mutableListOf<CategoryModel>()
+    val selectedCategories = mutableListOf<CategoryModel>()
 
     fun checkedChanged(isChecked: Boolean, category: CategoryModel) {
         if (isChecked) {

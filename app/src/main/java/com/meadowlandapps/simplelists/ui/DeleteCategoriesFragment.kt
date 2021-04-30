@@ -33,7 +33,10 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         vm.categoriesLiveData.observe(viewLifecycleOwner) { categories ->
             categories?.let {
                 categoriesAdapter.setCategories(categories)
-
+                val visibility = if (categories.isNotEmpty()) View.VISIBLE else View.GONE
+                renameButton.visibility = visibility
+                deleteButton.visibility = visibility
+                vm.selectedCategories.clear()
             }
         }
 
@@ -46,7 +49,7 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         }
 
         deleteButton.setOnClickListener {
-            val listNames = vm.categoriesLiveData.value ?: listOf()
+            val listNames = vm.selectedCategories
             val action =
                 DeleteCategoriesFragmentDirections.actionDeleteCategoriesFragmentToDeleteConfirmFragment(
                     listNames.map { categoryModel ->
