@@ -84,11 +84,11 @@
         </action>
         <action
             android:id="@+id/action_tabContentFragment_to_deleteCategoriesFragment"
-            app:destination="@id/deleteCategoriesFragment" />
+            app:destination="@id/editCategoriesFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/deleteCategoriesFragment"
+        android:id="@+id/editCategoriesFragment"
         android:name="com.meadowlandapps.simplelists.ui.DeleteCategoriesFragment"
         android:label="fragment_delete_categories"
         tools:layout="@layout/fragment_delete_categories">
@@ -98,6 +98,13 @@
             <argument
                 android:name="categories"
                 app:argType="string[]" />
+        </action>
+        <action
+            android:id="@+id/action_editCategoriesFragment_to_addTabFragment"
+            app:destination="@id/addTabFragment">
+            <argument
+                android:name="category"
+                app:argType="integer" />
         </action>
     </fragment>
 
