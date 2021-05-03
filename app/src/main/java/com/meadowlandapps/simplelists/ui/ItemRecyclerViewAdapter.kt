@@ -37,12 +37,14 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val context = view.context
+
         private val nameView: TextView = itemView.findViewById(R.id.category_name)
         private val checkBox: CheckBox = itemView.findViewById(R.id.category_select)
 
         fun bind(item: Task) {
             checkBox.tag = item
-            nameView.text = "${item.name} (${item.name})"
+            nameView.text = context.getString(R.string.list_deletedItems_itemText, item.name, item.name)
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }
     }

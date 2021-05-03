@@ -73,9 +73,6 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         vm.tabs.observe(viewLifecycleOwner, { tabs ->
             tabs?.let {
                 categories = tabs
-//                tabTitles = tabs.map { categoryModel ->
-//                    categoryModel.name
-//                }
                 adapter.setTabs(categories!!)
 
                 val tabMediator = TabLayoutMediator(tabLayout, viewPager, this)

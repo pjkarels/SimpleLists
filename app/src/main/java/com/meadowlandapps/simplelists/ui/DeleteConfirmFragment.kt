@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.meadowlandapps.simplelists.R
 
 // the fragment initialization parameters
 private const val ARG_CATEGORIES = "categories"
@@ -26,14 +27,14 @@ class DeleteConfirmFragment : DialogFragment() {
         val vm = ViewModelProvider(this).get(DeleteConfirmViewModel::class.java)
 
         return AlertDialog.Builder(requireContext())
-                .setTitle("Delete Lists")
-                .setMessage("${formatData()}?\n\nDeleting lists also deletes associated Items (action cannot be undone).")
-            .setPositiveButton("Delete") { _, _ ->
-                vm.deleteSelectedCategories(categories.toList())
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
+                .setTitle(R.string.list_title_delete)
+                .setMessage(getString(R.string.list_delete_message, formatData()))
+                .setPositiveButton(R.string.common_delete) { _, _ ->
+                    vm.deleteSelectedCategories(categories.toList())
+                }
+                .setNegativeButton(R.string.common_cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }
             .create()
     }
 

@@ -1,14 +1,13 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-
-// the fragment initialization parameters
-private const val ARG_CATEGORY = "category"
+import com.meadowlandapps.simplelists.R
 
 class ShareDialogFragment : DialogFragment() {
     private var categoryId: Int = 0
@@ -16,7 +15,7 @@ class ShareDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            categoryId = it.getInt(ARG_CATEGORY, 0)
+            categoryId = it.getInt(BUNDLE_KEY_CATEGORY, 0)
         }
     }
 
@@ -24,8 +23,8 @@ class ShareDialogFragment : DialogFragment() {
         val vm = ViewModelProvider(this).get(ShareDialogViewModel::class.java)
         val data = vm.getTasks(categoryId)
         return AlertDialog.Builder(requireContext())
-                .setTitle("Share List: \"${data.second}\"?")
-                .setPositiveButton("Share") { _,_ ->
+                .setTitle(getString(R.string.list_title_share, data.second))
+                .setPositiveButton(R.string.button_list_share) { _, _ ->
                     // prepare and show picker
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
@@ -35,7 +34,7 @@ class ShareDialogFragment : DialogFragment() {
 
                     startActivity(intent)
                 }
-                .setNegativeButton("Cancel") { dialog,_ ->
+                .setNegativeButton(R.string.common_cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .create()

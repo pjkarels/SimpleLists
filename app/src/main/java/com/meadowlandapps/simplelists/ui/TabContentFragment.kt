@@ -1,5 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
         fun newInstance(type: Int): Fragment {
             val fragment = TabContentFragment()
             val bundle = Bundle()
-            bundle.putInt("category", type)
+            bundle.putInt(BUNDLE_KEY_CATEGORY, type)
             fragment.arguments = bundle
 
             return fragment
@@ -33,7 +34,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        category = arguments?.getInt("category", 0) ?: 0
+        category = arguments?.getInt(BUNDLE_KEY_CATEGORY, 0) ?: 0
     }
 
     override fun onCreateView(
