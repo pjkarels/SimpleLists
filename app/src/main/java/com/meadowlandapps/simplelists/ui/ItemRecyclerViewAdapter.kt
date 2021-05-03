@@ -1,12 +1,12 @@
 package com.meadowlandapps.simplelists.ui
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.db.Task
 
@@ -42,7 +42,7 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
 
         fun bind(item: Task) {
             checkBox.tag = item
-            nameView.text = "${item.name} (${item.type})"
+            nameView.text = "${item.name} (${item.name})"
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }
     }

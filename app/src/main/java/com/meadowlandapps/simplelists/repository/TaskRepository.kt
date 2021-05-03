@@ -18,21 +18,23 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         }
 
     val taskTypes: LiveData<List<CategoryModel>> =
-        taskTypeDao.taskTypes.map { taskTypes ->
-            taskTypes.map { taskType ->
-                mapTaskTypeToCategory(taskType)
+            taskTypeDao.taskTypes.map { taskTypes ->
+                taskTypes.map { taskType ->
+                    mapTaskTypeToCategory(taskType)
+                }
             }
-        }
 
     val removedItems: LiveData<List<Task>> = taskDao.removedTasks()
 
-    suspend fun upsertTaskType(name: String) {
-        taskTypeDao.insertTaskTypes(TaskType(name))
+    suspend fun upsertTaskType(category: TaskType) {
+        taskTypeDao.insertTaskTypes(category)
     }
 
-    fun tasksForType(type: String) = taskDao.tasksForType(type)
+    suspend fun getCategory(id: Int) = taskTypeDao.getCategory(id).firstOrNull()
 
-    suspend fun getItemsForList(listName: String) = taskDao.getItemsForList(listName)
+    fun tasksForType(id: Int) = taskDao.tasksForType(id)
+
+    suspend fun getItemsForList(id: Int) = taskDao.getItemsForList(id)
 
     suspend fun getTask(taskId: Int) = taskDao.getTask(taskId).firstOrNull()
 
@@ -58,5 +60,5 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         taskDao.deleteItems(items)
     }
 
-    private fun mapTaskTypeToCategory(type: TaskType) = CategoryModel(type.name, false)
+    private fun mapTaskTypeToCategory(type: TaskType) = CategoryModel(type.id, type.name, false)
 }

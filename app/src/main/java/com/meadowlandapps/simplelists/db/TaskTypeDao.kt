@@ -13,6 +13,9 @@ interface TaskTypeDao {
     @get: Query("SELECT * FROM task_type_table")
     val taskTypes: LiveData<List<TaskType>>
 
+    @Query("SELECT * FROM task_type_table WHERE :id LIKE id")
+    suspend fun getCategory(id: Int): List<TaskType>
+
     @Insert(onConflict = REPLACE)
     suspend fun insertTaskTypes(vararg types: TaskType)
 

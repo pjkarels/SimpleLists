@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.db.AppDatabase
+import com.meadowlandapps.simplelists.db.TaskType
 import com.meadowlandapps.simplelists.repository.TaskRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddTabViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,6 +16,10 @@ class AddTabViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _nameErrorMsg = MutableLiveData<String>()
     val nameErrorMsg: LiveData<String> get() = _nameErrorMsg
+
+    lateinit var category: TaskType
+    private val _categoryLiveData = MutableLiveData<TaskType>()
+    val categoryLiveData: LiveData<TaskType> get() = _categoryLiveData
 
     init {
         val db = AppDatabase.getDatabase(application)
@@ -25,14 +29,28 @@ class AddTabViewModel(application: Application) : AndroidViewModel(application) 
         repository = TaskRepository(taskDao, taskTypeDao)
     }
 
-    fun addTab(name: String): Boolean {
-        if (name.isEmpty() || name.isBlank()) {
+    fun upsertCategory(): Boolean {
+        if (category.name.isEmpty() || category.name.isBlank()) {
             _nameErrorMsg.value = getApplication<Application>().getString(R.string.error_msg_name_required)
             return false
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.upsertTaskType(name)
+        viewModelScope.launch {
+            repository.upsertTaskType(category)
         }
+
         return true
+    }
+
+    fun getCategory(id: Int) {
+        viewModelScope.launch {
+            var categoryFromRepo = repository.getCategory(id)
+            if (categoryFromRepo == null) {
+                // doesn't exist yet so create new
+                // id of 0 tells Room it's an 'Insert'
+                categoryFromRepo = TaskType(0, "")
+            }
+            category = categoryFromRepo
+            _categoryLiveData.value = category
+        }
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import com.meadowlandapps.simplelists.db.AppDatabase
 import com.meadowlandapps.simplelists.repository.TaskRepository
 import kotlinx.coroutines.runBlocking
-import java.lang.StringBuilder
 
 class ShareDialogViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: TaskRepository
@@ -19,17 +18,19 @@ class ShareDialogViewModel(application: Application) : AndroidViewModel(applicat
         repository = TaskRepository(taskDao, taskTypeDao)
     }
 
-    fun getTasks(taskType: String): String {
-        var returnString: String
+    fun getTasks(id: Int): Pair<String, String> {
+        var itemsString: String
+        var listTitle: String
         runBlocking {
-            val items =  repository.getItemsForList(taskType)
+            listTitle = repository.getCategory(id)?.name.toString()
+            val items = repository.getItemsForList(id)
             val builder = StringBuilder(items.first().name)
             for (i in 1 until items.size) {
                 builder.append(",\n${items[i].name}")
             }
-            returnString = builder.toString()
+            itemsString = builder.toString()
         }
 
-        return returnString
+        return Pair(itemsString, listTitle)
     }
 }

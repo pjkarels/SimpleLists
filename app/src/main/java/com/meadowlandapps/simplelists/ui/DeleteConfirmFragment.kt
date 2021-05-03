@@ -26,8 +26,8 @@ class DeleteConfirmFragment : DialogFragment() {
         val vm = ViewModelProvider(this).get(DeleteConfirmViewModel::class.java)
 
         return AlertDialog.Builder(requireContext())
-            .setTitle("Delete Lists")
-            .setMessage("Delete Lists:\n${formatData()}?\n\nDeleting lists also deletes associated Items.")
+                .setTitle("Delete Lists")
+                .setMessage("${formatData()}?\n\nDeleting lists also deletes associated Items (action cannot be undone).")
             .setPositiveButton("Delete") { _, _ ->
                 vm.deleteSelectedCategories(categories.toList())
             }

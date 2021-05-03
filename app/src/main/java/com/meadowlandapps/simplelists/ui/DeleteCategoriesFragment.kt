@@ -48,14 +48,19 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
             deleteButton.isEnabled = enabled
         }
 
+        renameButton.setOnClickListener {
+            val action = DeleteCategoriesFragmentDirections.actionEditCategoriesFragmentToAddTabFragment(vm.selectedCategories.first().id)
+            findNavController().navigate(action)
+        }
+
         deleteButton.setOnClickListener {
             val listNames = vm.selectedCategories
             val action =
-                DeleteCategoriesFragmentDirections.actionDeleteCategoriesFragmentToDeleteConfirmFragment(
-                    listNames.map { categoryModel ->
-                        categoryModel.name
-                    }.toTypedArray()
-                )
+                    DeleteCategoriesFragmentDirections.actionDeleteCategoriesFragmentToDeleteConfirmFragment(
+                            listNames.map { categoryModel ->
+                                categoryModel.name
+                            }.toTypedArray()
+                    )
             findNavController().navigate(action)
         }
     }

@@ -16,7 +16,7 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
         repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    fun getTasks(taskType: String) = repository.tasksForType(taskType)
+    fun getTasks(taskType: Int) = repository.tasksForType(taskType)
 
     fun deleteTask(task: Task) {
         task.removed = true
