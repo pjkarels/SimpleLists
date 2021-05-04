@@ -37,6 +37,7 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
                 renameButton.visibility = visibility
                 deleteButton.visibility = visibility
                 vm.selectedCategories.clear()
+                vm.onSelectedCategoriesChanged()
             }
         }
 

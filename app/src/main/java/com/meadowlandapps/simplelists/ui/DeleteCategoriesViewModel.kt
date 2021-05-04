@@ -33,6 +33,10 @@ class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(app
         } else {
             selectedCategories.remove(category)
         }
+        onSelectedCategoriesChanged()
+    }
+
+    fun onSelectedCategoriesChanged() {
         when (selectedCategories.size) {
             0 -> {
                 _isEditButtonEnabled.value = false
