@@ -58,7 +58,7 @@ class AddTabFragment : Fragment() {
                 if (category.id < 1) {
                     // new category added
                     addTabButton.text = getString(R.string.common_add)
-                    toolbarTitleView.text = getString(R.string.lists_title_add)
+                    toolbarTitleView.text = getString(R.string.list_title_add)
                 } else {
                     // edit existing
                     addTabButton.text = getString(R.string.common_rename)
