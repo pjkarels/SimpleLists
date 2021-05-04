@@ -28,6 +28,8 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     private var categories: List<CategoryModel>? = null
     private var currentIndex = 0
 
+    private var menu: Menu? = null
+
     /**
      * Used to determine when the user selects the tab,
      * not when it's autoselected as when the Tab Layout is created.
@@ -70,7 +72,7 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
         viewPager.adapter = adapter
 
-        vm.tabs.observe(viewLifecycleOwner, { tabs ->
+        vm.categories.observe(viewLifecycleOwner, { tabs ->
             tabs?.let {
                 categories = tabs
                 adapter.setTabs(categories!!)
@@ -81,6 +83,8 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
                 tabLayout.selectTab(tabLayout.getTabAt(currentIndex))
                 viewPager.setCurrentItem(currentIndex, false)
             }
+
+            updateMenuIcons()
         })
 
         tabLayout.addOnTabSelectedListener(this)
@@ -90,12 +94,15 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.app_menu, menu)
+        this.menu = menu
+
+        updateMenuIcons()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_add -> addTab()
-            R.id.menu_item_edit -> deleteTabs()
+            R.id.menu_item_edit -> editTabs()
             R.id.menu_item_share -> share()
         }
         return true
@@ -141,8 +148,19 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         requireView().findNavController().navigate(action)
     }
 
-    private fun deleteTabs() {
-        requireView().findNavController().navigate(R.id.editCategoriesFragment)
+    private fun editTabs() {
+        if (categories?.isNotEmpty() == true) {
+            requireView().findNavController().navigate(R.id.editCategoriesFragment)
+        }
+    }
+
+    private fun share() {
+        if (categories?.isNotEmpty() == true) {
+            val category = categories?.get(currentIndex)
+            val id = category?.id ?: 0
+            val action = ViewPagerFragmentDirections.actionViewPagerFragmentToShareDialogFragment(id)
+            requireView().findNavController().navigate(action)
+        }
     }
 
     private fun viewDeletedItems() {
@@ -150,10 +168,19 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
         requireView().findNavController().navigate(action)
     }
 
-    private fun share() {
-        val category = categories?.get(currentIndex)
-        val id = category?.id ?: 0
-        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToShareDialogFragment(id)
-        requireView().findNavController().navigate(action)
+    private fun updateMenuIcons() {
+        val editItem = menu?.findItem(R.id.menu_item_edit)
+        val shareItem = menu?.findItem(R.id.menu_item_share)
+        if (categories.isNullOrEmpty()) {
+            editItem?.isEnabled = false
+            editItem?.icon?.setTint(requireContext().getColor(R.color.grey_light))
+            shareItem?.isEnabled = false
+            shareItem?.icon?.setTint(requireContext().getColor(R.color.grey_light))
+        } else {
+            editItem?.isEnabled = true
+            editItem?.icon?.setTint(requireContext().getColor(R.color.white))
+            shareItem?.isEnabled = true
+            shareItem?.icon?.setTint(requireContext().getColor(R.color.white))
+        }
     }
 }
