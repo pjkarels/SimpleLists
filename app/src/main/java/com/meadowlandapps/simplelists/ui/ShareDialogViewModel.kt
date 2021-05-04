@@ -19,16 +19,18 @@ class ShareDialogViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun getTasks(id: Int): Pair<String, String> {
-        var itemsString: String
+        var itemsString = ""
         var listTitle: String
         runBlocking {
             listTitle = repository.getCategory(id)?.name.toString()
             val items = repository.getItemsForList(id)
-            val builder = StringBuilder(items.first().name)
-            for (i in 1 until items.size) {
-                builder.append(",\n${items[i].name}")
+            if (items.isNotEmpty()) {
+                val builder = StringBuilder(items.first().name)
+                for (i in 1 until items.size) {
+                    builder.append(",\n${items[i].name}")
+                }
+                itemsString = builder.toString()
             }
-            itemsString = builder.toString()
         }
 
         return Pair(itemsString, listTitle)
