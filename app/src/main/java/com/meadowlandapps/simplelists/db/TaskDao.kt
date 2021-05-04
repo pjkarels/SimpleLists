@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TaskDao {
@@ -22,11 +23,17 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE id LIKE :taskId LIMIT 1")
     suspend fun getTask(taskId: Int): List<Task>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertTask(task: Task)
+    @Insert(onConflict = REPLACE)
+    suspend fun insertTask(task: Task)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertTasks(items: List<Task>)
+    @Insert(onConflict = REPLACE)
+    suspend fun insertTasks(items: List<Task>)
+
+    @Insert(onConflict = REPLACE)
+    suspend fun updateTask(task: Task)
+
+    @Update(onConflict = REPLACE)
+    suspend fun updateTasks(items: List<Task>)
 
     @Delete
     suspend fun deleteItems(tasks: List<Task>)

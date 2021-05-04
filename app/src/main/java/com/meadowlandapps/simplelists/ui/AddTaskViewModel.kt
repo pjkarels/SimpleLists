@@ -32,7 +32,11 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             return false
         }
         viewModelScope.launch {
-            repository.upsertTask(task)
+            if (task.id == 0) {
+                repository.insertTask(task)
+            } else {
+                repository.updateTask(task)
+            }
         }
 
         return true

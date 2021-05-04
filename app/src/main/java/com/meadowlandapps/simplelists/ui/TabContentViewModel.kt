@@ -21,14 +21,14 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
     fun deleteTask(task: Task) {
         task.removed = true
         viewModelScope.launch {
-            repository.upsertTask(task)
+            repository.insertTask(task)
         }
     }
 
     fun updateTaskCompleteness(task: Task) {
         task.completed = !task.completed
         viewModelScope.launch {
-            repository.upsertTask(task)
+            repository.insertTask(task)
         }
     }
 }

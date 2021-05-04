@@ -136,7 +136,8 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     }
 
     private fun addTab() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddTabFragment(0)
+        val id = 0
+        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddTabFragment(id)
         requireView().findNavController().navigate(action)
     }
 

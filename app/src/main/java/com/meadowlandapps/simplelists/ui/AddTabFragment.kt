@@ -1,5 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,8 +19,14 @@ import com.meadowlandapps.simplelists.R
 
 class AddTabFragment : Fragment() {
 
-//    private val args: AddTabFragmentArgs by navArgs()
-//    private val categoryId = args.category
+    private var categoryId: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            categoryId = it.getInt(BUNDLE_KEY_CATEGORY, 0)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_tab, container, false)
@@ -62,7 +69,7 @@ class AddTabFragment : Fragment() {
                 showKeyboard(tabNameEntry)
             }
         }
-        vm.getCategory(0)
+        vm.getCategory(categoryId)
     }
 
     private fun addAndReturn(rootView: View) {

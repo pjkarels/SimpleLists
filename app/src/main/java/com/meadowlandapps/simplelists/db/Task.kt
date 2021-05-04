@@ -11,7 +11,8 @@ import androidx.room.PrimaryKey
                     entity = TaskType::class,
                     parentColumns = arrayOf("id"),
                     childColumns = arrayOf("typeId"),
-                    onDelete = ForeignKey.CASCADE
+                    onDelete = ForeignKey.CASCADE,
+                    onUpdate = ForeignKey.CASCADE
             )
         ]
 )

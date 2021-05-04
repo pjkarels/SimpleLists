@@ -55,9 +55,6 @@
                 android:name="task"
                 app:argType="integer" />
         </action>
-        <action
-            android:id="@+id/action_tabContentFragment_to_deleteCategoriesFragment"
-            app:destination="@id/editCategoriesFragment" />
     </fragment>
 
     <fragment
@@ -130,6 +127,9 @@
                 android:name="category"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_viewPagerFragment_to_editCategoriesFragment"
+            app:destination="@id/editCategoriesFragment" />
     </fragment>
 
     <dialog

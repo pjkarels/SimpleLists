@@ -35,7 +35,11 @@ class AddTabViewModel(application: Application) : AndroidViewModel(application) 
             return false
         }
         viewModelScope.launch {
-            repository.upsertTaskType(category)
+            if (category.id == 0) {
+                repository.insertTaskType(category)
+            } else {
+                repository.updateTaskType(category)
+            }
         }
 
         return true

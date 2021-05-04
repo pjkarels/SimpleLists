@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TaskTypeDao {
@@ -24,4 +25,7 @@ interface TaskTypeDao {
 
     @Delete
     suspend fun deleteCategories(categories: List<TaskType>)
+
+    @Update(onConflict = REPLACE)
+    suspend fun updateTaskTypes(vararg types: TaskType)
 }
