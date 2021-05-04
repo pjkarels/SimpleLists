@@ -8,11 +8,20 @@
     <string name="lists_action_complete">Complete Task</string>
 
     <string name="list_title_add">Add List</string>
+    <string name="list_title_edit">Edit Lists</string>
     <string name="list_title_delete">Delete Lists</string>
+    <string name="list_title_share">Share List: %s?</string>
+
+    <string name="button_list_share">Share</string>
+
+    <string name="list_deletedItems_itemText">%s (%s)</string>
+
+    <string name="list_delete_message">%s?\n\nDeleting lists also deletes associated Items (action cannot be undone).</string>
 
     <string name="error_msg_name_required">Name is required</string>
 
     <string name="menu_item_title_add">+Add Cat</string>
+    <string name="menu_item_title_edit">Edit List Title</string>
     <string name="menu_item_title_delete">Delete Cat</string>
     <string name="menu_item_title_share">Share</string>
 

@@ -1,50 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation"
     app:startDestination="@id/viewPagerFragment">
 
-    <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="com.meadowlandapps.simplelists.ui.ViewPagerFragment"
-        android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager">
-        <action
-            android:id="@+id/action_viewPagerFragment_to_tabContentFragment"
-            app:destination="@id/tabContentFragment" />
-        <action
-            android:id="@+id/action_tabContentFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment">
-            <argument
-                android:name="type"
-                app:argType="string" />
-        </action>
-        <action
-            android:id="@+id/action_tabContentFragment_to_editTaskFragment"
-            app:destination="@id/addTaskFragment">
-            <argument
-                android:name="task"
-                app:argType="integer" />
-        </action>
-        <action
-            android:id="@+id/action_viewPagerFragment_to_deletedItemsFragment"
-            app:destination="@id/deletedItemsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-        <action
-            android:id="@+id/action_viewPagerFragment_to_shareDialogFragment"
-            app:destination="@id/share_dialog_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </fragment>
+    <dialog
+        android:id="@+id/share_dialog_fragment"
+        android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
+        <argument
+            android:name="category"
+            app:argType="integer" />
+    </dialog>
 
     <fragment
         android:id="@+id/addTabFragment"
         android:name="com.meadowlandapps.simplelists.ui.AddTabFragment"
         android:label="fragment_add_tab"
-        tools:layout="@layout/fragment_add_tab" />
+        tools:layout="@layout/fragment_add_tab">
+        <argument
+            android:name="category"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/addTaskFragment"
@@ -53,7 +30,7 @@
         tools:layout="@layout/fragment_add_task">
         <argument
             android:name="type"
-            app:argType="string" />
+            app:argType="integer" />
         <argument
             android:name="task"
             app:argType="integer" />
@@ -69,7 +46,58 @@
             app:destination="@id/addTaskFragment">
             <argument
                 android:name="type"
-                app:argType="string" />
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_tabContentFragment_to_editTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="task"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editCategoriesFragment"
+        android:name="com.meadowlandapps.simplelists.ui.EditCategoriesFragment"
+        android:label="fragment_delete_categories"
+        tools:layout="@layout/fragment_edit_categories">
+        <action
+            android:id="@+id/action_editCategoriesFragment_to_addTabFragment"
+            app:destination="@id/addTabFragment">
+            <argument
+                android:name="category"
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_editCategoriesFragment_to_deleteConfirmFragment"
+            app:destination="@id/deleteConfirmDialog">
+            <argument
+                android:name="categories"
+                app:argType="string[]" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/deletedItemsFragment"
+        android:name="com.meadowlandapps.simplelists.ui.DeletedItemsFragment"
+        android:label="DeletedItemsFragment"
+        tools:layout="@layout/fragment_deleted_items_list" />
+
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.meadowlandapps.simplelists.ui.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager">
+        <action
+            android:id="@+id/action_viewPagerFragment_to_tabContentFragment"
+            app:destination="@id/tabContentFragment" />
+        <action
+            android:id="@+id/action_tabContentFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="type"
+                app:argType="integer" />
         </action>
         <action
             android:id="@+id/action_tabContentFragment_to_editTaskFragment"
@@ -79,28 +107,37 @@
                 app:argType="integer" />
         </action>
         <action
-            android:id="@+id/action_tabContentFragment_to_deleteCategoriesFragment"
-            app:destination="@id/deleteCategoriesFragment" />
+            android:id="@+id/action_viewPagerFragment_to_addTabFragment"
+            app:destination="@id/addTabFragment">
+            <argument
+                android:name="category"
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_viewPagerFragment_to_deletedItemsFragment"
+            app:destination="@id/deletedItemsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_shareDialogFragment"
+            app:destination="@id/share_dialog_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_viewPagerFragment_to_editCategoriesFragment"
+            app:destination="@id/editCategoriesFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/deleteCategoriesFragment"
-        android:name="com.meadowlandapps.simplelists.ui.DeleteCategoriesFragment"
-        android:label="fragment_delete_categories"
-        tools:layout="@layout/fragment_delete_categories" />
-
-    <fragment
-        android:id="@+id/deletedItemsFragment"
-        android:name="com.meadowlandapps.simplelists.ui.DeletedItemsFragment"
-        android:label="DeletedItemsFragment"
-        tools:layout="@layout/fragment_deleted_items_list" />
-
     <dialog
-        android:id="@+id/share_dialog_fragment"
-        android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
+        android:id="@+id/deleteConfirmDialog"
+        android:name="com.meadowlandapps.simplelists.ui.DeleteConfirmFragment">
         <argument
-            android:name="category"
-            android:defaultValue="@null" />
+            android:name="categories"
+            app:argType="string[]" />
     </dialog>
 
 </navigation>

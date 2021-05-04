@@ -2,19 +2,20 @@ package com.meadowlandapps.simplelists.ui
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.meadowlandapps.simplelists.model.CategoryModel
 
 class PagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    private var tabs = emptyList<String>()
+    private var tabs = emptyList<CategoryModel>()
 
     override fun getItemCount() = tabs.size
 
     override fun createFragment(position: Int): Fragment {
-        return TabContentFragment.newInstance(tabs[position])
+        return TabContentFragment.newInstance(tabs[position].id)
     }
 
-    internal fun setTabs(tabs: List<String>) {
-        this.tabs = tabs;
+    internal fun setTabs(tabs: List<CategoryModel>) {
+        this.tabs = tabs
         notifyDataSetChanged()
     }
 }

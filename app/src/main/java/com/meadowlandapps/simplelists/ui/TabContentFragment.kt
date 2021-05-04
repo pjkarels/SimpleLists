@@ -1,12 +1,13 @@
 package com.meadowlandapps.simplelists.ui
 
-import androidx.lifecycle.ViewModelProvider
+import BUNDLE_KEY_CATEGORY
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,10 +18,10 @@ import com.meadowlandapps.simplelists.db.Task
 class TabContentFragment : Fragment(), View.OnClickListener {
 
     companion object {
-        fun newInstance(type: String): Fragment {
+        fun newInstance(type: Int): Fragment {
             val fragment = TabContentFragment()
             val bundle = Bundle()
-            bundle.putString("type", type)
+            bundle.putInt(BUNDLE_KEY_CATEGORY, type)
             fragment.arguments = bundle
 
             return fragment
@@ -28,12 +29,12 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var listAdapter: TaskListAdapter
-    private var type = ""
+    private var category = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        type = arguments?.getString("type", "") ?: ""
+        category = arguments?.getInt(BUNDLE_KEY_CATEGORY, 0) ?: 0
     }
 
     override fun onCreateView(
@@ -52,11 +53,11 @@ class TabContentFragment : Fragment(), View.OnClickListener {
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { v ->
-            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(type, 0)
+            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(category, 0)
             v.findNavController().navigate(action)
         }
 
-        vm.getTasks(type).observe(viewLifecycleOwner) { value ->
+        vm.getTasks(category).observe(viewLifecycleOwner) { value ->
             value.let {
                 listAdapter.setTasks(value)
             }
@@ -72,7 +73,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
                 R.id.item_complete -> vm.updateTaskCompleteness(task)
             }
         } else {
-            val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.type)
+            val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.typeId)
             v.findNavController().navigate(action)
         }
     }

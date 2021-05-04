@@ -7,18 +7,19 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "task_table",
         foreignKeys = [
-                ForeignKey(
-                        entity = TaskType::class,
-                        parentColumns = arrayOf("name"),
-                        childColumns = arrayOf("type"),
-                        onDelete = ForeignKey.CASCADE
-                )
+            ForeignKey(
+                    entity = TaskType::class,
+                    parentColumns = arrayOf("id"),
+                    childColumns = arrayOf("typeId"),
+                    onDelete = ForeignKey.CASCADE,
+                    onUpdate = ForeignKey.CASCADE
+            )
         ]
 )
-data class Task (
+data class Task(
         @PrimaryKey(autoGenerate = true) val id: Int,
         @ColumnInfo(name = "name") var name: String,
-        @ColumnInfo(name = "type") var type: String,
+        @ColumnInfo(name = "typeId") var typeId: Int,
         @ColumnInfo(name = "completed") var completed: Boolean = false,
         @ColumnInfo(name = "removed") var removed: Boolean = false
 )

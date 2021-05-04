@@ -32,13 +32,17 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             return false
         }
         viewModelScope.launch {
-            repository.upsertTask(task)
+            if (task.id == 0) {
+                repository.insertTask(task)
+            } else {
+                repository.updateTask(task)
+            }
         }
 
         return true
     }
 
-    fun getTask(taskId: Int, taskType: String) {
+    fun getTask(taskId: Int, taskType: Int) {
         viewModelScope.launch {
             var taskFromRepo = repository.getTask(taskId)
             if (taskFromRepo == null) {
@@ -62,7 +66,7 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
         task.completed = !task.completed
         viewModelScope.launch {
             upsertTask()
-            getTask(task.id, task.type)
+            getTask(task.id, task.typeId)
         }
     }
 }

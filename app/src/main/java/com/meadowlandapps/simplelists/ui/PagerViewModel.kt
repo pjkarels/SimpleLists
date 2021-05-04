@@ -17,5 +17,5 @@ class PagerViewModel(application: Application) : AndroidViewModel(application) {
         repository = TaskRepository(taskDao, taskTypeDao)
     }
 
-    val tabs = repository.listTitles
+    val tabs = repository.taskTypes
 }

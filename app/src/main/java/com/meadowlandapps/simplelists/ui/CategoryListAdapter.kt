@@ -41,6 +41,7 @@ class CategoryListAdapter internal constructor (
         private val checkBox: CheckBox = itemView.findViewById(R.id.category_select)
 
         fun bind(category: CategoryModel) {
+            checkBox.isChecked = false // initialize to unchecked
             checkBox.tag = category
             nameView.text = category.name
             checkBox.setOnCheckedChangeListener(checkedChangeListener)

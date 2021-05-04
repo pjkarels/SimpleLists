@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.meadowlandapps.simplelists.db.AppDatabase
-import com.meadowlandapps.simplelists.db.Task
 import com.meadowlandapps.simplelists.repository.TaskRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TabContentViewModel(application: Application) : AndroidViewModel(application) {
+class DeleteConfirmViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: TaskRepository
 
     init {
@@ -16,19 +16,10 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
         repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    fun getTasks(taskType: Int) = repository.tasksForType(taskType)
-
-    fun deleteTask(task: Task) {
-        task.removed = true
-        viewModelScope.launch {
-            repository.insertTask(task)
+    fun deleteSelectedCategories(listNames: List<String>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteLists(listNames)
         }
     }
 
-    fun updateTaskCompleteness(task: Task) {
-        task.completed = !task.completed
-        viewModelScope.launch {
-            repository.insertTask(task)
-        }
-    }
 }

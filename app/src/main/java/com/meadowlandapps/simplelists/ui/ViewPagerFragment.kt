@@ -1,7 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,10 +21,11 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meadowlandapps.simplelists.R
+import com.meadowlandapps.simplelists.model.CategoryModel
 
 class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy, TabLayout.OnTabSelectedListener {
 
-    private var tabTitles: List<String>? = null
+    private var categories: List<CategoryModel>? = null
     private var currentIndex = 0
 
     /**
@@ -71,8 +72,8 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
 
         vm.tabs.observe(viewLifecycleOwner, { tabs ->
             tabs?.let {
-                tabTitles = tabs
-                adapter.setTabs(tabs)
+                categories = tabs
+                adapter.setTabs(categories!!)
 
                 val tabMediator = TabLayoutMediator(tabLayout, viewPager, this)
                 tabMediator.detach()
@@ -94,17 +95,17 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_add -> addTab()
-            R.id.menu_item_delete -> deleteTabs()
+            R.id.menu_item_edit -> deleteTabs()
             R.id.menu_item_share -> share()
         }
         return true
     }
 
     override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-        if (tabTitles == null) {
+        if (categories == null) {
             return
         }
-        tab.text = tabTitles?.get(position)
+        tab.text = categories?.get(position)?.name
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -135,11 +136,13 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     }
 
     private fun addTab() {
-        requireView().findNavController().navigate(R.id.addTabFragment)
+        val id = 0
+        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToAddTabFragment(id)
+        requireView().findNavController().navigate(action)
     }
 
     private fun deleteTabs() {
-        requireView().findNavController().navigate(R.id.deleteCategoriesFragment)
+        requireView().findNavController().navigate(R.id.editCategoriesFragment)
     }
 
     private fun viewDeletedItems() {
@@ -148,7 +151,9 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
     }
 
     private fun share() {
-        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToShareDialogFragment(tabTitles?.get(currentIndex))
+        val category = categories?.get(currentIndex)
+        val id = category?.id ?: 0
+        val action = ViewPagerFragmentDirections.actionViewPagerFragmentToShareDialogFragment(id)
         requireView().findNavController().navigate(action)
     }
 }

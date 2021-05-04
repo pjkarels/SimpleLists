@@ -24,7 +24,7 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
             item.removed = false
         }
         viewModelScope.launch {
-            _repository.upsertItems(selectedItems)
+            _repository.updateItems(selectedItems)
         }
     }
 
