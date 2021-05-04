@@ -59,9 +59,9 @@
 
     <fragment
         android:id="@+id/editCategoriesFragment"
-        android:name="com.meadowlandapps.simplelists.ui.DeleteCategoriesFragment"
+        android:name="com.meadowlandapps.simplelists.ui.EditCategoriesFragment"
         android:label="fragment_delete_categories"
-        tools:layout="@layout/fragment_delete_categories">
+        tools:layout="@layout/fragment_edit_categories">
         <action
             android:id="@+id/action_editCategoriesFragment_to_addTabFragment"
             app:destination="@id/addTabFragment">
@@ -70,7 +70,7 @@
                 app:argType="integer" />
         </action>
         <action
-            android:id="@+id/action_deleteCategoriesFragment_to_deleteConfirmFragment"
+            android:id="@+id/action_editCategoriesFragment_to_deleteConfirmFragment"
             app:destination="@id/deleteConfirmDialog">
             <argument
                 android:name="categories"

@@ -8,7 +8,7 @@ import com.meadowlandapps.simplelists.db.AppDatabase
 import com.meadowlandapps.simplelists.model.CategoryModel
 import com.meadowlandapps.simplelists.repository.TaskRepository
 
-class DeleteCategoriesViewModel(application: Application) : AndroidViewModel(application) {
+class EditCategoriesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: TaskRepository
 

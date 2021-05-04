@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.CategoryModel
 
-class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
+class EditCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_delete_categories, container, false)
+        return inflater.inflate(R.layout.fragment_edit_categories, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         val categoriesAdapter = CategoryListAdapter(requireContext(), this)
         recyclerView.adapter = categoriesAdapter
 
-        val vm = ViewModelProvider(this).get(DeleteCategoriesViewModel::class.java)
+        val vm = ViewModelProvider(this).get(EditCategoriesViewModel::class.java)
         vm.categoriesLiveData.observe(viewLifecycleOwner) { categories ->
             categories?.let {
                 categoriesAdapter.setCategories(categories)
@@ -50,14 +50,14 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
         }
 
         renameButton.setOnClickListener {
-            val action = DeleteCategoriesFragmentDirections.actionEditCategoriesFragmentToAddTabFragment(vm.selectedCategories.first().id)
+            val action = EditCategoriesFragmentDirections.actionEditCategoriesFragmentToAddTabFragment(vm.selectedCategories.first().id)
             findNavController().navigate(action)
         }
 
         deleteButton.setOnClickListener {
             val listNames = vm.selectedCategories
             val action =
-                    DeleteCategoriesFragmentDirections.actionDeleteCategoriesFragmentToDeleteConfirmFragment(
+                    EditCategoriesFragmentDirections.actionEditCategoriesFragmentToDeleteConfirmFragment(
                             listNames.map { categoryModel ->
                                 categoryModel.name
                             }.toTypedArray()
@@ -68,7 +68,7 @@ class DeleteCategoriesFragment : Fragment(), CompoundButton.OnCheckedChangeListe
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         val category = buttonView.tag as CategoryModel
-        val vm = ViewModelProvider(this).get(DeleteCategoriesViewModel::class.java)
+        val vm = ViewModelProvider(this).get(EditCategoriesViewModel::class.java)
         vm.checkedChanged(isChecked, category)
     }
 }
