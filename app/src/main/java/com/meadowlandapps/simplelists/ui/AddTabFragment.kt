@@ -62,7 +62,7 @@ class AddTabFragment : Fragment() {
                 } else {
                     // edit existing
                     addTabButton.text = getString(R.string.common_rename)
-                    toolbarTitleView.text = getString(R.string.lists_title_rename, category.name)
+                    toolbarTitleView.text = getString(R.string.lists_title_edit, category.name)
                 }
 
                 tabNameEntry.requestFocus()

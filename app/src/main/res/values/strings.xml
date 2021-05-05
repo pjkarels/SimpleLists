@@ -3,7 +3,7 @@
 
     <string name="lists_title">Lists</string>
     <string name="lists_title_add">Add Item</string>
-    <string name="lists_title_rename">Rename %s</string>
+    <string name="lists_title_edit">Edit %s</string>
     <string name="lists_title_deleted">Deleted Items</string>
     <string name="lists_action_complete">Complete Task</string>
 
@@ -32,6 +32,8 @@
     <string name="common_rename">Rename</string>
     <string name="common_delete">Delete</string>
     <string name="common_restore">Restore</string>
+    <string name="button_move">Move</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

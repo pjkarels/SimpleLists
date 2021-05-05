@@ -48,6 +48,7 @@ class AddTaskFragment: Fragment() {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
         val nameEntry = view.findViewById<EditText>(R.id.addTask_entry_name)
         val addButton = view.findViewById<Button>(R.id.addTask_button_add)
+        val moveButton = view.findViewById<Button>(R.id.editTask_button_move)
         val toolbarTitleView = view.findViewById<TextView>(R.id.title)
 
         nameEntry.setOnEditorActionListener { _, actionId, _ ->
@@ -62,6 +63,9 @@ class AddTaskFragment: Fragment() {
         addButton.setOnClickListener {
             addItemAndGoBack()
         }
+        moveButton.setOnClickListener {
+            navigateMoveItem()
+        }
 
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
@@ -70,10 +74,9 @@ class AddTaskFragment: Fragment() {
                     addButton.text = getString(R.string.common_add)
                     toolbarTitleView.text = getString(R.string.lists_title_add)
                     hideMenuItems()
-                }
-                else {
+                } else {
                     addButton.text = getString(R.string.common_rename)
-                    toolbarTitleView.text = getString(R.string.lists_title_rename, task.name)
+                    toolbarTitleView.text = getString(R.string.lists_title_edit, task.name)
                     // update Menu check mark
                     val icon = if (task.completed) {
                         ResourcesCompat.getDrawable(
@@ -131,6 +134,13 @@ class AddTaskFragment: Fragment() {
         if (vm.upsertTask()) {
             goBack()
         }
+    }
+
+    private fun navigateMoveItem() {
+        val rootView = requireView()
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        val action = AddTaskFragmentDirections.actionAddTaskFragmentToMoveItemFragment(vm.task.id)
+        rootView.findNavController().navigate(action)
     }
 
     private fun goBack() {

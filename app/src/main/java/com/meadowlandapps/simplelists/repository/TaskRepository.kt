@@ -19,6 +19,10 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
 
     val removedItems: LiveData<List<Task>> = taskDao.removedTasks()
 
+    suspend fun getCategories() = taskTypeDao.getCategories().map { taskType ->
+        mapTaskTypeToCategory(taskType)
+    }
+
     suspend fun insertTaskType(category: TaskType) {
         taskTypeDao.insertTaskTypes(category)
     }

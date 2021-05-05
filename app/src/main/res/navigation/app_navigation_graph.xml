@@ -23,18 +23,13 @@
             app:argType="integer" />
     </fragment>
 
-    <fragment
-        android:id="@+id/addTaskFragment"
-        android:name="com.meadowlandapps.simplelists.ui.AddTaskFragment"
-        android:label="add_task_dialog_fragment"
-        tools:layout="@layout/fragment_add_task">
+    <dialog
+        android:id="@+id/moveItemDialog"
+        android:name="com.meadowlandapps.simplelists.ui.MoveItemFragment">
         <argument
-            android:name="type"
+            android:name="item"
             app:argType="integer" />
-        <argument
-            android:name="task"
-            app:argType="integer" />
-    </fragment>
+    </dialog>
 
     <fragment
         android:id="@+id/tabContentFragment"
@@ -139,5 +134,25 @@
             android:name="categories"
             app:argType="string[]" />
     </dialog>
+
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.meadowlandapps.simplelists.ui.AddTaskFragment"
+        android:label="add_task_dialog_fragment"
+        tools:layout="@layout/fragment_add_task">
+        <argument
+            android:name="type"
+            app:argType="integer" />
+        <argument
+            android:name="task"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_addTaskFragment_to_moveItemFragment"
+            app:destination="@id/moveItemDialog">
+            <argument
+                android:name="item"
+                app:argType="integer" />
+        </action>
+    </fragment>
 
 </navigation>
