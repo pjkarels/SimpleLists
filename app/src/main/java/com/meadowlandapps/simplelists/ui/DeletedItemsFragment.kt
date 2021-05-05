@@ -1,12 +1,12 @@
 package com.meadowlandapps.simplelists.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
@@ -42,6 +42,19 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
             items?.let {
                 listAdapter.setItems(items)
             }
+            val visibility =
+                    if (items.isNullOrEmpty()) {
+                        View.GONE
+                    } else {
+                        View.VISIBLE
+                    }
+            restoreButton.visibility = visibility
+            deleteButton.visibility = visibility
+        }
+
+        vm.enableButtons.observe(viewLifecycleOwner) { enabled ->
+            restoreButton.isEnabled = enabled
+            deleteButton.isEnabled = enabled
         }
 
         restoreButton.setOnClickListener {
@@ -55,12 +68,6 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         val item = buttonView?.tag as Task
-
-        if (!vm.selectedItems.contains(item)) {
-            vm.selectedItems.add(item)
-        }
-        else {
-            vm.selectedItems.remove(item)
-        }
+        vm.checkedChanged(item)
     }
 }
