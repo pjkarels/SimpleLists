@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.db.Task
@@ -40,7 +41,9 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
 
         vm.removedItems.observe(viewLifecycleOwner) { items ->
             items?.let {
-                listAdapter.setItems(items)
+                listAdapter.setListItems(items)
+                vm.selectedItems.clear()
+                vm.onCheckedChanged()
             }
             val visibility =
                     if (items.isNullOrEmpty()) {
@@ -62,12 +65,19 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
         }
 
         deleteButton.setOnClickListener {
-            vm.deleteSelectedItems()
+            val itemIds = vm.selectedItems.map { item ->
+                item.id
+            }
+            val action =
+                DeletedItemsFragmentDirections.actionDeletedItemsFragmentToDeleteItemsConfirmDialogFragment(
+                    itemIds.toIntArray()
+                )
+            requireView().findNavController().navigate(action)
         }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         val item = buttonView?.tag as Task
-        vm.checkedChanged(item)
+        vm.checkedChanged(isChecked, item)
     }
 }

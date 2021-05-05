@@ -18,8 +18,8 @@ import androidx.room.PrimaryKey
 )
 data class Task(
         @PrimaryKey(autoGenerate = true) val id: Int,
-        @ColumnInfo(name = "name") var name: String,
-        @ColumnInfo(name = "typeId") var typeId: Int,
+        @ColumnInfo(name = "name") var name: String = "",
+        @ColumnInfo(name = "typeId") var typeId: Int = 0,
         @ColumnInfo(name = "completed") var completed: Boolean = false,
         @ColumnInfo(name = "removed") var removed: Boolean = false
 )

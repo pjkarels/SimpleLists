@@ -31,7 +31,7 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
 
     override fun getItemCount(): Int = items.size
 
-    internal fun setItems(items: List<Task>) {
+    internal fun setListItems(items: List<Task>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -44,7 +44,9 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
 
         fun bind(item: Task) {
             checkBox.tag = item
-            nameView.text = context.getString(R.string.list_deletedItems_itemText, item.name, item.name)
+            nameView.text =
+                context.getString(R.string.list_deletedItems_itemText, item.name, item.name)
+            checkBox.isChecked = false
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }
     }

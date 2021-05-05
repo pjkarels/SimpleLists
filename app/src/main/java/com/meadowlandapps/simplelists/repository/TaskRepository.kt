@@ -70,5 +70,14 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         taskDao.deleteItems(items)
     }
 
+    suspend fun deleteItemsByIds(itemIds: List<Int>) {
+        val items = mutableListOf<Task>()
+
+        itemIds.forEach { item ->
+            items.add(Task(item))
+        }
+        taskDao.deleteItemsByIds(items)
+    }
+
     private fun mapTaskTypeToCategory(type: TaskType) = CategoryModel(type.id, type.name, false)
 }

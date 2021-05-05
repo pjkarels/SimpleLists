@@ -23,7 +23,7 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
     val removedItems = _repository.removedItems
 
     private val _enableButtons = MutableLiveData(false)
-    val enableButtons: LiveData<Boolean> = _enableButtons
+    val enableButtons: LiveData<Boolean> get() = _enableButtons
 
     fun restoreSelectedItems() {
         for (item in selectedItems) {
@@ -34,19 +34,17 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun deleteSelectedItems() {
-        viewModelScope.launch {
-            _repository.deleteItems(selectedItems)
+    fun checkedChanged(isChecked: Boolean, item: Task) {
+        if (isChecked) {
+            selectedItems.add(item)
+        } else {
+            selectedItems.remove(item)
         }
+
+        onCheckedChanged()
     }
 
-    fun checkedChanged(item: Task) {
-        if (selectedItems.contains(item)) {
-            selectedItems.remove(item)
-        } else {
-            selectedItems.add(item)
-        }
-
+    fun onCheckedChanged() {
         _enableButtons.value = selectedItems.size > 0
     }
 }

@@ -1,12 +1,8 @@
 package com.meadowlandapps.simplelists.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
-import androidx.room.Update
 
 @Dao
 interface TaskDao {
@@ -37,4 +33,7 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteItems(tasks: List<Task>)
+
+    @Delete
+    suspend fun deleteItemsByIds(itemIds: List<Task>)
 }
