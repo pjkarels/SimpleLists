@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.meadowlandapps.simplelists.db.AppDatabase
-import com.meadowlandapps.simplelists.db.Task
+import com.meadowlandapps.simplelists.model.ItemModel
 import com.meadowlandapps.simplelists.repository.TaskRepository
 import kotlinx.coroutines.launch
 
@@ -18,12 +18,21 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
         _repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    val selectedItems = mutableListOf<Task>()
+    val selectedItems = mutableListOf<ItemModel>()
 
     val removedItems = _repository.removedItems
 
     private val _enableButtons = MutableLiveData(false)
     val enableButtons: LiveData<Boolean> get() = _enableButtons
+
+//    fun getRemovedItems(): LiveData<List<ItemModel>> {
+//        val itemsLiveData = MutableLiveData<List<ItemModel>>()
+//        runBlocking {
+//            itemsLiveData.value = _repository.getRemovedItems().value
+//        }
+//
+//        return itemsLiveData
+//    }
 
     fun restoreSelectedItems() {
         for (item in selectedItems) {
@@ -34,7 +43,7 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun checkedChanged(isChecked: Boolean, item: Task) {
+    fun checkedChanged(isChecked: Boolean, item: ItemModel) {
         if (isChecked) {
             selectedItems.add(item)
         } else {

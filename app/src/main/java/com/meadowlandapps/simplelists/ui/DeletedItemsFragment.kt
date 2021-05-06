@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
-import com.meadowlandapps.simplelists.db.Task
+import com.meadowlandapps.simplelists.model.ItemModel
 
 /**
  * A fragment representing a list of Items.
@@ -77,7 +77,7 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        val item = buttonView?.tag as Task
+        val item = buttonView?.tag as ItemModel
         vm.checkedChanged(isChecked, item)
     }
 }
