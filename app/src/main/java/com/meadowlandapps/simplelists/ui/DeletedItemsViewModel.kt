@@ -25,15 +25,6 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
     private val _enableButtons = MutableLiveData(false)
     val enableButtons: LiveData<Boolean> get() = _enableButtons
 
-//    fun getRemovedItems(): LiveData<List<ItemModel>> {
-//        val itemsLiveData = MutableLiveData<List<ItemModel>>()
-//        runBlocking {
-//            itemsLiveData.value = _repository.getRemovedItems().value
-//        }
-//
-//        return itemsLiveData
-//    }
-
     fun restoreSelectedItems() {
         for (item in selectedItems) {
             item.removed = false
