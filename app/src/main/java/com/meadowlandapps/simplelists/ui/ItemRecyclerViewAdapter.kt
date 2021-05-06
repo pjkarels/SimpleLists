@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.db.Task
+import com.meadowlandapps.simplelists.model.ItemModel
 
 /**
  * [RecyclerView.Adapter] that can display a [Task].
@@ -16,7 +17,7 @@ import com.meadowlandapps.simplelists.db.Task
 class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.OnCheckedChangeListener)
     : RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder>() {
 
-    private var items: List<Task> = emptyList()
+    private var items: List<ItemModel> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -31,7 +32,7 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
 
     override fun getItemCount(): Int = items.size
 
-    internal fun setItems(items: List<Task>) {
+    internal fun setListItems(items: List<ItemModel>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -42,9 +43,11 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
         private val nameView: TextView = itemView.findViewById(R.id.category_name)
         private val checkBox: CheckBox = itemView.findViewById(R.id.category_select)
 
-        fun bind(item: Task) {
+        fun bind(item: ItemModel) {
             checkBox.tag = item
-            nameView.text = context.getString(R.string.list_deletedItems_itemText, item.name, item.name)
+            nameView.text =
+                    context.getString(R.string.list_deletedItems_itemText, item.name, item.category)
+            checkBox.isChecked = false
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }
     }

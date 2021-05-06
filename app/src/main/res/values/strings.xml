@@ -12,11 +12,14 @@
     <string name="list_title_delete">Delete Lists</string>
     <string name="list_title_share">Share List: %s?</string>
 
+    <string name="screen_deleteItemsConfirm_title">Delete Items?</string>
+
     <string name="button_list_share">Share</string>
 
     <string name="list_deletedItems_itemText">%s (%s)</string>
 
     <string name="list_delete_message">%s?\n\nDeleting lists also deletes associated Items (action cannot be undone).</string>
+    <string name="items_delete_message">Permanently delete items? (Action cannot be undone.)</string>
 
     <string name="error_msg_name_required">Name is required</string>
 

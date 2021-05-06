@@ -23,6 +23,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import com.meadowlandapps.simplelists.R
+import com.meadowlandapps.simplelists.db.Task
 
 class AddTaskFragment: Fragment() {
 
@@ -48,7 +49,6 @@ class AddTaskFragment: Fragment() {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
         val nameEntry = view.findViewById<EditText>(R.id.addTask_entry_name)
         val addButton = view.findViewById<Button>(R.id.addTask_button_add)
-        val moveButton = view.findViewById<Button>(R.id.editTask_button_move)
         val toolbarTitleView = view.findViewById<TextView>(R.id.title)
 
         nameEntry.setOnEditorActionListener { _, actionId, _ ->
@@ -62,9 +62,6 @@ class AddTaskFragment: Fragment() {
         }
         addButton.setOnClickListener {
             addItemAndGoBack()
-        }
-        moveButton.setOnClickListener {
-            navigateMoveItem()
         }
 
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
@@ -96,6 +93,7 @@ class AddTaskFragment: Fragment() {
                     menu?.findItem(R.id.menu_item_mark_complete)?.icon = icon
                 }
 
+                updateButtonVisibility(task)
                 nameEntry.requestFocus()
                 showKeyboard(nameEntry)
             }
@@ -163,6 +161,21 @@ class AddTaskFragment: Fragment() {
     private fun hideMenuItems() {
         menu?.forEach { item ->
             item.isVisible = false
+        }
+    }
+
+    private fun updateButtonVisibility(item: Task) {
+        val moveButton = requireView().findViewById<Button>(R.id.editTask_button_move)
+        when (item.id) {
+            0 -> {
+                moveButton.visibility = View.GONE
+            }
+            else -> {
+                moveButton.visibility = View.VISIBLE
+                moveButton.setOnClickListener {
+                    navigateMoveItem()
+                }
+            }
         }
     }
 }

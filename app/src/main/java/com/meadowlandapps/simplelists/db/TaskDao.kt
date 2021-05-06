@@ -17,8 +17,11 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE typeId LIKE :id AND removed == 0")
     suspend fun getItemsForList(id: Int): List<Task>
 
+    @Query("SELECT * FROM taskdetail WHERE removed == 1")
+    fun removedTasks(): LiveData<List<TaskDetail>>
+
     @Query("SELECT * FROM task_table WHERE removed == 1")
-    fun removedTasks(): LiveData<List<Task>>
+    suspend fun getRemovedItems(): List<Task>
 
     @Query("SELECT * FROM task_table WHERE id LIKE :taskId LIMIT 1")
     suspend fun getTask(taskId: Int): List<Task>
@@ -37,4 +40,7 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteItems(tasks: List<Task>)
+
+    @Delete
+    suspend fun deleteItemsByIds(itemIds: List<Task>)
 }

@@ -1,16 +1,17 @@
 package com.meadowlandapps.simplelists.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
-import com.meadowlandapps.simplelists.db.Task
+import com.meadowlandapps.simplelists.model.ItemModel
 
 /**
  * A fragment representing a list of Items.
@@ -40,8 +41,23 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
 
         vm.removedItems.observe(viewLifecycleOwner) { items ->
             items?.let {
-                listAdapter.setItems(items)
+                listAdapter.setListItems(items)
+                vm.selectedItems.clear()
+                vm.onCheckedChanged()
             }
+            val visibility =
+                    if (items.isNullOrEmpty()) {
+                        View.GONE
+                    } else {
+                        View.VISIBLE
+                    }
+            restoreButton.visibility = visibility
+            deleteButton.visibility = visibility
+        }
+
+        vm.enableButtons.observe(viewLifecycleOwner) { enabled ->
+            restoreButton.isEnabled = enabled
+            deleteButton.isEnabled = enabled
         }
 
         restoreButton.setOnClickListener {
@@ -49,18 +65,19 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
         }
 
         deleteButton.setOnClickListener {
-            vm.deleteSelectedItems()
+            val itemIds = vm.selectedItems.map { item ->
+                item.id
+            }
+            val action =
+                DeletedItemsFragmentDirections.actionDeletedItemsFragmentToDeleteItemsConfirmDialogFragment(
+                    itemIds.toIntArray()
+                )
+            requireView().findNavController().navigate(action)
         }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        val item = buttonView?.tag as Task
-
-        if (!vm.selectedItems.contains(item)) {
-            vm.selectedItems.add(item)
-        }
-        else {
-            vm.selectedItems.remove(item)
-        }
+        val item = buttonView?.tag as ItemModel
+        vm.checkedChanged(isChecked, item)
     }
 }

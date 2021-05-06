@@ -77,7 +77,15 @@
         android:id="@+id/deletedItemsFragment"
         android:name="com.meadowlandapps.simplelists.ui.DeletedItemsFragment"
         android:label="DeletedItemsFragment"
-        tools:layout="@layout/fragment_deleted_items_list" />
+        tools:layout="@layout/fragment_deleted_items_list">
+        <action
+            android:id="@+id/action_deletedItemsFragment_to_deleteItemsConfirmDialogFragment"
+            app:destination="@id/deleteItemsConfirmDialogFragment">
+            <argument
+                android:name="items"
+                app:argType="integer[]" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/viewPagerFragment"
@@ -133,6 +141,14 @@
         <argument
             android:name="categories"
             app:argType="string[]" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/deleteItemsConfirmDialogFragment"
+        android:name="com.meadowlandapps.simplelists.ui.DeleteItemsConfirmDialogFragment">
+        <argument
+            android:name="items"
+            app:argType="integer[]" />
     </dialog>
 
     <fragment
