@@ -21,11 +21,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.ItemModel
+import com.meadowlandapps.simplelists.model.NotificationModel
 
-class AddTaskFragment: Fragment() {
+class AddTaskFragment : Fragment(), View.OnClickListener {
 
     private val args: AddTaskFragmentArgs by navArgs()
 
@@ -47,9 +49,13 @@ class AddTaskFragment: Fragment() {
         toolbar.inflateMenu(R.menu.item_menu)
 
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+
         val nameEntry = view.findViewById<EditText>(R.id.addTask_entry_name)
         val addButton = view.findViewById<Button>(R.id.addTask_button_add)
         val toolbarTitleView = view.findViewById<TextView>(R.id.title)
+        val reminderRecyclerView = view.findViewById<RecyclerView>(R.id.addItem_recyclerView_notifications)
+        val remindersAdapter = ReminderListAdapter(this)
+        reminderRecyclerView.adapter = remindersAdapter
 
         nameEntry.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
@@ -84,14 +90,16 @@ class AddTaskFragment: Fragment() {
                     }
                     else {
                         ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.ic_check_24,
-                            requireContext().theme
+                                resources,
+                                R.drawable.ic_check_24,
+                                requireContext().theme
                         )
                     }
                     icon?.setTint(requireContext().getColor(R.color.white))
                     menu?.findItem(R.id.menu_item_mark_complete)?.icon = icon
                 }
+
+                remindersAdapter.setReminders(task.notifications)
 
                 updateButtonVisibility(task)
                 nameEntry.requestFocus()
@@ -177,5 +185,11 @@ class AddTaskFragment: Fragment() {
                 }
             }
         }
+    }
+
+    override fun onClick(v: View) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        val reminder = v.tag as NotificationModel
+
     }
 }

@@ -64,7 +64,6 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         taskDao.updateTask(mapItemToTask(item))
     }
 
-
     suspend fun updateItems(items: List<ItemModel>) {
         val tasks = items.map { itemModel ->
             mapItemToTask(itemModel)
@@ -110,7 +109,7 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
                         typeId = taskWithNotifications.task.typeId,
                         completed = taskWithNotifications.task.completed,
                         removed = taskWithNotifications.task.removed,
-                        notification = taskWithNotifications.notifications.map { notification ->
+                        notifications = taskWithNotifications.notifications.map { notification ->
                             mapNotificationToNotificationModel(notification)
                         }
                 )

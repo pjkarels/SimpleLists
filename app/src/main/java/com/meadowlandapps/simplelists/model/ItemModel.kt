@@ -7,5 +7,5 @@ class ItemModel(
         var category: String = "",
         var completed: Boolean = false,
         var removed: Boolean = false,
-        var notification: List<NotificationModel> = listOf()
+        var notifications: List<NotificationModel> = listOf()
 )

@@ -39,4 +39,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_add_reminder">Add Reminder</string>
+    <string name="item_reminders">Reminders</string>
+    <string name="reminder_remove">Remove Reminder</string>
 </resources>
