@@ -10,12 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.meadowlandapps.simplelists.R
 
 class ShareDialogFragment : DialogFragment() {
-    private var categoryId: Int = 0
+    private var categoryId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            categoryId = it.getInt(BUNDLE_KEY_CATEGORY, 0)
+            categoryId = it.getLong(BUNDLE_KEY_CATEGORY, 0)
         }
     }
 

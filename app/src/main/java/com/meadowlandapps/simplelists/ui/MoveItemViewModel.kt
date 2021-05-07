@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.meadowlandapps.simplelists.db.AppDatabase
-import com.meadowlandapps.simplelists.db.Task
 import com.meadowlandapps.simplelists.model.CategoryModel
+import com.meadowlandapps.simplelists.model.ItemModel
 import com.meadowlandapps.simplelists.repository.TaskRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,11 +20,11 @@ class MoveItemViewModel(application: Application) : AndroidViewModel(application
         repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    private lateinit var itemToMove: Task
+    private lateinit var itemToMove: ItemModel
 
     lateinit var categories: List<CategoryModel>
 
-    fun getCategories(itemId: Int) {
+    fun getCategories(itemId: Long) {
         categories = listOf<CategoryModel>()
         runBlocking {
             val item = repository.getTask(itemId)

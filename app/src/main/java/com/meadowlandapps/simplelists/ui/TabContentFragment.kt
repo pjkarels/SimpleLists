@@ -13,15 +13,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.meadowlandapps.simplelists.R
-import com.meadowlandapps.simplelists.db.Task
+import com.meadowlandapps.simplelists.model.ItemModel
 
 class TabContentFragment : Fragment(), View.OnClickListener {
 
     companion object {
-        fun newInstance(type: Int): Fragment {
+        fun newInstance(type: Long): Fragment {
             val fragment = TabContentFragment()
             val bundle = Bundle()
-            bundle.putInt(BUNDLE_KEY_CATEGORY, type)
+            bundle.putLong(BUNDLE_KEY_CATEGORY, type)
             fragment.arguments = bundle
 
             return fragment
@@ -29,12 +29,12 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var listAdapter: TaskListAdapter
-    private var category = 0
+    private var category = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        category = arguments?.getInt(BUNDLE_KEY_CATEGORY, 0) ?: 0
+        category = arguments?.getLong(BUNDLE_KEY_CATEGORY, 0) ?: 0
     }
 
     override fun onCreateView(
@@ -65,7 +65,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val task = v.tag as Task
+        val task = v.tag as ItemModel
         if (v is ImageView) {
             val vm = ViewModelProvider(this).get(TabContentViewModel::class.java)
             when (v.id) {

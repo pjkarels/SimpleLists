@@ -17,7 +17,7 @@ class DeleteItemsConfirmViewModel(application: Application) : AndroidViewModel(a
         repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
-    fun deleteSelectedItems(itemIds: List<Int>) {
+    fun deleteSelectedItems(itemIds: List<Long>) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteItemsByIds(itemIds)
         }

@@ -23,7 +23,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import com.meadowlandapps.simplelists.R
-import com.meadowlandapps.simplelists.db.Task
+import com.meadowlandapps.simplelists.model.ItemModel
 
 class AddTaskFragment: Fragment() {
 
@@ -128,7 +128,7 @@ class AddTaskFragment: Fragment() {
         }
         val nameEntry = rootView.findViewById<EditText>(R.id.addTask_entry_name)
 
-        vm.task.name = nameEntry.text.toString()
+        vm.itemModel.name = nameEntry.text.toString()
         if (vm.upsertTask()) {
             goBack()
         }
@@ -137,7 +137,7 @@ class AddTaskFragment: Fragment() {
     private fun navigateMoveItem() {
         val rootView = requireView()
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
-        val action = AddTaskFragmentDirections.actionAddTaskFragmentToMoveItemFragment(vm.task.id)
+        val action = AddTaskFragmentDirections.actionAddTaskFragmentToMoveItemFragment(vm.itemModel.id)
         rootView.findNavController().navigate(action)
     }
 
@@ -164,10 +164,10 @@ class AddTaskFragment: Fragment() {
         }
     }
 
-    private fun updateButtonVisibility(item: Task) {
+    private fun updateButtonVisibility(item: ItemModel) {
         val moveButton = requireView().findViewById<Button>(R.id.editTask_button_move)
         when (item.id) {
-            0 -> {
+            0L -> {
                 moveButton.visibility = View.GONE
             }
             else -> {

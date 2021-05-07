@@ -1,9 +1,11 @@
 package com.meadowlandapps.simplelists.model
 
 class ItemModel(
-        val id: Int,
+        val id: Long = 0,
         var name: String = "",
-        var typeId: Int = 0,
+        var typeId: Long = 0,
         var category: String = "",
-        var completed: Boolean,
-        var removed: Boolean)
+        var completed: Boolean = false,
+        var removed: Boolean = false,
+        var notification: List<NotificationModel> = listOf()
+)

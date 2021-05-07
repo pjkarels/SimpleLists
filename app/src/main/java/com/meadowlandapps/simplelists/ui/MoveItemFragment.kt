@@ -16,14 +16,14 @@ import com.meadowlandapps.simplelists.model.CategoryModel
  */
 class MoveItemFragment : DialogFragment(), View.OnClickListener {
 
-    private var itemId: Int = 0
+    private var itemId: Long = 0
     private lateinit var categoryViewAdapter: MoveCategoryViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            itemId = it.getInt(BUNDLE_KEY_ITEM, 0)
+            itemId = it.getLong(BUNDLE_KEY_ITEM, 0)
         }
     }
 
