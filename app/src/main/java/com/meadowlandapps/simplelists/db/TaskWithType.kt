@@ -6,7 +6,7 @@ import androidx.room.DatabaseView
         " FROM task_table AS task" +
         " INNER JOIN task_type_table ON task.typeId = task_type_table.id")
 data class TaskWithType(
-        val id: Long,
+        val id: String,
         val name: String = "",
         val typeId: Long = 0,
         val typeString: String = "",

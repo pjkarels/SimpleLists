@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.db.AppDatabase
 import com.meadowlandapps.simplelists.model.ItemModel
+import com.meadowlandapps.simplelists.model.NotificationModel
 import com.meadowlandapps.simplelists.repository.TaskRepository
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,7 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
     }
 
     fun upsertTask(): Boolean {
@@ -32,7 +33,7 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             return false
         }
         viewModelScope.launch {
-            if (itemModel.id == 0L) {
+            if (itemModel.isNew) {
                 repository.insertTask(itemModel)
             } else {
                 repository.updateTask(itemModel)
@@ -42,12 +43,12 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
         return true
     }
 
-    fun getTask(taskId: Long, taskType: Long) {
+    fun getTask(taskId: String, taskType: Long) {
         viewModelScope.launch {
             val taskFromRepo = repository.getTask(taskId)
             // doesn't exist yet so create new
             // id of 0 tells Room it's an 'Insert'
-            if (taskFromRepo.id == 0L) {
+            if (taskFromRepo.isNew) {
                 taskFromRepo.typeId = taskType
             }
             itemModel = taskFromRepo
@@ -68,5 +69,26 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             upsertTask()
             getTask(itemModel.id, itemModel.typeId)
         }
+    }
+
+    fun addReminder(reminder: NotificationModel) {
+        itemModel.notifications.add(reminder)
+
+        updateLiveData()
+    }
+
+    fun updateReminder(reminder: NotificationModel) {
+        val index = itemModel.notifications.indexOfFirst { notification ->
+            reminder.id == notification.id
+        }
+        itemModel.notifications[index] = reminder
+    }
+
+    fun removeReminder(reminder: NotificationModel) {
+        itemModel.notifications.remove(reminder)
+    }
+
+    private fun updateLiveData() {
+        _taskLiveData.value = itemModel
     }
 }

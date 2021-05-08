@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
             )
         ])
 data class Notification(
-        @PrimaryKey(autoGenerate = true) val id: Long,
-        @ColumnInfo(name = "taskId") val taskId: Long,
+        @PrimaryKey val notificationId: String,
+        @ColumnInfo(name = "taskId") val taskId: String,
         @ColumnInfo(name = "time") var time: Long
 )

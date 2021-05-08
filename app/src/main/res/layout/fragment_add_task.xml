@@ -87,6 +87,7 @@
         app:layout_constraintTop_toBottomOf="@id/addTask_button_add">
 
         <ImageButton
+            android:id="@+id/addItem_reminders_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

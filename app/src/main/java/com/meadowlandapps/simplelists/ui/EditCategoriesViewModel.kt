@@ -14,7 +14,7 @@ class EditCategoriesViewModel(application: Application) : AndroidViewModel(appli
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
     }
 
     private val _isEditButtonEnabled = MutableLiveData(false)

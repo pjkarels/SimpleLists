@@ -56,6 +56,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         val reminderRecyclerView = view.findViewById<RecyclerView>(R.id.addItem_recyclerView_notifications)
         val remindersAdapter = ReminderListAdapter(this)
         reminderRecyclerView.adapter = remindersAdapter
+        val addReminderButton: View = view.findViewById(R.id.addItem_reminders_add)
 
         nameEntry.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
@@ -70,10 +71,14 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
             addItemAndGoBack()
         }
 
+        addReminderButton.setOnClickListener {
+            vm.addReminder(NotificationModel())
+        }
+
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
                 nameEntry.setText(task.name)
-                if (task.id < 1) {
+                if (task.isNew) {
                     addButton.text = getString(R.string.common_add)
                     toolbarTitleView.text = getString(R.string.lists_title_add)
                     hideMenuItems()
@@ -83,9 +88,9 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
                     // update Menu check mark
                     val icon = if (task.completed) {
                         ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.ic_uncomplete_24,
-                            requireContext().theme
+                                resources,
+                                R.drawable.ic_uncomplete_24,
+                                requireContext().theme
                         )
                     }
                     else {
@@ -174,22 +179,27 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
     private fun updateButtonVisibility(item: ItemModel) {
         val moveButton = requireView().findViewById<Button>(R.id.editTask_button_move)
-        when (item.id) {
-            0L -> {
-                moveButton.visibility = View.GONE
-            }
-            else -> {
-                moveButton.visibility = View.VISIBLE
-                moveButton.setOnClickListener {
-                    navigateMoveItem()
-                }
+        if (item.isNew) {
+            moveButton.visibility = View.GONE
+        } else {
+            moveButton.visibility = View.VISIBLE
+            moveButton.setOnClickListener {
+                navigateMoveItem()
             }
         }
     }
 
     override fun onClick(v: View) {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
-        val reminder = v.tag as NotificationModel
+//        val reminder = v.tag as NotificationModel
+
+    }
+
+    private fun showDatePicker() {
+
+    }
+
+    private fun showTimePicker() {
 
     }
 }

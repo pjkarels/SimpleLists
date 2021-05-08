@@ -53,7 +53,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { v ->
-            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(category, 0)
+            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(category, "")
             v.findNavController().navigate(action)
         }
 

@@ -24,7 +24,7 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM task_table WHERE id LIKE :taskId LIMIT 1")
-    suspend fun getTask(taskId: Long): TaskWithNotifications
+    suspend fun getTask(taskId: String): TaskWithNotifications
 
     @Insert(onConflict = REPLACE)
     suspend fun insertTask(task: Task)

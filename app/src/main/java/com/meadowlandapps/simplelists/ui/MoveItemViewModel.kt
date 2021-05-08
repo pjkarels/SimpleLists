@@ -17,14 +17,14 @@ class MoveItemViewModel(application: Application) : AndroidViewModel(application
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
     }
 
     private lateinit var itemToMove: ItemModel
 
     lateinit var categories: List<CategoryModel>
 
-    fun getCategories(itemId: Long) {
+    fun getCategories(itemId: String) {
         categories = listOf<CategoryModel>()
         runBlocking {
             val item = repository.getTask(itemId)

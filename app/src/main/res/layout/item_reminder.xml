@@ -16,9 +16,21 @@
         android:id="@+id/reminder_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/reminder_button_remove"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/padding_standard"
         android:text="May 7, 2021"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+    <TextView
+        android:id="@+id/reminder_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/padding_standard"
+        android:text="6:00 PM"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceCaption" />
 
