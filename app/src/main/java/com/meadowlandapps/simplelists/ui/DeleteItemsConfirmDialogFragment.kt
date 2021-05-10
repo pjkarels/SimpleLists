@@ -12,12 +12,12 @@ import com.meadowlandapps.simplelists.R
  * A confirmation dialog when deleting items
  */
 class DeleteItemsConfirmDialogFragment : DialogFragment() {
-    private lateinit var items: IntArray
+    private lateinit var items: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { bundle ->
-            items = bundle.getIntArray(BUNDLE_KEY_ITEMS) ?: IntArray(0)
+            items = bundle.getStringArray(BUNDLE_KEY_ITEMS) ?: arrayOf()
         }
     }
 

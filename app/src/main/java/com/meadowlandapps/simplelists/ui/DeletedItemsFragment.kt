@@ -70,7 +70,7 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
             }
             val action =
                 DeletedItemsFragmentDirections.actionDeletedItemsFragmentToDeleteItemsConfirmDialogFragment(
-                    itemIds.toIntArray()
+                        itemIds.toTypedArray()
                 )
             requireView().findNavController().navigate(action)
         }

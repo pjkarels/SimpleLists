@@ -17,8 +17,8 @@ interface TaskTypeDao {
     @Query("SELECT * FROM task_type_table")
     suspend fun getCategories(): List<TaskType>
 
-    @Query("SELECT * FROM task_type_table WHERE :id LIKE id")
-    suspend fun getCategory(id: Int): List<TaskType>
+    @Query("SELECT * FROM task_type_table WHERE :id LIKE id LIMIT 1")
+    suspend fun getCategory(id: Long): TaskType
 
     @Insert(onConflict = REPLACE)
     suspend fun insertTaskTypes(vararg types: TaskType)

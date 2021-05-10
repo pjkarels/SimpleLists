@@ -7,6 +7,9 @@
     <string name="lists_title_deleted">Deleted Items</string>
     <string name="lists_action_complete">Complete Task</string>
 
+    <string name="item_title_move">Move Item</string>
+    <string name="item_move_message">Select List where to move item</string>
+
     <string name="list_title_add">Add List</string>
     <string name="list_title_edit">Edit Lists</string>
     <string name="list_title_delete">Delete Lists</string>
@@ -39,4 +42,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_add_reminder">Add Reminder</string>
+    <string name="item_reminders">Reminders</string>
+    <string name="reminder_remove">Remove Reminder</string>
 </resources>

@@ -6,31 +6,28 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 
 @Dao
 interface TaskDao {
 
+    @Transaction
     @Query("SELECT * FROM task_table WHERE typeId LIKE :id AND removed == 0")
-    fun tasksForType(id: Int): LiveData<List<Task>>
+    fun tasksForType(id: Long): LiveData<List<TaskWithNotifications>>
 
-    @Query("SELECT * FROM task_table WHERE typeId LIKE :id AND removed == 0")
-    suspend fun getItemsForList(id: Int): List<Task>
+    @Query("SELECT name FROM task_table WHERE typeId LIKE :id AND removed == 0")
+    suspend fun getItemNamesForListId(id: Long): List<String>
 
-    @Query("SELECT * FROM taskdetail WHERE removed == 1")
-    fun removedTasks(): LiveData<List<TaskDetail>>
+    @Query("SELECT * FROM taskwithtype WHERE removed == 1")
+    fun removedTasks(): LiveData<List<TaskWithType>>
 
-    @Query("SELECT * FROM task_table WHERE removed == 1")
-    suspend fun getRemovedItems(): List<Task>
-
+    @Transaction
     @Query("SELECT * FROM task_table WHERE id LIKE :taskId LIMIT 1")
-    suspend fun getTask(taskId: Int): List<Task>
+    suspend fun getTask(taskId: String): TaskWithNotifications
 
     @Insert(onConflict = REPLACE)
     suspend fun insertTask(task: Task)
-
-    @Insert(onConflict = REPLACE)
-    suspend fun insertTasks(items: List<Task>)
 
     @Insert(onConflict = REPLACE)
     suspend fun updateTask(task: Task)
@@ -43,4 +40,19 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteItemsByIds(itemIds: List<Task>)
+
+    @Insert(onConflict = REPLACE)
+    suspend fun upsertNotifications(notifications: List<Notification>)
+
+    @Transaction
+    suspend fun insertTaskAndNotifications(task: Task, notifications: List<Notification>) {
+        insertTask(task)
+        upsertNotifications(notifications)
+    }
+
+    @Transaction
+    suspend fun updateTaskAndNotifications(task: Task, notifications: List<Notification>) {
+        insertTask(task)
+        upsertNotifications(notifications)
+    }
 }

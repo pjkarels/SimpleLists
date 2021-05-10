@@ -10,25 +10,23 @@
         android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
         <argument
             android:name="category"
-            app:argType="integer" />
+            app:argType="long" />
     </dialog>
-
-    <fragment
-        android:id="@+id/addTabFragment"
-        android:name="com.meadowlandapps.simplelists.ui.AddTabFragment"
-        android:label="fragment_add_tab"
-        tools:layout="@layout/fragment_add_tab">
-        <argument
-            android:name="category"
-            app:argType="integer" />
-    </fragment>
 
     <dialog
         android:id="@+id/moveItemDialog"
         android:name="com.meadowlandapps.simplelists.ui.MoveItemFragment">
         <argument
             android:name="item"
-            app:argType="integer" />
+            app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/deleteItemsConfirmDialogFragment"
+        android:name="com.meadowlandapps.simplelists.ui.DeleteItemsConfirmDialogFragment">
+        <argument
+            android:name="items"
+            app:argType="string[]" />
     </dialog>
 
     <fragment
@@ -41,14 +39,14 @@
             app:destination="@id/addTaskFragment">
             <argument
                 android:name="type"
-                app:argType="integer" />
+                app:argType="long" />
         </action>
         <action
             android:id="@+id/action_tabContentFragment_to_editTaskFragment"
             app:destination="@id/addTaskFragment">
             <argument
                 android:name="task"
-                app:argType="integer" />
+                app:argType="string" />
         </action>
     </fragment>
 
@@ -62,7 +60,7 @@
             app:destination="@id/addTabFragment">
             <argument
                 android:name="category"
-                app:argType="integer" />
+                app:argType="long" />
         </action>
         <action
             android:id="@+id/action_editCategoriesFragment_to_deleteConfirmFragment"
@@ -83,7 +81,7 @@
             app:destination="@id/deleteItemsConfirmDialogFragment">
             <argument
                 android:name="items"
-                app:argType="integer[]" />
+                app:argType="string[]" />
         </action>
     </fragment>
 
@@ -100,21 +98,21 @@
             app:destination="@id/addTaskFragment">
             <argument
                 android:name="type"
-                app:argType="integer" />
+                app:argType="long" />
         </action>
         <action
             android:id="@+id/action_tabContentFragment_to_editTaskFragment"
             app:destination="@id/addTaskFragment">
             <argument
                 android:name="task"
-                app:argType="integer" />
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_viewPagerFragment_to_addTabFragment"
             app:destination="@id/addTabFragment">
             <argument
                 android:name="category"
-                app:argType="integer" />
+                app:argType="long" />
         </action>
         <action
             android:id="@+id/action_viewPagerFragment_to_deletedItemsFragment"
@@ -128,7 +126,7 @@
             app:exitAnim="@anim/nav_default_exit_anim">
             <argument
                 android:name="category"
-                app:argType="integer" />
+                app:argType="long" />
         </action>
         <action
             android:id="@+id/action_viewPagerFragment_to_editCategoriesFragment"
@@ -143,12 +141,30 @@
             app:argType="string[]" />
     </dialog>
 
-    <dialog
-        android:id="@+id/deleteItemsConfirmDialogFragment"
-        android:name="com.meadowlandapps.simplelists.ui.DeleteItemsConfirmDialogFragment">
+    <fragment
+        android:id="@+id/addTabFragment"
+        android:name="com.meadowlandapps.simplelists.ui.AddTabFragment"
+        android:label="fragment_add_tab"
+        tools:layout="@layout/fragment_add_tab">
         <argument
-            android:name="items"
-            app:argType="integer[]" />
+            android:name="category"
+            app:argType="long" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/time_dialog"
+        android:name="com.meadowlandapps.simplelists.ui.TimeDialogFragment">
+        <argument
+            android:name="time"
+            app:argType="long" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/date_dialog"
+        android:name="com.meadowlandapps.simplelists.ui.DateDialogFragment">
+        <argument
+            android:name="date"
+            app:argType="long" />
     </dialog>
 
     <fragment
@@ -156,19 +172,33 @@
         android:name="com.meadowlandapps.simplelists.ui.AddTaskFragment"
         android:label="add_task_dialog_fragment"
         tools:layout="@layout/fragment_add_task">
-        <argument
-            android:name="type"
-            app:argType="integer" />
-        <argument
-            android:name="task"
-            app:argType="integer" />
         <action
             android:id="@+id/action_addTaskFragment_to_moveItemFragment"
             app:destination="@id/moveItemDialog">
             <argument
                 android:name="item"
-                app:argType="integer" />
+                app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_addTaskFragment_to_timeDialog"
+            app:destination="@id/time_dialog">
+            <argument
+                android:name="time"
+                app:argType="long" />
+        </action>
+        <action
+            android:id="@+id/action_addTaskFragment_to_dateDialog"
+            app:destination="@id/date_dialog">
+            <argument
+                android:name="date"
+                app:argType="long" />
+        </action>
+        <argument
+            android:name="task"
+            app:argType="string" />
+        <argument
+            android:name="type"
+            app:argType="long" />
     </fragment>
 
 </navigation>

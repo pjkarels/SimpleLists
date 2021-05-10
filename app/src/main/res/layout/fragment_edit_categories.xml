@@ -59,7 +59,7 @@
         android:id="@+id/categoriesRecyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
+        android:paddingTop="@dimen/padding_item_standard"
         android:paddingBottom="@dimen/padding_item_standard"
         android:paddingLeft="@dimen/padding_standard"
         android:paddingRight="@dimen/padding_standard"

@@ -2,15 +2,22 @@ package com.meadowlandapps.simplelists.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import com.meadowlandapps.simplelists.db.Notification
 import com.meadowlandapps.simplelists.db.Task
 import com.meadowlandapps.simplelists.db.TaskDao
-import com.meadowlandapps.simplelists.db.TaskDetail
 import com.meadowlandapps.simplelists.db.TaskType
 import com.meadowlandapps.simplelists.db.TaskTypeDao
+import com.meadowlandapps.simplelists.db.TaskWithNotifications
+import com.meadowlandapps.simplelists.db.TaskWithType
 import com.meadowlandapps.simplelists.model.CategoryModel
 import com.meadowlandapps.simplelists.model.ItemModel
+import com.meadowlandapps.simplelists.model.NotificationModel
+import java.util.*
 
-class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: TaskTypeDao) {
+class TaskRepository(
+        private val taskDao: TaskDao,
+        private val taskTypeDao: TaskTypeDao
+) {
 
     val taskTypes: LiveData<List<CategoryModel>> =
             taskTypeDao.taskTypes.map { taskTypes ->
@@ -40,23 +47,36 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         taskTypeDao.updateTaskTypes(category)
     }
 
-    suspend fun getCategory(id: Int) = taskTypeDao.getCategory(id).firstOrNull()
+    suspend fun getCategory(id: Long) = taskTypeDao.getCategory(id)
 
-    fun tasksForType(id: Int) = taskDao.tasksForType(id)
-
-    suspend fun getItemsForList(id: Int) = taskDao.getItemsForList(id)
-
-    suspend fun getTask(taskId: Int) = taskDao.getTask(taskId).firstOrNull()
-
-    suspend fun insertTask(task: Task) {
-        taskDao.insertTask(task)
+    fun tasksForType(id: Long) = taskDao.tasksForType(id).map { tasks ->
+        tasks.map { tasksWithNotifications ->
+            mapTaskWithNotificationToItem(tasksWithNotifications)
+        }
     }
 
-    suspend fun updateTask(task: Task) {
-        taskDao.updateTask(task)
+    suspend fun getItemNamesForListId(id: Long) = taskDao.getItemNamesForListId(id)
+
+    suspend fun getTask(taskId: String) = mapTaskWithNotificationToItem(taskDao.getTask(taskId))
+
+    suspend fun insertTask(item: ItemModel) {
+        val task = mapItemToTask(item)
+        val notifications = mapItemToNotifications(item)
+
+        taskDao.insertTaskAndNotifications(task, notifications)
     }
 
+    suspend fun updateTask(item: ItemModel) {
+        val task = mapItemToTask(item)
+        val notifications = mapItemToNotifications(item)
 
+        taskDao.updateTaskAndNotifications(task, notifications)
+    }
+
+    /**
+     * Function called to update to restore deleted items
+     * No need to update related Reminders
+     */
     suspend fun updateItems(items: List<ItemModel>) {
         val tasks = items.map { itemModel ->
             mapItemToTask(itemModel)
@@ -70,7 +90,7 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
         }
     }
 
-    suspend fun deleteItemsByIds(itemIds: List<Int>) {
+    suspend fun deleteItemsByIds(itemIds: List<String>) {
         val items = mutableListOf<Task>()
 
         itemIds.forEach { item ->
@@ -81,14 +101,42 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
 
     private fun mapTaskTypeToCategory(type: TaskType) = CategoryModel(type.id, type.name, false)
 
-    private fun mapTaskToItem(task: TaskDetail): ItemModel {
+    private fun mapTaskToItem(task: TaskWithType): ItemModel {
         return ItemModel(
                 id = task.id,
                 name = task.name,
                 typeId = task.typeId,
                 category = task.typeString,
                 completed = task.completed,
-                removed = task.removed
+                removed = task.removed,
+        )
+    }
+
+    private fun mapTaskWithNotificationToItem(taskWithNotifications: TaskWithNotifications) =
+            if (taskWithNotifications == null) {
+                ItemModel()
+            } else {
+                ItemModel(
+                        id = taskWithNotifications.task.id,
+                        name = taskWithNotifications.task.name,
+                        typeId = taskWithNotifications.task.typeId,
+                        completed = taskWithNotifications.task.completed,
+                        removed = taskWithNotifications.task.removed,
+                        notifications = taskWithNotifications.notifications.map { notification ->
+                            mapNotificationToNotificationModel(notification)
+                        } as MutableList<NotificationModel>,
+                        isNew = false
+                )
+            }
+
+    private fun mapNotificationToNotificationModel(notification: Notification): NotificationModel {
+        val calendar = Calendar.getInstance().apply {
+            this.timeInMillis = notification.time
+        }
+
+        return NotificationModel(
+                id = notification.notificationId,
+                time = calendar
         )
     }
 
@@ -100,5 +148,15 @@ class TaskRepository(private val taskDao: TaskDao, private val taskTypeDao: Task
                 completed = item.completed,
                 removed = item.removed
         )
+    }
+
+    private fun mapItemToNotifications(item: ItemModel): List<Notification> {
+        return item.notifications.map { reminder ->
+            Notification(
+                    notificationId = reminder.id,
+                    taskId = item.id,
+                    time = reminder.time.timeInMillis
+            )
+        }
     }
 }

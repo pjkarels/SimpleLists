@@ -35,7 +35,7 @@ class AddTabViewModel(application: Application) : AndroidViewModel(application) 
             return false
         }
         viewModelScope.launch {
-            if (category.id == 0) {
+            if (category.id == 0L) {
                 repository.insertTaskType(category)
             } else {
                 repository.updateTaskType(category)
@@ -45,7 +45,7 @@ class AddTabViewModel(application: Application) : AndroidViewModel(application) 
         return true
     }
 
-    fun getCategory(id: Int) {
+    fun getCategory(id: Long) {
         viewModelScope.launch {
             var categoryFromRepo = repository.getCategory(id)
             if (categoryFromRepo == null) {
