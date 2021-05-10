@@ -7,27 +7,6 @@
     android:orientation="vertical"
     tools:context=".ui.AddTaskFragment">
 
-    <Button
-        android:id="@+id/addTask_button_add"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_standard"
-        android:layout_marginEnd="@dimen/padding_item_standard"
-        app:layout_constraintEnd_toStartOf="@+id/editTask_button_move"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addTask_entry_layout" />
-
-    <Button
-        android:id="@id/editTask_button_move"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_item_standard"
-        android:layout_marginEnd="@dimen/padding_standard"
-        android:text="@string/button_move"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/addTask_button_add"
-        app:layout_constraintTop_toBottomOf="@id/addTask_entry_layout" />
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="0dp"
@@ -84,7 +63,7 @@
         android:gravity="center_vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addTask_button_add">
+        app:layout_constraintTop_toBottomOf="@id/addTask_entry_layout">
 
         <ImageButton
             android:id="@+id/addItem_reminders_add"

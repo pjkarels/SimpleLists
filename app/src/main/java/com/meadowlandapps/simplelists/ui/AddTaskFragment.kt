@@ -3,6 +3,10 @@ package com.meadowlandapps.simplelists.ui
 import BUNDLE_KEY_DATE
 import BUNDLE_KEY_TIME
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +32,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.meadowlandapps.simplelists.R
-import com.meadowlandapps.simplelists.model.ItemModel
 import com.meadowlandapps.simplelists.model.NotificationModel
 
 class AddTaskFragment : Fragment(), View.OnClickListener {
@@ -56,7 +58,6 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
 
         val nameEntry = view.findViewById<EditText>(R.id.addTask_entry_name)
-        val addButton = view.findViewById<Button>(R.id.addTask_button_add)
         val toolbarTitleView = view.findViewById<TextView>(R.id.title)
         val reminderRecyclerView = view.findViewById<RecyclerView>(R.id.addItem_recyclerView_notifications)
         val remindersAdapter = ReminderListAdapter(this)
@@ -72,9 +73,6 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
                 else -> false
             }
         }
-        addButton.setOnClickListener {
-            addItemAndGoBack()
-        }
 
         addReminderButton.setOnClickListener {
             vm.addReminder(NotificationModel())
@@ -85,12 +83,10 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
                 nameEntry.setText(task.name)
+                updateMenuItemsVisibility()
                 if (task.isNew) {
-                    addButton.text = getString(R.string.common_add)
                     toolbarTitleView.text = getString(R.string.lists_title_add)
-                    hideMenuItems()
                 } else {
-                    addButton.text = getString(R.string.common_rename)
                     toolbarTitleView.text = getString(R.string.lists_title_edit, task.name)
                     // update Menu check mark
                     val icon = if (task.completed) {
@@ -113,7 +109,6 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
                 remindersAdapter.setReminders(task.notifications)
 
-                updateButtonVisibility(task)
                 nameEntry.requestFocus()
                 showKeyboard(nameEntry)
             }
@@ -136,6 +131,12 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
                 vm.deleteTask()
                 goBack()
             }
+            R.id.menu_item_move -> {
+                navigateMoveItem()
+            }
+            R.id.menu_item_save -> {
+                addItemAndGoBack()
+            }
         }
         return true
     }
@@ -150,6 +151,9 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
         vm.itemModel.name = nameEntry.text.toString()
         if (vm.upsertTask()) {
+            vm.itemModel.notifications.forEach { reminder ->
+                addReminder(reminder.time.timeInMillis)
+            }
             goBack()
         }
     }
@@ -178,20 +182,19 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         imm.showSoftInput(v, 0)
     }
 
-    private fun hideMenuItems() {
+    private fun updateMenuItemsVisibility() {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
         menu?.forEach { item ->
-            item.isVisible = false
-        }
-    }
-
-    private fun updateButtonVisibility(item: ItemModel) {
-        val moveButton = requireView().findViewById<Button>(R.id.editTask_button_move)
-        if (item.isNew) {
-            moveButton.visibility = View.GONE
-        } else {
-            moveButton.visibility = View.VISIBLE
-            moveButton.setOnClickListener {
-                navigateMoveItem()
+            when (item.itemId) {
+                R.id.menu_item_mark_complete -> {
+                    item.isVisible = !vm.itemModel.isNew
+                }
+                R.id.menu_item_delete_item -> {
+                    item.isVisible = !vm.itemModel.isNew
+                }
+                R.id.menu_item_move -> {
+                    item.isVisible = !vm.itemModel.isNew
+                }
             }
         }
     }
@@ -271,5 +274,18 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
                 navBackStackEntry.lifecycle.removeObserver(dateEventObserver)
             }
         })
+    }
+
+    private fun addReminder(time: Long) {
+        val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(requireContext(), AddTaskFragment::class.java).let { intent ->
+            PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        }
+
+        alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent)
+    }
+
+    private fun updateReminder() {
+        val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 }

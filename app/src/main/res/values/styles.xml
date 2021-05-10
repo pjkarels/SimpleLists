@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.MaterialComponents.Subtitle1.ListItem">
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="TextAppearance.MaterialComponents.Subtitle1.ListItem.Completed">
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 
     <style name="StandardTabLayoutStyle">
         <item name="tabIndicatorColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Theme.NavigationWithTabs.PopupMenu" parent="Widget.AppCompat.Light.ListPopupWindow">
+        <item name="actionMenuTextColor">@color/black</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
     </style>
 </resources>
