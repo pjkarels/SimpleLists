@@ -20,6 +20,7 @@ import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
@@ -190,16 +191,27 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
+        val reminder = v.tag as NotificationModel
+
+        when (v.id) {
+            R.id.reminder_button_remove -> removeReminder(reminder)
+            R.id.reminder_date -> showDatePicker(reminder)
+            R.id.reminder_time -> showTimePicker(reminder)
+        }
+    }
+
+    private fun removeReminder(reminder: NotificationModel) {
         val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
-//        val reminder = v.tag as NotificationModel
-
+        vm.removeReminder(reminder)
     }
 
-    private fun showDatePicker() {
-
+    private fun showDatePicker(reminder: NotificationModel) {
+        val action = AddTaskFragmentDirections.actionAddTaskFragmentToDateDialog(reminder.time.timeInMillis)
+        findNavController().navigate(action)
     }
 
-    private fun showTimePicker() {
-
+    private fun showTimePicker(reminder: NotificationModel) {
+        val action = AddTaskFragmentDirections.actionAddTaskFragmentToTimeDialog(reminder.time.timeInMillis)
+        findNavController().navigate(action)
     }
 }

@@ -82,10 +82,14 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             reminder.id == notification.id
         }
         itemModel.notifications[index] = reminder
+
+        updateLiveData()
     }
 
     fun removeReminder(reminder: NotificationModel) {
         itemModel.notifications.remove(reminder)
+
+        updateLiveData()
     }
 
     private fun updateLiveData() {

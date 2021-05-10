@@ -46,10 +46,16 @@ class ReminderListAdapter(
         fun bind(reminder: NotificationModel) {
             val dateFormat = SimpleDateFormat(DATE_FORMAT)
             val timeFormat = SimpleDateFormat(TIME_FORMAT)
-            itemView.tag = reminder
             dateView.text = dateFormat.format(reminder.time.time)
             timeView.text = timeFormat.format(reminder.time.time)
+
+            removeReminderView.tag = reminder
+            dateView.tag = reminder
+            timeView.tag = reminder
+
             removeReminderView.setOnClickListener(onItemClickListener)
+            dateView.setOnClickListener(onItemClickListener)
+            timeView.setOnClickListener(onItemClickListener)
         }
     }
 }

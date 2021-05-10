@@ -151,6 +151,22 @@
             app:argType="long" />
     </fragment>
 
+    <dialog
+        android:id="@+id/time_dialog"
+        android:name="com.meadowlandapps.simplelists.ui.TimeDialogFragment">
+        <argument
+            android:name="time"
+            app:argType="long" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/date_dialog"
+        android:name="com.meadowlandapps.simplelists.ui.DateDialogFragment">
+        <argument
+            android:name="date"
+            app:argType="long" />
+    </dialog>
+
     <fragment
         android:id="@+id/addTaskFragment"
         android:name="com.meadowlandapps.simplelists.ui.AddTaskFragment"
@@ -162,6 +178,20 @@
             <argument
                 android:name="item"
                 app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_addTaskFragment_to_timeDialog"
+            app:destination="@id/time_dialog">
+            <argument
+                android:name="time"
+                app:argType="long" />
+        </action>
+        <action
+            android:id="@+id/action_addTaskFragment_to_dateDialog"
+            app:destination="@id/date_dialog">
+            <argument
+                android:name="date"
+                app:argType="long" />
         </action>
         <argument
             android:name="task"
