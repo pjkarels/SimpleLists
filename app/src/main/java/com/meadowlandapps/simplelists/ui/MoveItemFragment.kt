@@ -35,6 +35,8 @@ class MoveItemFragment : DialogFragment(), View.OnClickListener {
         view.adapter = categoryViewAdapter
 
         return AlertDialog.Builder(requireContext())
+                .setTitle(R.string.item_title_move)
+                .setMessage(R.string.item_move_message)
                 .setView(view)
                 .setPositiveButton(R.string.button_move) { dialog, _ ->
                     vm.moveItem()
