@@ -1,5 +1,7 @@
 package com.meadowlandapps.simplelists.ui
 
+import DATE_FORMAT
+import TIME_FORMAT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.NotificationModel
-import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class ReminderListAdapter(
         private val onItemClickListener: View.OnClickListener
@@ -38,11 +40,15 @@ class ReminderListAdapter(
 
     inner class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val removeReminderView: ImageButton = itemView.findViewById(R.id.reminder_button_remove)
-        private val date: TextView = itemView.findViewById(R.id.reminder_date)
+        private val dateView: TextView = itemView.findViewById(R.id.reminder_date)
+        private val timeView: TextView = itemView.findViewById(R.id.reminder_time)
 
         fun bind(reminder: NotificationModel) {
+            val dateFormat = SimpleDateFormat(DATE_FORMAT)
+            val timeFormat = SimpleDateFormat(TIME_FORMAT)
             itemView.tag = reminder
-            date.text = DateFormat.getTimeInstance().format(reminder.time.time)
+            dateView.text = dateFormat.format(reminder.time.time)
+            timeView.text = timeFormat.format(reminder.time.time)
             removeReminderView.setOnClickListener(onItemClickListener)
         }
     }
