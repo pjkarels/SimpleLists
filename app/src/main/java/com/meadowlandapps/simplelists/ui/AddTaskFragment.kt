@@ -278,7 +278,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
     private fun addReminder(time: Long) {
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(requireContext(), AddTaskFragment::class.java).let { intent ->
+        val alarmIntent = Intent(requireContext(), MainActivity::class.java).let { intent ->
             PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
         }
 
