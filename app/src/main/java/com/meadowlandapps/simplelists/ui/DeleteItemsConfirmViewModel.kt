@@ -14,7 +14,7 @@ class DeleteItemsConfirmViewModel(application: Application) : AndroidViewModel(a
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
     fun deleteSelectedItems(itemIds: List<String>) {

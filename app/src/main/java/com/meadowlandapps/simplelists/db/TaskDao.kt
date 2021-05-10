@@ -30,9 +30,6 @@ interface TaskDao {
     suspend fun insertTask(task: Task)
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertTasks(items: List<Task>)
-
-    @Insert(onConflict = REPLACE)
     suspend fun updateTask(task: Task)
 
     @Update(onConflict = REPLACE)
@@ -43,4 +40,19 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteItemsByIds(itemIds: List<Task>)
+
+    @Insert(onConflict = REPLACE)
+    suspend fun upsertNotifications(notifications: List<Notification>)
+
+    @Transaction
+    suspend fun insertTaskAndNotifications(task: Task, notifications: List<Notification>) {
+        insertTask(task)
+        upsertNotifications(notifications)
+    }
+
+    @Transaction
+    suspend fun updateTaskAndNotifications(task: Task, notifications: List<Notification>) {
+        insertTask(task)
+        upsertNotifications(notifications)
+    }
 }

@@ -3,7 +3,6 @@ package com.meadowlandapps.simplelists.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.meadowlandapps.simplelists.db.Notification
-import com.meadowlandapps.simplelists.db.NotificationDao
 import com.meadowlandapps.simplelists.db.Task
 import com.meadowlandapps.simplelists.db.TaskDao
 import com.meadowlandapps.simplelists.db.TaskType
@@ -17,8 +16,7 @@ import java.util.*
 
 class TaskRepository(
         private val taskDao: TaskDao,
-        private val taskTypeDao: TaskTypeDao,
-        private val notificationDao: NotificationDao
+        private val taskTypeDao: TaskTypeDao
 ) {
 
     val taskTypes: LiveData<List<CategoryModel>> =
@@ -62,17 +60,17 @@ class TaskRepository(
     suspend fun getTask(taskId: String) = mapTaskWithNotificationToItem(taskDao.getTask(taskId))
 
     suspend fun insertTask(item: ItemModel) {
-        taskDao.insertTask(mapItemToTask(item))
-
+        val task = mapItemToTask(item)
         val notifications = mapItemToNotifications(item)
-        notificationDao.upsertNotifications(notifications)
+
+        taskDao.insertTaskAndNotifications(task, notifications)
     }
 
     suspend fun updateTask(item: ItemModel) {
-        taskDao.updateTask(mapItemToTask(item))
-
+        val task = mapItemToTask(item)
         val notifications = mapItemToNotifications(item)
-        notificationDao.upsertNotifications(notifications)
+
+        taskDao.updateTaskAndNotifications(task, notifications)
     }
 
     /**

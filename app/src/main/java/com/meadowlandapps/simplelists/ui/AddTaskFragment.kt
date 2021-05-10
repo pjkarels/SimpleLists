@@ -1,5 +1,7 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_DATE
+import BUNDLE_KEY_TIME
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +20,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -75,6 +79,8 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         addReminderButton.setOnClickListener {
             vm.addReminder(NotificationModel())
         }
+
+        setTimePickerObserver()
 
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
@@ -206,12 +212,64 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showDatePicker(reminder: NotificationModel) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        vm.editingReminder = reminder
         val action = AddTaskFragmentDirections.actionAddTaskFragmentToDateDialog(reminder.time.timeInMillis)
         findNavController().navigate(action)
     }
 
     private fun showTimePicker(reminder: NotificationModel) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        vm.editingReminder = reminder
         val action = AddTaskFragmentDirections.actionAddTaskFragmentToTimeDialog(reminder.time.timeInMillis)
         findNavController().navigate(action)
+    }
+
+    private fun setTimePickerObserver() {
+        val navController = findNavController()
+        // After a configuration change or process death, the currentBackStackEntry
+        // points to the dialog destination, so you must use getBackStackEntry()
+        // with the specific ID of your destination to ensure we always
+        // get the right NavBackStackEntry
+        val navBackStackEntry = navController.getBackStackEntry(R.id.addTaskFragment)
+
+        // Create our observer and add it to the NavBackStackEntry's lifecycle
+        val timeEventObserver = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME
+                    && navBackStackEntry.savedStateHandle.contains(BUNDLE_KEY_TIME)) {
+                val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+                val time = navBackStackEntry.savedStateHandle.get<Long>(BUNDLE_KEY_TIME)
+                time?.let {
+                    vm.editingReminder?.time?.timeInMillis = time
+                    vm.editingReminder?.let { vm.updateReminder(it) }
+                }
+                vm.editingReminder = null
+            }
+        }
+
+        val dateEventObserver = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME
+                    && navBackStackEntry.savedStateHandle.contains(BUNDLE_KEY_DATE)) {
+                val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+                val time = navBackStackEntry.savedStateHandle.get<Long>(BUNDLE_KEY_DATE)
+                time?.let {
+                    vm.editingReminder?.time?.timeInMillis = time
+                    vm.editingReminder?.let { vm.updateReminder(it) }
+                }
+                vm.editingReminder = null
+            }
+        }
+
+        navBackStackEntry.lifecycle.addObserver(timeEventObserver)
+        navBackStackEntry.lifecycle.addObserver(dateEventObserver)
+
+        // As addObserver() does not automatically remove the observer, we
+        // call removeObserver() manually when the view lifecycle is destroyed
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                navBackStackEntry.lifecycle.removeObserver(timeEventObserver)
+                navBackStackEntry.lifecycle.removeObserver(dateEventObserver)
+            }
+        })
     }
 }

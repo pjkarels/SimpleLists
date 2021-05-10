@@ -17,7 +17,7 @@ class MoveItemViewModel(application: Application) : AndroidViewModel(application
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
     private lateinit var itemToMove: ItemModel

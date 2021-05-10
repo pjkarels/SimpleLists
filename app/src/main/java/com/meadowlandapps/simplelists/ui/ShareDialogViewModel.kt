@@ -15,7 +15,7 @@ class ShareDialogViewModel(application: Application) : AndroidViewModel(applicat
         val taskTypeDao = db.taskTypeDao()
         val taskDao = db.taskDao()
 
-        repository = TaskRepository(taskDao, taskTypeDao, db.notificationDao())
+        repository = TaskRepository(taskDao, taskTypeDao)
     }
 
     fun getTasks(id: Long): Pair<String, String> {

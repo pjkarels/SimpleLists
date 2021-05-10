@@ -13,7 +13,7 @@ class DeleteConfirmViewModel(application: Application) : AndroidViewModel(applic
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
     fun deleteSelectedCategories(listNames: List<String>) {

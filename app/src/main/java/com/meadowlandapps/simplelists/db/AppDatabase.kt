@@ -6,12 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [Task::class, TaskType::class, Notification::class], views = [TaskWithType::class], version = 1)
-//@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
     abstract fun taskTypeDao(): TaskTypeDao
-    abstract fun notificationDao(): NotificationDao
 
     companion object {
         @Volatile

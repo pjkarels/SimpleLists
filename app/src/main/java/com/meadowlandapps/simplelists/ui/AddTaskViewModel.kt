@@ -22,9 +22,11 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
     private val _taskLiveData = MutableLiveData<ItemModel>()
     val taskLiveData: LiveData<ItemModel> get() = _taskLiveData
 
+    var editingReminder: NotificationModel? = null
+
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
     fun upsertTask(): Boolean {
@@ -81,7 +83,9 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
         val index = itemModel.notifications.indexOfFirst { notification ->
             reminder.id == notification.id
         }
-        itemModel.notifications[index] = reminder
+        if (index >= 0) {
+            itemModel.notifications[index] = reminder
+        }
 
         updateLiveData()
     }

@@ -15,7 +15,7 @@ class DeletedItemsViewModel(application: Application): AndroidViewModel(applicat
 
     init {
         val db = AppDatabase.getDatabase(application)
-        _repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
+        _repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
     val selectedItems = mutableListOf<ItemModel>()

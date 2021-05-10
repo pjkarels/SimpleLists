@@ -13,7 +13,7 @@ class TabContentViewModel(application: Application) : AndroidViewModel(applicati
 
     init {
         val db = AppDatabase.getDatabase(application)
-        repository = TaskRepository(db.taskDao(), db.taskTypeDao(), db.notificationDao())
+        repository = TaskRepository(db.taskDao(), db.taskTypeDao())
     }
 
     fun getTasks(categoryId: Long) = repository.tasksForType(categoryId)
