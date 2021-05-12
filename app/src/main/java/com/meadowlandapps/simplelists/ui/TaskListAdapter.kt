@@ -29,8 +29,6 @@ class TaskListAdapter internal constructor (
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val current = tasks[position]
-
-        holder.nameView.text = current.name
         holder.bind(current, onItemClickListener)
     }
 
@@ -50,6 +48,7 @@ class TaskListAdapter internal constructor (
         private val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
 
         fun bind(item: ItemModel, onItemClickListener: View.OnClickListener) {
+            nameView.text = item.name
             nameView.setTextAppearance(if (item.completed) R.style.TextAppearance_MaterialComponents_Subtitle1_ListItem_Completed else R.style.TextAppearance_MaterialComponents_Subtitle1_ListItem)
             nameView.paintFlags = if (item.completed) Paint.STRIKE_THRU_TEXT_FLAG else 0
             itemView.tag = item
