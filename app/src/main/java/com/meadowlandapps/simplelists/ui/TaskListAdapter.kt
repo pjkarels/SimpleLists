@@ -42,7 +42,7 @@ class TaskListAdapter internal constructor (
     }
 
     inner class TaskViewHolder(itemView: View) : ViewHolder(itemView) {
-        val nameView: TextView = itemView.findViewById(R.id.item_name)
+        private val nameView: TextView = itemView.findViewById(R.id.item_name)
         private val reminderView: ImageView = itemView.findViewById(R.id.item_reminder_set)
         private val completeView: ImageView = itemView.findViewById(R.id.item_complete)
         private val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
