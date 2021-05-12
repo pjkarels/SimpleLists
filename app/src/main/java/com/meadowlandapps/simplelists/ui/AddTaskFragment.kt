@@ -1,6 +1,7 @@
 package com.meadowlandapps.simplelists.ui
 
 import BUNDLE_KEY_DATE
+import BUNDLE_KEY_TASK_NAME
 import BUNDLE_KEY_TIME
 import android.app.Activity
 import android.app.AlarmManager
@@ -33,6 +34,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.NotificationModel
+import com.meadowlandapps.simplelists.receiver.AlarmReceiver
+import java.util.*
 
 class AddTaskFragment : Fragment(), View.OnClickListener {
 
@@ -277,9 +280,11 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
     }
 
     private fun addReminder(time: Long) {
+        val item = ViewModelProvider(this).get(AddTaskViewModel::class.java).itemModel
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(requireContext(), MainActivity::class.java).let { intent ->
-            PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
+            intent.putExtra(BUNDLE_KEY_TASK_NAME, item.name)
+            PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT)
         }
 
         alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent)
