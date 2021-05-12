@@ -45,6 +45,7 @@ class TaskListAdapter internal constructor (
 
     inner class TaskViewHolder(itemView: View) : ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById(R.id.item_name)
+        private val reminderView: ImageView = itemView.findViewById(R.id.item_reminder_set)
         private val completeView: ImageView = itemView.findViewById(R.id.item_complete)
         private val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
 
@@ -53,6 +54,9 @@ class TaskListAdapter internal constructor (
             nameView.paintFlags = if (item.completed) Paint.STRIKE_THRU_TEXT_FLAG else 0
             itemView.tag = item
             itemView.setOnClickListener(onItemClickListener)
+
+            reminderView.visibility = if (item.notifications.size > 0) View.VISIBLE else View.GONE
+
             completeView.tag = item
             val icon = if (item.completed) {
                 ResourcesCompat.getDrawable(
