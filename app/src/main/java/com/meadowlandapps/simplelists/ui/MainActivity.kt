@@ -1,12 +1,16 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY_ID
+import BUNDLE_KEY_ITEM_ID
 import CHANNEL_ID
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.meadowlandapps.simplelists.R
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +18,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val categoryId = intent.getStringExtra(BUNDLE_KEY_CATEGORY_ID) ?: "0"
+        val itemId = intent.getStringExtra(BUNDLE_KEY_ITEM_ID)
+
         createNotificationChannel()
+
+        if (itemId != null) {
+            val action = ViewPagerFragmentDirections.actionTabContentFragmentToEditTaskFragment(itemId, categoryId.toLong())
+            findNavController(R.id.nav_host_fragment).navigate(action)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        val navController = findNavController(R.id.nav_host_fragment)
+        navController.handleDeepLink(intent)
     }
 
     private fun createNotificationChannel() {

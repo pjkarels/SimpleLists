@@ -1,6 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
-import BUNDLE_KEY_CATEGORY
+import BUNDLE_KEY_CATEGORY_ID
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,7 +24,7 @@ class AddTabFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            categoryId = it.getLong(BUNDLE_KEY_CATEGORY, 0)
+            categoryId = it.getLong(BUNDLE_KEY_CATEGORY_ID, 0)
         }
     }
 

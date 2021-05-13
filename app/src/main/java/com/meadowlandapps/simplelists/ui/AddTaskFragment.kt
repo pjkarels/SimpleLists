@@ -1,7 +1,9 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY_ID
 import BUNDLE_KEY_DATE
-import BUNDLE_KEY_TASK_NAME
+import BUNDLE_KEY_ITEM_ID
+import BUNDLE_KEY_ITEM_NAME
 import BUNDLE_KEY_TIME
 import android.app.Activity
 import android.app.AlarmManager
@@ -116,7 +118,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
                 showKeyboard(nameEntry)
             }
         }
-        vm.getTask(args.task, args.type)
+        vm.getTask(args.itemId, args.categoryId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -156,6 +158,8 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         if (vm.upsertTask()) {
             vm.itemModel.notifications.forEach { reminder ->
                 addReminder(reminder.time.timeInMillis)
+
+                // update Alarm Manager
             }
             goBack()
         }
@@ -210,11 +214,6 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
             R.id.reminder_date -> showDatePicker(reminder)
             R.id.reminder_time -> showTimePicker(reminder)
         }
-    }
-
-    private fun removeReminder(reminder: NotificationModel) {
-        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
-        vm.removeReminder(reminder)
     }
 
     private fun showDatePicker(reminder: NotificationModel) {
@@ -283,7 +282,9 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         val item = ViewModelProvider(this).get(AddTaskViewModel::class.java).itemModel
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
-            intent.putExtra(BUNDLE_KEY_TASK_NAME, item.name)
+            intent.putExtra(BUNDLE_KEY_CATEGORY_ID, item.categoryId)
+            intent.putExtra(BUNDLE_KEY_ITEM_ID, item.id)
+            intent.putExtra(BUNDLE_KEY_ITEM_NAME, item.name)
             PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT)
         }
 
@@ -292,5 +293,13 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
     private fun updateReminder() {
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        // update Alarm Manager
+    }
+
+    private fun removeReminder(reminder: NotificationModel) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        vm.removeReminder(reminder)
+
+        // update Alarm Manager
     }
 }

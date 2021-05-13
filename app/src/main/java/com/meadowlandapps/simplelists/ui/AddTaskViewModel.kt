@@ -51,7 +51,7 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             // doesn't exist yet so create new
             // id of 0 tells Room it's an 'Insert'
             if (taskFromRepo.isNew) {
-                taskFromRepo.typeId = taskType
+                taskFromRepo.categoryId = taskType
             }
             itemModel = taskFromRepo
             _taskLiveData.value = itemModel
@@ -69,7 +69,7 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
         itemModel.completed = !itemModel.completed
         viewModelScope.launch {
             upsertTask()
-            getTask(itemModel.id, itemModel.typeId)
+            getTask(itemModel.id, itemModel.categoryId)
         }
     }
 

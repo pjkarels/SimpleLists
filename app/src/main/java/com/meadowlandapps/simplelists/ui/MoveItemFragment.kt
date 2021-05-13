@@ -1,6 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
-import BUNDLE_KEY_ITEM
+import BUNDLE_KEY_ITEM_ID
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
@@ -23,7 +23,7 @@ class MoveItemFragment : DialogFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            itemId = it.getString(BUNDLE_KEY_ITEM, "")
+            itemId = it.getString(BUNDLE_KEY_ITEM_ID, "")
         }
     }
 
