@@ -30,6 +30,8 @@
     <string name="menu_item_title_edit">Edit List Title</string>
     <string name="menu_item_title_delete">Delete Cat</string>
     <string name="menu_item_title_share">Share</string>
+    <string name="menu_item_title_move">Move</string>
+    <string name="menu_item_title_save">Save</string>
 
     <string name="menu_item_title_complete_item">Mark Complete</string>
 
@@ -38,7 +40,6 @@
     <string name="common_rename">Rename</string>
     <string name="common_delete">Delete</string>
     <string name="common_restore">Restore</string>
-    <string name="button_move">Move</string>
 
     <string name="notification_channel_title_high">High</string>
     <string name="notification_channel_description_high">Sound</string>
