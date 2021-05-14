@@ -105,8 +105,8 @@ class TaskRepository(
         return ItemModel(
                 id = task.id,
                 name = task.name,
-                typeId = task.typeId,
-                category = task.typeString,
+                categoryId = task.typeId,
+                categoryName = task.typeString,
                 completed = task.completed,
                 removed = task.removed,
         )
@@ -119,7 +119,7 @@ class TaskRepository(
                 ItemModel(
                         id = taskWithNotifications.task.id,
                         name = taskWithNotifications.task.name,
-                        typeId = taskWithNotifications.task.typeId,
+                        categoryId = taskWithNotifications.task.typeId,
                         completed = taskWithNotifications.task.completed,
                         removed = taskWithNotifications.task.removed,
                         notifications = taskWithNotifications.notifications.map { notification ->
@@ -144,7 +144,7 @@ class TaskRepository(
         return Task(
                 id = item.id,
                 name = item.name,
-                typeId = item.typeId,
+                typeId = item.categoryId,
                 completed = item.completed,
                 removed = item.removed
         )

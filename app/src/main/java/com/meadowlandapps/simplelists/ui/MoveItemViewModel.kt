@@ -32,7 +32,7 @@ class MoveItemViewModel(application: Application) : AndroidViewModel(application
                 itemToMove = item
                 categories = repository.getCategories().toList()
                 categories.first { categoryModel ->
-                    item.typeId == categoryModel.id
+                    item.categoryId == categoryModel.id
                 }.selected = true
             }
         }
@@ -53,7 +53,7 @@ class MoveItemViewModel(application: Application) : AndroidViewModel(application
         val selectedCategory = categories.first { categoryModel ->
             categoryModel.selected
         }
-        itemToMove.typeId = selectedCategory.id
+        itemToMove.categoryId = selectedCategory.id
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateTask(itemToMove)
         }

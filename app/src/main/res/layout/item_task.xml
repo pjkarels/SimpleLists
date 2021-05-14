@@ -18,6 +18,18 @@
         app:layout_constraintEnd_toStartOf="@id/item_complete" />
 
     <ImageView
+        android:id="@+id/item_reminder_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_item_standard"
+        android:contentDescription="@string/item_reminders_icon"
+        android:src="@drawable/ic_timer_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_complete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/grey_light" />
+
+    <ImageView
         android:id="@+id/item_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

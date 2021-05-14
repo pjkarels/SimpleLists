@@ -40,9 +40,13 @@
     <string name="common_restore">Restore</string>
     <string name="button_move">Move</string>
 
+    <string name="notification_channel_title_high">High</string>
+    <string name="notification_channel_description_high">Sound</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="item_add_reminder">Add Reminder</string>
     <string name="item_reminders">Reminders</string>
+    <string name="item_reminders_icon">Has Reminders icon</string>
     <string name="reminder_remove">Remove Reminder</string>
 </resources>

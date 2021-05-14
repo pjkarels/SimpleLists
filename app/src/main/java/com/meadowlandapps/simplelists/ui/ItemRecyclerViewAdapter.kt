@@ -46,7 +46,7 @@ class ItemRecyclerViewAdapter(private val checkedChangeListener: CompoundButton.
         fun bind(item: ItemModel) {
             checkBox.tag = item
             nameView.text =
-                    context.getString(R.string.list_deletedItems_itemText, item.name, item.category)
+                    context.getString(R.string.list_deletedItems_itemText, item.name, item.categoryName)
             checkBox.isChecked = false
             checkBox.setOnCheckedChangeListener(checkedChangeListener)
         }

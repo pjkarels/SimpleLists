@@ -18,7 +18,9 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
     private val _nameErrorMsg = MutableLiveData<String>()
     val nameErrorMsg: LiveData<String> get() = _nameErrorMsg
 
-    lateinit var itemModel: ItemModel
+    lateinit var originalName: String
+    private lateinit var _itemModel: ItemModel
+    val itemModel get() = _itemModel
     private val _taskLiveData = MutableLiveData<ItemModel>()
     val taskLiveData: LiveData<ItemModel> get() = _taskLiveData
 
@@ -51,30 +53,36 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             // doesn't exist yet so create new
             // id of 0 tells Room it's an 'Insert'
             if (taskFromRepo.isNew) {
-                taskFromRepo.typeId = taskType
+                taskFromRepo.categoryId = taskType
             }
-            itemModel = taskFromRepo
-            _taskLiveData.value = itemModel
+            _itemModel = taskFromRepo
+            originalName = _itemModel.name
+
+            updateLiveData()
         }
     }
 
+    fun updateItemName(name: String) {
+        _itemModel.name = name
+    }
+
     fun deleteTask() {
-        itemModel.removed = true
+        _itemModel.removed = true
         viewModelScope.launch {
             upsertTask()
         }
     }
 
     fun updateTaskCompleteness() {
-        itemModel.completed = !itemModel.completed
+        _itemModel.completed = !itemModel.completed
         viewModelScope.launch {
             upsertTask()
-            getTask(itemModel.id, itemModel.typeId)
+            getTask(itemModel.id, itemModel.categoryId)
         }
     }
 
     fun addReminder(reminder: NotificationModel) {
-        itemModel.notifications.add(reminder)
+        _itemModel.notifications.add(reminder)
 
         updateLiveData()
     }
@@ -84,14 +92,14 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
             reminder.id == notification.id
         }
         if (index >= 0) {
-            itemModel.notifications[index] = reminder
+            _itemModel.notifications[index] = reminder
         }
 
         updateLiveData()
     }
 
     fun removeReminder(reminder: NotificationModel) {
-        itemModel.notifications.remove(reminder)
+        _itemModel.notifications.remove(reminder)
 
         updateLiveData()
     }

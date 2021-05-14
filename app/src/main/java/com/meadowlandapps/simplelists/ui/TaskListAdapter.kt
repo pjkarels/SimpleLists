@@ -29,8 +29,6 @@ class TaskListAdapter internal constructor (
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val current = tasks[position]
-
-        holder.nameView.text = current.name
         holder.bind(current, onItemClickListener)
     }
 
@@ -44,15 +42,20 @@ class TaskListAdapter internal constructor (
     }
 
     inner class TaskViewHolder(itemView: View) : ViewHolder(itemView) {
-        val nameView: TextView = itemView.findViewById(R.id.item_name)
+        private val nameView: TextView = itemView.findViewById(R.id.item_name)
+        private val reminderView: ImageView = itemView.findViewById(R.id.item_reminder_set)
         private val completeView: ImageView = itemView.findViewById(R.id.item_complete)
         private val deleteView: ImageView = itemView.findViewById(R.id.item_delete)
 
         fun bind(item: ItemModel, onItemClickListener: View.OnClickListener) {
+            nameView.text = item.name
             nameView.setTextAppearance(if (item.completed) R.style.TextAppearance_MaterialComponents_Subtitle1_ListItem_Completed else R.style.TextAppearance_MaterialComponents_Subtitle1_ListItem)
             nameView.paintFlags = if (item.completed) Paint.STRIKE_THRU_TEXT_FLAG else 0
             itemView.tag = item
             itemView.setOnClickListener(onItemClickListener)
+
+            reminderView.visibility = if (item.notifications.size > 0) View.VISIBLE else View.GONE
+
             completeView.tag = item
             val icon = if (item.completed) {
                 ResourcesCompat.getDrawable(

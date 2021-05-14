@@ -1,6 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
-import BUNDLE_KEY_CATEGORY
+import BUNDLE_KEY_CATEGORY_ID
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -15,7 +15,7 @@ class ShareDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            categoryId = it.getLong(BUNDLE_KEY_CATEGORY, 0)
+            categoryId = it.getLong(BUNDLE_KEY_CATEGORY_ID, 0)
         }
     }
 

@@ -1,6 +1,9 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY_ID
 import BUNDLE_KEY_DATE
+import BUNDLE_KEY_ITEM_ID
+import BUNDLE_KEY_ITEM_NAME
 import BUNDLE_KEY_TIME
 import android.app.Activity
 import android.app.AlarmManager
@@ -8,6 +11,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -33,8 +38,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.NotificationModel
+import com.meadowlandapps.simplelists.receiver.AlarmReceiver
+import java.util.*
 
-class AddTaskFragment : Fragment(), View.OnClickListener {
+class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
 
     private val args: AddTaskFragmentArgs by navArgs()
 
@@ -82,12 +89,15 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
+                nameEntry.removeTextChangedListener(this)
                 nameEntry.setText(task.name)
+                nameEntry.addTextChangedListener(this)
+
                 updateMenuItemsVisibility()
                 if (task.isNew) {
                     toolbarTitleView.text = getString(R.string.lists_title_add)
                 } else {
-                    toolbarTitleView.text = getString(R.string.lists_title_edit, task.name)
+                    toolbarTitleView.text = getString(R.string.lists_title_edit, vm.originalName)
                     // update Menu check mark
                     val icon = if (task.completed) {
                         ResourcesCompat.getDrawable(
@@ -95,8 +105,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
                                 R.drawable.ic_uncomplete_24,
                                 requireContext().theme
                         )
-                    }
-                    else {
+                    } else {
                         ResourcesCompat.getDrawable(
                                 resources,
                                 R.drawable.ic_check_24,
@@ -111,9 +120,10 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
                 nameEntry.requestFocus()
                 showKeyboard(nameEntry)
+                view.findViewById<EditText>(R.id.addTask_entry_name)?.setSelection(vm.itemModel.name.length)
             }
         }
-        vm.getTask(args.task, args.type)
+        vm.getTask(args.itemId, args.categoryId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -149,7 +159,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
         }
         val nameEntry = rootView.findViewById<EditText>(R.id.addTask_entry_name)
 
-        vm.itemModel.name = nameEntry.text.toString()
+        vm.updateItemName(nameEntry.text.toString())
         if (vm.upsertTask()) {
             vm.itemModel.notifications.forEach { reminder ->
                 addReminder(reminder.time.timeInMillis)
@@ -207,11 +217,6 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
             R.id.reminder_date -> showDatePicker(reminder)
             R.id.reminder_time -> showTimePicker(reminder)
         }
-    }
-
-    private fun removeReminder(reminder: NotificationModel) {
-        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
-        vm.removeReminder(reminder)
     }
 
     private fun showDatePicker(reminder: NotificationModel) {
@@ -277,9 +282,13 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
     }
 
     private fun addReminder(time: Long) {
+        val item = ViewModelProvider(this).get(AddTaskViewModel::class.java).itemModel
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(requireContext(), MainActivity::class.java).let { intent ->
-            PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
+            intent.putExtra(BUNDLE_KEY_CATEGORY_ID, item.categoryId)
+            intent.putExtra(BUNDLE_KEY_ITEM_ID, item.id)
+            intent.putExtra(BUNDLE_KEY_ITEM_NAME, item.name)
+            PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT)
         }
 
         alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent)
@@ -287,5 +296,27 @@ class AddTaskFragment : Fragment(), View.OnClickListener {
 
     private fun updateReminder() {
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        // update Alarm Manager
+    }
+
+    private fun removeReminder(reminder: NotificationModel) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        vm.removeReminder(reminder)
+
+        // update Alarm Manager
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        // do nothing
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        // do nothing
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+        val vm = ViewModelProvider(this).get(AddTaskViewModel::class.java)
+        vm.updateItemName(s.toString())
+        view?.findViewById<EditText>(R.id.addTask_entry_name)?.setSelection(vm.itemModel.name.length)
     }
 }

@@ -1,6 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
-import BUNDLE_KEY_CATEGORY
+import BUNDLE_KEY_CATEGORY_ID
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +21,7 @@ class TabContentFragment : Fragment(), View.OnClickListener {
         fun newInstance(type: Long): Fragment {
             val fragment = TabContentFragment()
             val bundle = Bundle()
-            bundle.putLong(BUNDLE_KEY_CATEGORY, type)
+            bundle.putLong(BUNDLE_KEY_CATEGORY_ID, type)
             fragment.arguments = bundle
 
             return fragment
@@ -29,12 +29,12 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var listAdapter: TaskListAdapter
-    private var category = 0L
+    private var categoryId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        category = arguments?.getLong(BUNDLE_KEY_CATEGORY, 0) ?: 0
+        categoryId = arguments?.getLong(BUNDLE_KEY_CATEGORY_ID, 0) ?: 0
     }
 
     override fun onCreateView(
@@ -53,11 +53,11 @@ class TabContentFragment : Fragment(), View.OnClickListener {
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { v ->
-            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(category, "")
+            val action = TabContentFragmentDirections.actionTabContentFragmentToAddTaskFragment(categoryId, "")
             v.findNavController().navigate(action)
         }
 
-        vm.getTasks(category).observe(viewLifecycleOwner) { value ->
+        vm.getTasks(categoryId).observe(viewLifecycleOwner) { value ->
             value.let {
                 listAdapter.setTasks(value)
             }
@@ -65,15 +65,15 @@ class TabContentFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val task = v.tag as ItemModel
+        val item = v.tag as ItemModel
         if (v is ImageView) {
             val vm = ViewModelProvider(this).get(TabContentViewModel::class.java)
             when (v.id) {
-                R.id.item_delete -> vm.deleteTask(task)
-                R.id.item_complete -> vm.updateTaskCompleteness(task)
+                R.id.item_delete -> vm.deleteTask(item)
+                R.id.item_complete -> vm.updateTaskCompleteness(item)
             }
         } else {
-            val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(task.id, task.typeId)
+            val action = TabContentFragmentDirections.actionTabContentFragmentToEditTaskFragment(item.id, item.categoryId)
             v.findNavController().navigate(action)
         }
     }
