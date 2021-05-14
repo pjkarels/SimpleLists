@@ -32,8 +32,9 @@
     <string name="menu_item_title_share">Share</string>
     <string name="menu_item_title_move">Move</string>
     <string name="menu_item_title_save">Save</string>
-
     <string name="menu_item_title_complete_item">Mark Complete</string>
+
+    <string name="button_text_move">Move</string>
 
     <string name="common_add">Add</string>
     <string name="common_cancel">Cancel</string>

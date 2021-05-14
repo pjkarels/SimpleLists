@@ -1,5 +1,6 @@
 package com.meadowlandapps.simplelists.ui
 
+import BUNDLE_KEY_CATEGORY_ID
 import BUNDLE_KEY_ITEM_ID
 import android.app.Dialog
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.CategoryModel
@@ -38,8 +40,8 @@ class MoveItemFragment : DialogFragment(), View.OnClickListener {
                 .setTitle(R.string.item_title_move)
                 .setMessage(R.string.item_move_message)
                 .setView(view)
-                .setPositiveButton(R.string.button_move) { dialog, _ ->
-                    vm.moveItem()
+                .setPositiveButton(R.string.button_text_move) { dialog, _ ->
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set(BUNDLE_KEY_CATEGORY_ID, vm.categories.first { it.selected }.id)
                     dialog.dismiss()
                 }
                 .setNegativeButton(R.string.common_cancel) { dialog, _ ->
