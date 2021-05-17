@@ -25,7 +25,7 @@ class MoveItemViewModel(application: Application) : AndroidViewModel(application
     lateinit var categories: List<CategoryModel>
 
     fun getCategories(itemId: String) {
-        categories = listOf<CategoryModel>()
+        categories = listOf()
         runBlocking {
             val item = repository.getTask(itemId)
             if (item != null) {

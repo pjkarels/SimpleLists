@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_item_save"
-        android:icon="@drawable/ic_check_24"
-        android:title="Save Changes"
-        app:showAsAction="ifRoom" />
+        android:title="@string/menu_item_title_save"
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_item_move"
         android:icon="@drawable/ic_move_24"
-        android:title="@string/button_move"
+        android:title="@string/menu_item_title_move"
         app:showAsAction="withText" />
     <item
         android:id="@+id/menu_item_mark_complete"

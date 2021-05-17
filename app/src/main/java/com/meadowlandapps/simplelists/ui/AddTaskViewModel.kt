@@ -104,6 +104,12 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
         updateLiveData()
     }
 
+    fun updateItemListAssociation(id: Long) {
+        _itemModel.categoryId = id
+
+        updateLiveData()
+    }
+
     private fun updateLiveData() {
         _taskLiveData.value = itemModel
     }
