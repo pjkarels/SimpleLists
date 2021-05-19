@@ -16,8 +16,10 @@ class AboutFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val versionValueView: TextView = view.findViewById(R.id.about_version_value)
+        val versionNameView: TextView = view.findViewById(R.id.about_version_name_value)
+        val versionValueView: TextView = view.findViewById(R.id.about_version_code_value)
 
+        versionNameView.text = BuildConfig.VERSION_NAME
         versionValueView.text = BuildConfig.VERSION_CODE.toString()
     }
 }

@@ -5,19 +5,35 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/about_version_label"
+        android:id="@+id/about_version_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version:"
+        android:text="Version Name:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/about_version_value"
+        android:id="@+id/about_version_name_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_standard"
-        app:layout_constraintStart_toEndOf="@id/about_version_label"
+        app:layout_constraintStart_toEndOf="@id/about_version_name_label"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/about_version_code_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version Code:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_version_name_label" />
+
+    <TextView
+        android:id="@+id/about_version_code_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_standard"
+        app:layout_constraintStart_toEndOf="@id/about_version_code_label"
+        app:layout_constraintTop_toBottomOf="@id/about_version_name_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
