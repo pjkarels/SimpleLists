@@ -33,6 +33,7 @@
     <string name="menu_item_title_move">Move</string>
     <string name="menu_item_title_save">Save</string>
     <string name="menu_item_title_complete_item">Mark Complete</string>
+    <string name="menu_item_title_not_complete_item">Mark Not Complete</string>
 
     <string name="button_text_move">Move</string>
 
