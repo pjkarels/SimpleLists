@@ -92,10 +92,6 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
 
         vm.taskLiveData.observe(viewLifecycleOwner) { task ->
             task?.let {
-                nameEntry.removeTextChangedListener(this)
-                nameEntry.setText(task.name)
-                nameEntry.addTextChangedListener(this)
-
                 updateMenuItems()
                 if (task.isNew) {
                     toolbarTitleView.text = getString(R.string.lists_title_add)
@@ -110,9 +106,9 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
                         )
                     } else {
                         ResourcesCompat.getDrawable(
-                                resources,
-                                R.drawable.ic_check_24,
-                                requireContext().theme
+                            resources,
+                            R.drawable.ic_check_24,
+                            requireContext().theme
                         )
                     }
                     icon?.setTint(requireContext().getColor(R.color.white))
@@ -121,9 +117,13 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
 
                 remindersAdapter.setReminders(task.notifications)
 
+                nameEntry.removeTextChangedListener(this)
+                nameEntry.setText(task.name)
+                nameEntry.setSelection(0, task.name.length - 1)
+                nameEntry.addTextChangedListener(this)
+
                 nameEntry.requestFocus()
                 showKeyboard(nameEntry)
-                view.findViewById<EditText>(R.id.addTask_entry_name)?.setSelection(vm.itemModel.name.length)
             }
         }
         vm.getTask(args.itemId, args.categoryId)
@@ -344,7 +344,8 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
+        val selection = view?.findViewById<EditText>(R.id.addTask_entry_name)?.selectionEnd ?: 0
         vm.updateItemName(s.toString())
-        view?.findViewById<EditText>(R.id.addTask_entry_name)?.setSelection(vm.itemModel.name.length)
+        view?.findViewById<EditText>(R.id.addTask_entry_name)?.setSelection(selection)
     }
 }
