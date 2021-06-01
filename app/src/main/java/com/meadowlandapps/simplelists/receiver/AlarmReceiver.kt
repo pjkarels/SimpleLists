@@ -1,6 +1,7 @@
 package com.meadowlandapps.simplelists.receiver
 
 import BUNDLE_KEY_CATEGORY_ID
+import BUNDLE_KEY_CATEGORY_NAME
 import BUNDLE_KEY_ITEM_ID
 import BUNDLE_KEY_ITEM_NAME
 import CHANNEL_ID
@@ -17,6 +18,7 @@ import com.meadowlandapps.simplelists.ui.MainActivity
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val categoryId = intent.getLongExtra(BUNDLE_KEY_CATEGORY_ID, 0)
+        val categoryName = intent.getStringExtra(BUNDLE_KEY_CATEGORY_NAME)
         val itemId = intent.getStringExtra(BUNDLE_KEY_ITEM_ID)
         val itemName = intent.getStringExtra(BUNDLE_KEY_ITEM_NAME)
 
@@ -33,9 +35,9 @@ class AlarmReceiver : BroadcastReceiver() {
                 .createPendingIntent()
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_check_list_48)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(itemName)
+            .setSmallIcon(R.drawable.ic_check_list_48)
+            .setContentTitle(itemName)
+            .setContentText(categoryName)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
@@ -43,6 +45,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         with(NotificationManagerCompat.from(context)) {
             // notificationId is a unique int for each notification that you must define
+            // todo: make unique
             notify(99, builder.build())
         }
     }
