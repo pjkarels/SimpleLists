@@ -25,6 +25,7 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
     val taskLiveData: LiveData<ItemModel> get() = _taskLiveData
 
     var editingReminder: NotificationModel? = null
+    val removedReminders = mutableListOf<Int>()
 
     init {
         val db = AppDatabase.getDatabase(application)
@@ -99,6 +100,10 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
     }
 
     fun removeReminder(reminder: NotificationModel) {
+        // keep track of deleted alarms
+        if (!itemModel.isNew) {
+            removedReminders.add(reminder.hashCode())
+        }
         _itemModel.notifications.remove(reminder)
 
         updateLiveData()

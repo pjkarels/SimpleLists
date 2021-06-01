@@ -1,6 +1,7 @@
 package com.meadowlandapps.simplelists.ui
 
 import BUNDLE_KEY_CATEGORY_ID
+import BUNDLE_KEY_CATEGORY_NAME
 import BUNDLE_KEY_DATE
 import BUNDLE_KEY_ITEM_ID
 import BUNDLE_KEY_ITEM_NAME
@@ -10,6 +11,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -160,9 +162,11 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
 
         vm.updateItemName(nameEntry.text.toString())
         if (vm.upsertTask()) {
+            removeAlarms(vm.removedReminders)
             vm.itemModel.notifications.forEach { reminder ->
-                addReminder(reminder.time.timeInMillis)
+                addAlarm(reminder.time.timeInMillis, reminder.hashCode())
             }
+
             goBack()
         }
     }
@@ -210,7 +214,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         val reminder = v.tag as NotificationModel
 
         when (v.id) {
-            R.id.reminder_button_remove -> removeReminder(reminder)
+            R.id.reminder_button_remove -> vm.removeReminder(reminder)
             R.id.reminder_date -> showDatePicker(reminder)
             R.id.reminder_time -> showTimePicker(reminder)
         }
@@ -286,36 +290,52 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         })
     }
 
-    private fun addReminder(time: Long) {
+    private fun addAlarm(time: Long, reminderId: Int) {
         val item = ViewModelProvider(this).get(AddTaskViewModel::class.java).itemModel
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
             intent.putExtra(BUNDLE_KEY_CATEGORY_ID, item.categoryId)
+            intent.putExtra(BUNDLE_KEY_CATEGORY_NAME, item.categoryName)
             intent.putExtra(BUNDLE_KEY_ITEM_ID, item.id)
             intent.putExtra(BUNDLE_KEY_ITEM_NAME, item.name)
-            PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT)
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+            PendingIntent.getBroadcast(
+                requireContext(),
+                reminderId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         }
 
-        alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, alarmIntent)
+        } else {
+            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent)
+        }
     }
 
-    private fun updateReminder() {
-        val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        // update Alarm Manager
-    }
-
-    private fun removeReminder(reminder: NotificationModel) {
-        vm.removeReminder(reminder)
-
-        // update Alarm Manager
+    private fun removeAlarms(reminderIds: List<Int>) {
+        for (id in reminderIds) {
+            val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+                PendingIntent.getBroadcast(
+                    requireContext(),
+                    id,
+                    intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                )
+            }
+            alarmMgr.cancel(alarmIntent)
+        }
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        // do nothing
+        // ignore
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        // do nothing
+        // ignore
     }
 
     override fun afterTextChanged(s: Editable?) {

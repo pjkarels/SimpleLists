@@ -3,6 +3,7 @@
 const val CHANNEL_ID = "com.meadowlandapps.simplelists"
 
 const val BUNDLE_KEY_CATEGORY_ID = "categoryId"
+const val BUNDLE_KEY_CATEGORY_NAME = "categoryName"
 const val BUNDLE_KEY_CATEGORIES = "categories"
 
 const val BUNDLE_KEY_ITEM_NAME = "itemName"
