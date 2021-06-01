@@ -26,6 +26,9 @@
 
     <string name="error_msg_name_required">Name is required</string>
 
+    <string name="menu_drawer_title_deletedItems">Deleted Items</string>
+    <string name="menu_drawer_title_about">About</string>
+
     <string name="menu_item_title_add">+Add Cat</string>
     <string name="menu_item_title_edit">Edit List Title</string>
     <string name="menu_item_title_delete">Delete Cat</string>
@@ -33,6 +36,7 @@
     <string name="menu_item_title_move">Move</string>
     <string name="menu_item_title_save">Save</string>
     <string name="menu_item_title_complete_item">Mark Complete</string>
+    <string name="menu_item_title_not_complete_item">Mark Not Complete</string>
 
     <string name="button_text_move">Move</string>
 

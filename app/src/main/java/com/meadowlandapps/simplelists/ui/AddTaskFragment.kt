@@ -96,7 +96,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
                 nameEntry.setText(task.name)
                 nameEntry.addTextChangedListener(this)
 
-                updateMenuItemsVisibility()
+                updateMenuItems()
                 if (task.isNew) {
                     toolbarTitleView.text = getString(R.string.lists_title_add)
                 } else {
@@ -194,11 +194,16 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         imm.showSoftInput(v, 0)
     }
 
-    private fun updateMenuItemsVisibility() {
+    private fun updateMenuItems() {
         menu?.forEach { item ->
             when (item.itemId) {
                 R.id.menu_item_mark_complete -> {
                     item.isVisible = !vm.itemModel.isNew
+                    item.title = if (vm.itemModel.completed) {
+                        getString(R.string.menu_item_title_not_complete_item)
+                    } else {
+                        getString(R.string.menu_item_title_complete_item)
+                    }
                 }
                 R.id.menu_item_delete_item -> {
                     item.isVisible = !vm.itemModel.isNew
