@@ -57,6 +57,11 @@ class AddTaskViewModel(application: Application): AndroidViewModel(application) 
                 taskFromRepo.categoryId = taskType
             }
             _itemModel = taskFromRepo
+            viewModelScope.launch {
+                val type = repository.getCategory(taskType)
+                _itemModel.categoryName = type.name
+                updateLiveData()
+            }
             originalName = _itemModel.name
 
             updateLiveData()

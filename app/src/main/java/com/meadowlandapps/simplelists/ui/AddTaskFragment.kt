@@ -1,6 +1,7 @@
 package com.meadowlandapps.simplelists.ui
 
 import BUNDLE_KEY_CATEGORY_ID
+import BUNDLE_KEY_CATEGORY_NAME
 import BUNDLE_KEY_DATE
 import BUNDLE_KEY_ITEM_ID
 import BUNDLE_KEY_NOTIFICATION_ID
@@ -301,6 +302,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
             intent.putExtra(BUNDLE_KEY_ITEM_ID, item.id)
+            intent.putExtra(BUNDLE_KEY_CATEGORY_NAME, item.categoryName)
             intent.putExtra(BUNDLE_KEY_NOTIFICATION_ID, reminderId)
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
             PendingIntent.getBroadcast(
