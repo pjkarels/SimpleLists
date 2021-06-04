@@ -1,10 +1,9 @@
 package com.meadowlandapps.simplelists.ui
 
 import BUNDLE_KEY_CATEGORY_ID
-import BUNDLE_KEY_CATEGORY_NAME
 import BUNDLE_KEY_DATE
 import BUNDLE_KEY_ITEM_ID
-import BUNDLE_KEY_ITEM_NAME
+import BUNDLE_KEY_NOTIFICATION_ID
 import BUNDLE_KEY_TIME
 import android.app.Activity
 import android.app.AlarmManager
@@ -15,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -165,7 +165,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         if (vm.upsertTask()) {
             removeAlarms(vm.removedReminders)
             vm.itemModel.notifications.forEach { reminder ->
-                addAlarm(reminder.time.timeInMillis, reminder.hashCode())
+                addAlarm(reminder.time.timeInMillis, reminder.id)
             }
 
             goBack()
@@ -296,18 +296,16 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         })
     }
 
-    private fun addAlarm(time: Long, reminderId: Int) {
+    private fun addAlarm(time: Long, reminderId: String) {
         val item = ViewModelProvider(this).get(AddTaskViewModel::class.java).itemModel
         val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
-            intent.putExtra(BUNDLE_KEY_CATEGORY_ID, item.categoryId)
-            intent.putExtra(BUNDLE_KEY_CATEGORY_NAME, item.categoryName)
             intent.putExtra(BUNDLE_KEY_ITEM_ID, item.id)
-            intent.putExtra(BUNDLE_KEY_ITEM_NAME, item.name)
+            intent.putExtra(BUNDLE_KEY_NOTIFICATION_ID, reminderId)
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
             PendingIntent.getBroadcast(
                 requireContext(),
-                reminderId,
+                reminderId.hashCode(),
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -318,21 +316,30 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
         } else {
             alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent)
         }
+
+        Log.d(AddTaskFragment::class.java.simpleName, "Adding alarm with id: $reminderId")
     }
 
-    private fun removeAlarms(reminderIds: List<Int>) {
+    private fun removeAlarms(reminderIds: List<String>) {
+        // this should work but doesn't for some reason
+        // so checking whether reminderId exists in AlarmReceiverService
+        // before showing notification
         for (id in reminderIds) {
-            val alarmMgr = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val alarmIntent = Intent(requireContext(), AlarmReceiver::class.java).let { intent ->
                 intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-                PendingIntent.getBroadcast(
+                PendingIntent.getService(
                     requireContext(),
-                    id,
+                    id.hashCode(),
                     intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT
+                    PendingIntent.FLAG_NO_CREATE
                 )
             }
-            alarmMgr.cancel(alarmIntent)
+            alarmIntent?.let {
+                val alarmMgr =
+                    requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                alarmMgr.cancel(it)
+                it.cancel()
+            }
         }
     }
 
