@@ -41,9 +41,14 @@ class AlarmReceiver : BroadcastReceiver() {
                 val repo = TaskRepository(db.taskDao(), db.taskTypeDao())
                 MainScope().launch(Dispatchers.IO) {
                     val item = repo.getTask(itemId)
+                    Log.d(AlarmReceiver::class.java.simpleName, "Item Name: ${item.name}")
+                    Log.d(AlarmReceiver::class.java.simpleName, "Is Completed: ${item.completed}")
+                    Log.d(AlarmReceiver::class.java.simpleName, "Is Removed: ${item.removed}")
                     if (item.notifications.map { notificationModel ->
                             notificationModel.id
-                        }.contains(reminderId)) {
+                        }.contains(reminderId) &&
+                        (!item.completed || !item.removed)
+                    ) {
                         Log.d(AlarmReceiver::class.java.simpleName, "Notification found in list")
                         val args = Bundle().apply {
                             putLong(BUNDLE_KEY_CATEGORY_ID, item.categoryId)

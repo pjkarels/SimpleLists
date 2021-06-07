@@ -10,6 +10,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
     abstract fun taskTypeDao(): TaskTypeDao
+    abstract fun notificationDao(): ReminderDao
 
     companion object {
         @Volatile
