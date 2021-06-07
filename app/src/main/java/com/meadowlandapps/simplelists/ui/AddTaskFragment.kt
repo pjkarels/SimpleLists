@@ -120,7 +120,7 @@ class AddTaskFragment : Fragment(), View.OnClickListener, TextWatcher {
 
                 nameEntry.removeTextChangedListener(this)
                 nameEntry.setText(task.name)
-                val endSpan = if (task.name.length - 1 >= 0) task.name.length - 1 else 0
+                val endSpan = if (task.name.length - 1 >= 0) task.name.length else 0
                 nameEntry.setSelection(0, endSpan)
                 nameEntry.addTextChangedListener(this)
 
