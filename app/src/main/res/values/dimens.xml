@@ -7,4 +7,6 @@
     <dimen name="spacing_standard">32dp</dimen>
 
     <dimen name="padding_imageButton">4dp</dimen>
+
+    <dimen name="imageSize">48dp</dimen>
 </resources>

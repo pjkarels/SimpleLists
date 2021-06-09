@@ -67,8 +67,8 @@
 
         <ImageButton
             android:id="@+id/addItem_reminders_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/imageSize"
+            android:layout_height="@dimen/imageSize"
             android:layout_alignParentEnd="true"
             android:background="?android:attr/selectableItemBackground"
             android:padding="@dimen/padding_imageButton"

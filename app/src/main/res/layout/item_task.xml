@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp">
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingStart="@dimen/padding_standard"
+    android:paddingEnd="@dimen/padding_item_standard">
 
     <TextView
         style="@style/TextAppearance.MaterialComponents.Subtitle1.ListItem"
@@ -33,7 +34,8 @@
         android:id="@+id/item_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_item_standard"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/padding_item_standard"
         android:src="@drawable/ic_check_24"
         android:contentDescription="@string/lists_action_complete"
         app:tint="@color/grey_light"
@@ -45,12 +47,14 @@
         android:id="@+id/item_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_item_standard"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/padding_item_standard"
         android:src="@drawable/ic_delete_24"
         android:contentDescription="@string/common_delete"
         app:tint="@color/grey_light"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
