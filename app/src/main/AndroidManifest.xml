@@ -20,9 +20,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.AlarmReceiver" />
+        <receiver android:name="com.meadowlandapps.simplelists.receiver.AlarmReceiver" />
         <receiver
-            android:name=".receiver.DeviceBootReceiver"
+            android:name="com.meadowlandapps.simplelists.receiver.DeviceBootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
