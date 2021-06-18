@@ -31,23 +31,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    flavorDimensions 'mode'
-    productFlavors {
-        ad {
-            dimension 'mode'
-            versionCode 1
-            versionName '1.0'
-            applicationId 'com.meadowlandapp.simplelists'
-            applicationIdSuffix '.ad'
-        }
-        donate {
-            dimension 'mode'
-            versionCode 1
-            versionName '1.0'
-            applicationId 'com.meadowlandapp.simplelists'
-            applicationIdSuffix '.donate'
-        }
-    }
 }
 
 dependencies {

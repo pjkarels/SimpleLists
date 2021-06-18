@@ -7,7 +7,7 @@
 
     <dialog
         android:id="@+id/share_dialog_fragment"
-        android:name="com.meadowlandapps.simplelists.ui.ShareDialogFragment">
+        android:name="com.bitsandbogs.simplelists.ui.ShareDialogFragment">
         <argument
             android:name="categoryId"
             app:argType="long" />
@@ -15,7 +15,7 @@
 
     <dialog
         android:id="@+id/moveItemDialog"
-        android:name="com.meadowlandapps.simplelists.ui.MoveItemFragment">
+        android:name="com.bitsandbogs.simplelists.ui.MoveItemFragment">
         <argument
             android:name="itemId"
             app:argType="string" />
@@ -23,7 +23,7 @@
 
     <dialog
         android:id="@+id/deleteItemsConfirmDialogFragment"
-        android:name="com.meadowlandapps.simplelists.ui.DeleteItemsConfirmDialogFragment">
+        android:name="com.bitsandbogs.simplelists.ui.DeleteItemsConfirmDialogFragment">
         <argument
             android:name="items"
             app:argType="string[]" />
@@ -31,7 +31,7 @@
 
     <dialog
         android:id="@+id/deleteConfirmDialog"
-        android:name="com.meadowlandapps.simplelists.ui.DeleteConfirmFragment">
+        android:name="com.bitsandbogs.simplelists.ui.DeleteConfirmFragment">
         <argument
             android:name="categories"
             app:argType="string[]" />
@@ -39,7 +39,7 @@
 
     <dialog
         android:id="@+id/time_dialog"
-        android:name="com.meadowlandapps.simplelists.ui.TimeDialogFragment">
+        android:name="com.bitsandbogs.simplelists.ui.TimeDialogFragment">
         <argument
             android:name="time"
             app:argType="long" />
@@ -47,7 +47,7 @@
 
     <dialog
         android:id="@+id/date_dialog"
-        android:name="com.meadowlandapps.simplelists.ui.DateDialogFragment">
+        android:name="com.bitsandbogs.simplelists.ui.DateDialogFragment">
         <argument
             android:name="date"
             app:argType="long" />
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/tabContentFragment"
-        android:name="com.meadowlandapps.simplelists.ui.TabContentFragment"
+        android:name="com.bitsandbogs.simplelists.ui.TabContentFragment"
         android:label="fragment_tab_content"
         tools:layout="@layout/fragment_tab_content">
         <action
@@ -76,7 +76,7 @@
 
     <fragment
         android:id="@+id/editCategoriesFragment"
-        android:name="com.meadowlandapps.simplelists.ui.EditCategoriesFragment"
+        android:name="com.bitsandbogs.simplelists.ui.EditCategoriesFragment"
         android:label="fragment_delete_categories"
         tools:layout="@layout/fragment_edit_categories">
         <action
@@ -97,7 +97,7 @@
 
     <fragment
         android:id="@+id/deletedItemsFragment"
-        android:name="com.meadowlandapps.simplelists.ui.DeletedItemsFragment"
+        android:name="com.bitsandbogs.simplelists.ui.DeletedItemsFragment"
         android:label="DeletedItemsFragment"
         tools:layout="@layout/fragment_deleted_items_list">
         <action
@@ -111,7 +111,7 @@
 
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.meadowlandapps.simplelists.ui.ViewPagerFragment"
+        android:name="com.bitsandbogs.simplelists.ui.ViewPagerFragment"
         android:label="fragment_view_pager"
         tools:layout="@layout/fragment_view_pager">
         <action
@@ -164,7 +164,7 @@
 
     <fragment
         android:id="@+id/addTabFragment"
-        android:name="com.meadowlandapps.simplelists.ui.AddTabFragment"
+        android:name="com.bitsandbogs.simplelists.ui.AddTabFragment"
         android:label="fragment_add_tab"
         tools:layout="@layout/fragment_add_tab">
         <argument
@@ -173,7 +173,7 @@
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
-        android:name="com.meadowlandapps.simplelists.ui.AddTaskFragment"
+        android:name="com.bitsandbogs.simplelists.ui.AddTaskFragment"
         android:label="add_task_dialog_fragment"
         tools:layout="@layout/fragment_add_task">
         <action
@@ -207,7 +207,7 @@
 
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.meadowlandapps.simplelists.ui.AboutFragment"
+        android:name="com.bitsandbogs.simplelists.ui.AboutFragment"
         tools:layout="@layout/fragment_about" />
 
 </navigation>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.meadowlandapps.simplelists">
+    package="com.bitsandbogs.simplelists">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -13,16 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NavigationWithTabs">
-        <activity android:name="com.meadowlandapps.simplelists.ui.MainActivity">
+        <activity android:name="com.bitsandbogs.simplelists.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.AlarmReceiver" />
+        <receiver android:name="com.bitsandbogs.simplelists.receiver.AlarmReceiver" />
         <receiver
-            android:name=".receiver.DeviceBootReceiver"
+            android:name="com.bitsandbogs.simplelists.receiver.DeviceBootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
