@@ -12,11 +12,22 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.bitsandbogs.simplelists.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        MobileAds.initialize(this) {
+            // serve ads
+            val adView = findViewById<AdView>(R.id.adView)
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+        }
 
         val categoryId = intent.getStringExtra(BUNDLE_KEY_CATEGORY_ID) ?: "0"
         val itemId = intent.getStringExtra(BUNDLE_KEY_ITEM_ID)
@@ -24,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
 
         if (itemId != null) {
-            val action = ViewPagerFragmentDirections.actionTabContentFragmentToEditTaskFragment(itemId, categoryId.toLong())
+            val action = ViewPagerFragmentDirections.actionTabContentFragmentToEditTaskFragment(
+                itemId,
+                categoryId.toLong()
+            )
             findNavController(R.id.nav_host_fragment).navigate(action)
         }
     }

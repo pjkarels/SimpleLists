@@ -49,10 +49,12 @@
     <string name="notification_channel_title_high">High</string>
     <string name="notification_channel_description_high">Sound</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="item_add_reminder">Add Reminder</string>
     <string name="item_reminders">Reminders</string>
     <string name="item_reminders_icon">Has Reminders icon</string>
     <string name="reminder_remove">Remove Reminder</string>
+
+    <!-- test ad unit
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    -->
 </resources>

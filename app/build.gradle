@@ -19,7 +19,34 @@ android {
     }
 
     buildTypes {
+        debug {
+            Properties properties = new Properties()
+            if (rootProject.file("local.properties").exists()) {
+                properties.load(rootProject.file("local.properties").newDataInputStream())
+            }
+            // Inject the Maps API key into the manifest
+            manifestPlaceholders = [ admobApiKey : properties.getProperty("ADMOB_API_KEY", "") ]
+
+            resValue "string", "banner_ad_unit_id", properties.getProperty("ADUNIT_ID_KEY", "")
+            println(">>>>>>>>> Banner Ad Id: " + properties.getProperty("ADUNIT_ID_KEY", ""))
+        }
+
         release {
+            Properties properties = new Properties()
+            if (rootProject.file("local.properties").exists()) {
+                properties.load(rootProject.file("local.properties").newDataInputStream())
+            } else {
+                String admobApiKey = System.getenv("ADMOB_API_KEY")
+                String adUnitIdKey = System.getenv("ADUNIT_ID_KEY")
+                properties.setProperty("ADMOB_API_KEY", admobApiKey)
+                properties.setProperty("ADUNIT_ID_KEY", adUnitIdKey)
+            }
+            // Inject the Maps API key into the manifest
+            manifestPlaceholders = [ admobApiKey : properties.getProperty("ADMOB_API_KEY", "") ]
+
+            resValue "string", "banner_ad_unit_id", properties.getProperty("ADUNIT_ID_KEY", "")
+            println(">>>>>>>>> Banner Ad Id: " + properties.getProperty("ADUNIT_ID_KEY", ""))
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -60,6 +87,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "androidx.cardview:cardview:$rootProject.cardView"
+
+    // ads
+    implementation "com.google.android.gms:play-services-ads:$rootProject.admobVersion"
 
     // Testing
     testImplementation "junit:junit:$rootProject.junitVersion"
