@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.meadowlandapps.simplelists.R
 import com.meadowlandapps.simplelists.model.ItemModel
@@ -34,6 +37,14 @@ class DeletedItemsFragment : Fragment(), CompoundButton.OnCheckedChangeListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val restoreButton: Button = view.findViewById(R.id.button_restore_items)
         val deleteButton: Button = view.findViewById(R.id.button_delete_items)
+
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        val navController = view.findNavController()
+        toolbar.setupWithNavController(navController)
+        toolbar.setNavigationOnClickListener {
+            navController.navigateUp()
+        }
 
         val listAdapter = ItemRecyclerViewAdapter(this)
         val recyclerView: RecyclerView = view.findViewById(R.id.items_list)
