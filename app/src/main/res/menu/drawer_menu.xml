@@ -3,7 +3,4 @@
     <item
         android:id="@+id/menu_drawer_deletedItems"
         android:title="@string/menu_drawer_title_deletedItems" />
-    <item
-        android:id="@+id/menu_drawer_about"
-        android:title="@string/menu_drawer_title_about" />
 </menu>

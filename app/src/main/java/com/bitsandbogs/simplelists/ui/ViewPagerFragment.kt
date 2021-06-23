@@ -137,7 +137,6 @@ class ViewPagerFragment : Fragment(), TabLayoutMediator.TabConfigurationStrategy
             drawerLayout.closeDrawer(GravityCompat.START)
             when (menuItem.itemId) {
                 R.id.menu_drawer_deletedItems -> viewDeletedItems()
-                R.id.menu_drawer_about -> navigateAbout()
             }
             true
         }
