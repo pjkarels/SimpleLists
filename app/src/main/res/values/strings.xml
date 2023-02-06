@@ -6,6 +6,7 @@
     <string name="lists_title_edit">Edit %s</string>
     <string name="lists_title_deleted">Deleted Items</string>
     <string name="lists_action_complete">Complete Task</string>
+    <string name="fragment_title_about">About</string>
 
     <string name="item_title_move">Move Item</string>
     <string name="item_move_message">Select List where to move item</string>
